@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 4 – Cycles biogéochimiques et sol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --accent-1: #00d4ff;
+            --accent-2: #7b2cbf;
+            --accent-3: #ff006e;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --text-muted: rgba(255, 255, 255, 0.5);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.8;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Orbs */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(0,212,255,0.4) 0%, transparent 70%);
+            top: -200px; left: -200px;
+        }
+
+        .orb-2 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(123,44,191,0.4) 0%, transparent 70%);
+            bottom: -150px; right: -150px;
+            animation-delay: -8s;
+        }
+
+        .orb-3 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(255,0,110,0.3) 0%, transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -16s;
+            opacity: 0.25;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.1); }
+            50% { transform: translate(-30px, 50px) scale(0.95); }
+            75% { transform: translate(20px, -20px) scale(1.05); }
+        }
+
+        /* Login Overlay - Premium Glassmorphism */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(1.1);
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 60px 50px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.5),
+                inset 0 1px 0 var(--glass-highlight);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-1), transparent);
+            opacity: 0.5;
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            box-shadow: 0 10px 40px rgba(0,212,255,0.3);
+        }
+
+        .login-card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.4rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 18px 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+            transition: all 0.4s ease;
+        }
+
+        .login-input:focus {
+            background: rgba(255,255,255,0.06);
+            border-color: var(--accent-1);
+            box-shadow: 0 0 30px rgba(0,212,255,0.15);
+        }
+
+        .login-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,212,255,0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,212,255,0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 20px;
+            padding: 14px;
+            background: rgba(255,107,107,0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(255,107,107,0.2);
+            display: none;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Main Content */
+        .main-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            display: none;
+        }
+
+        .main-wrapper.visible {
+            display: block;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-container {
+            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 50px;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+
+        /* Navigation */
+        .top-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent-1);
+            transform: translateY(-2px);
+            color: var(--accent-1);
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-1) 50%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin: 0 0 50px 0;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 50px 0 20px 0;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent-1);
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--accent-1);
+            margin: 30px 0 15px 0;
+        }
+
+        p {
+            margin: 16px 0;
+            color: var(--text-secondary);
+            text-align: justify;
+            font-weight: 300;
+            line-height: 1.9;
+        }
+
+        ul, ol {
+            margin: 20px 0 20px 30px;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin: 12px 0;
+            font-weight: 300;
+            padding-left: 10px;
+        }
+
+        li::marker {
+            color: var(--accent-1);
+        }
+
+        /* Page Break */
+        .page-break {
+            margin: 60px 0;
+            padding: 30px 0;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .page-break::before, .page-break::after {
+            content: '✦';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-1);
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        .page-break::before { left: 25%; }
+        .page-break::after { right: 25%; }
+
+        /* Complement Box */
+        .complement {
+            background: linear-gradient(135deg, rgba(0,212,255,0.05) 0%, rgba(123,44,191,0.05) 100%);
+            border-left: 3px solid var(--accent-1);
+            padding: 24px 28px;
+            margin: 30px 0;
+            border-radius: 16px;
+            color: var(--text-secondary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .complement strong {
+            color: var(--accent-1);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        /* Bottom Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 14px 28px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent-1);
+            transform: translateX(5px);
+            color: var(--accent-1);
+        }
+
+        .nav-btn.prev:hover {
+            transform: translateX(-5px);
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(0,212,255,0.3);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-container { padding: 30px 24px; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.4rem; }
+            .login-card { padding: 40px 30px; }
+            .page-break::before, .page-break::after { display: none; }
+            .navigation { flex-direction: column; gap: 12px; }
+            .nav-btn { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-icon">🌍</div>
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 4 – Cycles biogéochimiques et sol</p>
+            <div class="input-wrapper">
+                <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            </div>
+            <button id="loginBtn" class="login-btn">Entrer</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <div class="top-nav">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part3.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part5.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+
+            <h1>Cycles biogéochimiques et sol</h1>
+
+            <div class="page-break">Page 14</div>
+
+            <h2>Cycle du carbone (suite)</h2>
+
+            <ol start="7">
+                <li><strong>Échange avec l'océan :</strong> L'océan absorbe et libère du CO₂ atmosphérique à travers des processus physiques et biologiques, influençant l'équilibre du CO₂ dans l'atmosphère.</li>
+            </ol>
+
+            <p>Le cycle du carbone régule la concentration de CO₂ dans l'atmosphère, un gaz à effet de serre crucial pour le climat terrestre. Les perturbations humaines, telles que la combustion de combustibles fossiles et les changements d'utilisation des terres, ont perturbé ce cycle, entraînant une augmentation des concentrations de CO₂ atmosphérique et des implications potentielles pour le changement climatique global.</p>
+
+            <p>Le carbone peut être présent sous forme minérale et sous forme organique, chacune jouant un rôle distinct dans les cycles biogéochimiques et dans les processus naturels de la biosphère.</p>
+
+            <h2>Carbone sous forme minérale</h2>
+
+            <p><strong>Définition :</strong> Le carbone sous forme minérale se trouve principalement sous forme inorganique, c'est-à-dire sous forme de composés qui ne sont pas directement liés à des structures organiques vivantes.</p>
+
+            <h3>Caractéristiques et exemples :</h3>
+            <ol>
+                <li><strong>Dioxyde de Carbone (CO₂) :</strong> C'est la forme la plus courante de carbone minéral dans l'atmosphère. Le CO₂ est essentiel pour la photosynthèse des plantes, où il est absorbé et utilisé pour produire des glucides.</li>
+                <li><strong>Carbonates (CO₃²⁻) :</strong> Les carbonates sont des sels minéraux présents dans les roches, tels que le calcaire, qui peuvent se dissoudre dans l'eau et être utilisés par les organismes marins pour la construction de coquilles et de squelettes.</li>
+                <li><strong>Bicarbonates (HCO₃⁻) :</strong> Ces ions se trouvent également dans l'eau, jouant un rôle dans la régulation du pH des sols et des océans.</li>
+            </ol>
+
+            <h2>Carbone sous forme organique</h2>
+
+            <p><strong>Définition :</strong> Le carbone sous forme organique est intégré dans des structures organiques complexes, telles que celles trouvées dans les composants biologiques des êtres vivants.</p>
+
+            <h3>Caractéristiques et exemples :</h3>
+            <ol>
+                <li><strong>Composés organiques :</strong> Le carbone organique se retrouve dans une grande variété de composés biologiques tels que les glucides, les lipides, les protéines, et les acides nucléiques (ADN et ARN). Ces composés sont essentiels à la structure et à la fonction des cellules et des tissus vivants.</li>
+                <li><strong>Biomasse :</strong> La biomasse représente la quantité totale de matière organique produite par les plantes et autres producteurs primaires via la photosynthèse. Elle forme la base de la chaîne alimentaire et est essentielle pour la nutrition des consommateurs herbivores et carnivores.</li>
+            </ol>
+
+            <h2>Importance et interactions</h2>
+
+            <ul>
+                <li><strong>Cycles biogéochimiques :</strong> Le carbone circule entre les formes minérales et organiques via des processus comme la photosynthèse, la respiration, la décomposition, et la fossilisation. Ces cycles régulent la disponibilité du carbone dans les écosystèmes et influencent le climat global à travers la régulation des niveaux de CO₂ atmosphérique.</li>
+                <li><strong>Rôles écologiques :</strong> Le carbone minéral et organique soutient la structure et la fonction des écosystèmes terrestres et marins, en fournissant des nutriments essentiels pour la croissance des plantes et en influençant la chimie des sols et des océans.</li>
+            </ul>
+
+            <p>Les quatre principaux réservoirs du carbone, où le carbone est stocké à l'échelle mondiale, sont :</p>
+
+            <ol>
+                <li><strong>L'atmosphère :</strong> C'est le réservoir de carbone le plus visible et le plus immédiatement influencé par les activités humaines. Il contient principalement du dioxyde de carbone (CO₂) résultant de la respiration des organismes, de la combustion des combustibles fossiles, et de la déforestation.</li>
+            </ol>
+
+            <div class="complement">
+                <strong>📚 Complément – Les réservoirs de carbone</strong>
+                Les principaux réservoirs de carbone sont, par ordre décroissant de stock : les océans (38 000 GtC), les sédiments et roches carbonatées (60 000 à 100 000 GtC), les combustibles fossiles (4 000 GtC), la biomasse terrestre (600 GtC), l'atmosphère (900 GtC). Les échanges entre ces réservoirs sont rapides (atmosphère ↔ biosphère) ou très lents (formation de roches).<br><br>
+                <em>Source : « Le cycle du carbone », CNRS, 2020</em>
+            </div>
+
+            <div class="page-break">Page 15</div>
+
+            <ol start="2">
+                <li><strong>Les océans :</strong> Les océans absorbent une quantité importante de CO₂ atmosphérique, jouant un rôle crucial dans la régulation des niveaux de CO₂ dans l'atmosphère. Le carbone dissous dans l'eau de mer est également utilisé par les organismes marins pour la construction de coquilles et de squelettes calcaires.</li>
+                <li><strong>La biosphère terrestre :</strong> Ce réservoir inclut la biomasse des plantes, des arbres, des sols, et d'autres matières organiques vivantes. Les plantes absorbent le CO₂ de l'atmosphère via la photosynthèse et stockent le carbone dans leurs tissus. La décomposition des matières organiques mortes libère également du carbone dans les sols.</li>
+                <li><strong>Les sols :</strong> Les sols sont un réservoir important de carbone organique, stockant une quantité significative de carbone sous forme de matière organique morte et de produits de décomposition. Ce carbone est principalement fixé dans le sol par les racines des plantes et est libéré dans l'atmosphère par des processus comme l'érosion, la déforestation, et la gestion agricole.</li>
+            </ol>
+
+            <p>Le flux de carbone entre l'atmosphère et la biosphère, principalement à travers la végétation, est un processus clé dans le cycle global du carbone.</p>
+
+            <h2>Flux de carbone de l'atmosphère vers la biosphère (végétation)</h2>
+
+            <h3>1. Absorption de CO₂ par la photosynthèse</h3>
+            <ul>
+                <li>Les plantes, arbres, et autres producteurs primaires absorbent le dioxyde de carbone (CO₂) atmosphérique par les stomates présents sur leurs feuilles.</li>
+                <li>Le CO₂ est essentiel pour la photosynthèse, où il est utilisé pour produire des glucides (comme le glucose) et d'autres composés organiques, en utilisant l'énergie solaire captée par la chlorophylle.</li>
+            </ul>
+
+            <h3>2. Conversion en biomasse</h3>
+            <ul>
+                <li>Le carbone absorbé est incorporé dans la structure des plantes, formant de la biomasse végétale (comme des feuilles, des tiges, des racines).</li>
+                <li>Une partie de ce carbone est utilisée pour la croissance et le développement des plantes, tandis que le reste est stocké temporairement dans les tissus végétaux.</li>
+            </ul>
+
+            <h2>Flux de carbone de la biosphère (végétation) vers l'atmosphère</h2>
+
+            <h3>1. Respiration végétale</h3>
+            <ul>
+                <li>Les plantes respirent également, libérant du CO₂ dans l'atmosphère à travers un processus appelé respiration.</li>
+                <li>Ce processus est une partie nécessaire du métabolisme végétal, où le carbone stocké sous forme de glucides est oxydé pour libérer de l'énergie utilisable par la plante.</li>
+            </ul>
+
+            <h3>2. Décomposition</h3>
+            <ul>
+                <li>Lorsque les plantes meurent, leurs matières organiques se décomposent par l'action des décomposeurs tels que les bactéries et les champignons.</li>
+                <li>Ce processus de décomposition libère du CO₂ dans l'atmosphère, revenant ainsi le carbone absorbé précédemment par les plantes à l'atmosphère.</li>
+            </ul>
+
+            <h2>Importance du flux de carbone atmosphère-biosphère</h2>
+
+            <ul>
+                <li><strong>Régulation du CO₂ atmosphérique :</strong> Le flux de carbone entre l'atmosphère et la biosphère joue un rôle crucial dans la régulation des niveaux de dioxyde de carbone atmosphérique. Les plantes absorbent une quantité importante de CO₂ de l'atmosphère, contribuant à la réduction de l'effet de serre et à la régulation du climat.</li>
+                <li><strong>Cycle du carbone :</strong> Ce flux fait partie intégrante du cycle global du carbone, où le carbone est constamment recyclé entre les réservoirs atmosphérique, terrestre, et océanique via des processus comme la photosynthèse, la respiration, et la décomposition.</li>
+                <li><strong>Soutien des écosystèmes :</strong> La végétation joue un rôle essentiel dans la production primaire des écosystèmes terrestres, fournissant de la nourriture et de l'habitat pour les animaux, régulant le cycle de l'eau, et contribuant à la fertilité des sols.</li>
+            </ul>
+
+            <p>En résumé, le flux de carbone entre l'atmosphère et la biosphère à travers la végétation est un processus dynamique qui affecte non seulement les écosystèmes locaux mais aussi le climat global. Son étude est cruciale pour comprendre et gérer les impacts du changement climatique et des activités humaines sur les écosystèmes terrestres.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Puits de carbone et changement climatique</strong>
+                Les forêts tropicales et les océans constituent les principaux puits de carbone naturels. La déforestation et le réchauffement des océans réduisent leur capacité d'absorption, accélérant l'accumulation de CO₂ dans l'atmosphère. Les solutions fondées sur la nature (reforestation, agroforesterie) sont essentielles pour atténuer le changement climatique.<br><br>
+                <em>Source : GIEC, 2022</em>
+            </div>
+
+            <div class="page-break">Page 16</div>
+
+            <h2>Flux de carbone de l'atmosphère vers la lithosphère</h2>
+
+            <h3>1. Fixation du carbone atmosphérique</h3>
+            <ul>
+                <li>Une partie du CO₂ atmosphérique est absorbée par les océans et par les précipitations, formant de l'acide carbonique (H₂CO₃), qui contribue à l'altération chimique des roches.</li>
+            </ul>
+
+            <h3>2. Altération chimique des roches</h3>
+            <ul>
+                <li>L'acide carbonique dissout les minéraux carbonatés présents dans les roches, comme le calcium et le magnésium, formant des bicarbonates solubles dans l'eau.</li>
+            </ul>
+
+            <h3>3. Formation de sédiments</h3>
+            <ul>
+                <li>Les ions bicarbonates sont transportés par les eaux de ruissellement vers les océans, où ils sont utilisés par les organismes marins pour construire des coquilles et des squelettes calcaires.</li>
+                <li>Lorsque ces organismes meurent, leurs coquilles et squelettes se déposent au fond de l'océan, formant des sédiments riches en carbonate de calcium (CaCO₃).</li>
+            </ul>
+
+            <h2>Flux de carbone de la lithosphère vers l'atmosphère</h2>
+
+            <h3>1. Libération par les volcans</h3>
+            <ul>
+                <li>Les volcans émettent du CO₂ et d'autres gaz lors des éruptions, libérant le carbone stocké dans les roches profondes de la lithosphère dans l'atmosphère.</li>
+            </ul>
+
+            <h3>2. Décomposition des sédiments</h3>
+            <ul>
+                <li>Les sédiments contenant du carbonate de calcium peuvent être soulevés à la surface terrestre par des processus tectoniques et météorologiques.</li>
+                <li>Lorsque ces sédiments sont exposés à l'érosion et à la météorisation, le carbonate de calcium est décomposé, libérant du CO₂ dans l'atmosphère.</li>
+            </ul>
+
+            <h2>Importance du flux de carbone atmosphère-lithosphère</h2>
+
+            <ul>
+                <li><strong>Régulation du CO₂ atmosphérique :</strong> Le flux de carbone entre l'atmosphère et la lithosphère joue un rôle crucial dans le maintien de l'équilibre du CO₂ atmosphérique. Les processus d'altération des roches et de formation de sédiments marins contribuent à long terme au stockage du carbone, aidant à réguler les niveaux de CO₂ dans l'atmosphère.</li>
+                <li><strong>Cycle géochimique :</strong> Ce flux fait partie intégrante du cycle géochimique du carbone, où le carbone est constamment échangé entre la surface terrestre et l'atmosphère par des processus naturels à grande échelle.</li>
+                <li><strong>Influence sur le climat et l'environnement :</strong> Les variations dans les flux de carbone entre l'atmosphère et la lithosphère peuvent influencer le climat global à travers la régulation des gaz à effet de serre et des niveaux de CO₂, affectant ainsi les écosystèmes terrestres et marins.</li>
+            </ul>
+
+            <p>En résumé, le flux de carbone entre l'atmosphère et la lithosphère est un processus complexe et dynamique qui joue un rôle crucial dans le maintien de l'équilibre écologique de la planète et dans la régulation du climat global à travers les âges géologiques.</p>
+
+            <h2>Flux de carbone de l'atmosphère vers l'hydrosphère</h2>
+
+            <h3>1. Absorption de CO₂ par les océans</h3>
+            <ul>
+                <li>Une grande quantité de dioxyde de carbone (CO₂) atmosphérique est absorbée par les océans à la surface de l'eau.</li>
+                <li>Le CO₂ dissous réagit avec l'eau pour former de l'acide carbonique (H₂CO₃), qui peut ensuite se dissocier en ions bicarbonates (HCO₃⁻) et carbonates (CO₃²⁻).</li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – L'acidification des océans</strong>
+                L'absorption du CO₂ par les océans augmente leur acidité (baisse du pH). Depuis le début de l'ère industrielle, le pH des océans a diminué de 0,1 unité, soit une augmentation de 30% de l'acidité. Cela menace les organismes calcifiants (coraux, mollusques, plancton) dont les coquilles se dissolvent.<br><br>
+                <em>Source : « L'océan dans le changement climatique », CNRS, 2021</em>
+            </div>
+
+            <div class="page-break">Page 17</div>
+
+            <h3>2. Incorporation dans les organismes marins</h3>
+            <ul>
+                <li>Les organismes marins, comme les coraux, les mollusques et les phytoplanctons, utilisent les ions bicarbonates et carbonates pour construire leurs coquilles et leurs squelettes calcaires, constitués principalement de carbonate de calcium (CaCO₃).</li>
+            </ul>
+
+            <h3>3. Sédimentation des coquilles et des squelettes</h3>
+            <ul>
+                <li>Lorsque ces organismes meurent, leurs coquilles et leurs squelettes tombent au fond de l'océan et peuvent se transformer en roches calcaires à long terme, stockant ainsi du carbone dans la lithosphère marine.</li>
+            </ul>
+
+            <h2>Flux de carbone de l'hydrosphère vers l'atmosphère</h2>
+
+            <h3>1. Dégazage et ébullition</h3>
+            <ul>
+                <li>Les océans libèrent du CO₂ dans l'atmosphère par des processus de dégazage et d'ébullition, où le CO₂ dissous dans l'eau est libéré dans l'air, principalement dans les régions tropicales et tempérées.</li>
+            </ul>
+
+            <h3>2. Respiration aquatique</h3>
+            <ul>
+                <li>Les organismes vivant dans l'eau, y compris les poissons, les bactéries et les planctons, respirent et libèrent du CO₂ dans l'eau, qui peut ensuite être libéré dans l'atmosphère.</li>
+            </ul>
+
+            <h2>Importance du flux de carbone atmosphère-hydrosphère</h2>
+
+            <ul>
+                <li><strong>Régulation du CO₂ atmosphérique :</strong> Le flux de carbone entre l'atmosphère et l'hydrosphère joue un rôle crucial dans la régulation des niveaux de dioxyde de carbone (CO₂) dans l'atmosphère, influençant ainsi le climat global et les cycles biogéochimiques.</li>
+                <li><strong>Influence sur les écosystèmes aquatiques :</strong> Les processus d'absorption et de libération de CO₂ par les océans influencent la chimie de l'eau et la santé des écosystèmes marins, affectant la biodiversité et la productivité des océans.</li>
+                <li><strong>Effets du changement climatique :</strong> Les variations dans le flux de carbone entre l'atmosphère et l'hydrosphère peuvent avoir des implications importantes sur le réchauffement climatique et l'acidification des océans, affectant ainsi les habitats marins et les cycles biogéochimiques globaux.</li>
+            </ul>
+
+            <p>En conclusion, le flux de carbone entre l'atmosphère et l'hydrosphère est un processus complexe qui relie étroitement les systèmes terrestres et marins, jouant un rôle crucial dans la régulation de l'équilibre écologique de la planète et dans la réponse globale au changement climatique.</p>
+
+            <h2>Le sol</h2>
+
+            <h3>1. Définition du sol et types de sols</h3>
+
+            <p><strong>Définition :</strong> Le sol est la formation meuble développée sur la partie superficielle de l'écorce terrestre. C'est une couche superficielle de la croûte terrestre et une composante essentielle de la biosphère, résultant de l'altération des roches mère et des matières organiques. Il sert de support à la vie végétale et abrite de nombreux organismes vivants.</p>
+
+            <h3>Types de sols :</h3>
+            <ul>
+                <li><strong>Sol argileux :</strong> Composé principalement de particules d'argile, il retient bien l'eau mais peut être mal drainé et compact.</li>
+                <li><strong>Sol sableux :</strong> Composé principalement de particules de sable, il se draine rapidement mais retient peu l'eau et les nutriments.</li>
+                <li><strong>Sol limoneux :</strong> Contient une proportion équilibrée de sable, de limon et d'argile, offrant une bonne capacité de rétention d'eau et de nutriments.</li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – Le triangle des textures</strong>
+                La classification des sols repose sur les proportions relatives de sable, limon et argile. Le triangle des textures permet de déterminer le type de sol (ex. limon argilo-sableux). Chaque texture influence la perméabilité, la rétention d'eau et la fertilité.<br><br>
+                <em>Source : « Pédologie générale », Denis Baize, 2020</em>
+            </div>
+
+            <div class="page-break">Page 18</div>
+
+            <ul>
+                <li><strong>Sol humifère :</strong> Riche en matière organique décomposée (humus), il est fertile et retient bien l'eau.</li>
+                <li><strong>Sol calcaire :</strong> Contient une forte proportion de carbonate de calcium, il est souvent alcalin et peut être pauvre en nutriments disponibles.</li>
+                <li><strong>Sol acide :</strong> Sol avec un pH bas, souvent en raison de la présence de matière organique acide ou de minéraux acides.</li>
+            </ul>
+
+            <h3>4. Rôles de la texture et de la structure du sol</h3>
+
+            <p><strong>Texture du sol :</strong> La texture du sol est déterminée par la proportion dimensionnelle des éléments constitutifs du sol après la destruction des agrégats (sable, limon, et argile). Elle influence plusieurs aspects cruciaux :</p>
+
+            <ul>
+                <li><strong>Rétention d'eau :</strong> Les sols argileux retiennent plus d'eau que les sols sableux.</li>
+                <li><strong>Aération :</strong> Les sols sableux sont mieux aérés que les sols argileux, facilitant la respiration des racines.</li>
+                <li><strong>Fertilité :</strong> Les sols avec une bonne proportion de limon et de matière organique tendent à être plus fertiles.</li>
+            </ul>
+
+            <p><strong>Structure du sol :</strong> La structure du sol se réfère à l'arrangement des particules de sol en agrégats. Elle affecte :</p>
+
+            <ul>
+                <li><strong>Infiltration de l'eau :</strong> Les sols bien structurés permettent une meilleure infiltration et drainage de l'eau, réduisant les risques d'érosion.</li>
+                <li><strong>Aération et pénétration des racines :</strong> Une bonne structure permet aux racines de pénétrer plus facilement et d'accéder aux nutriments et à l'eau.</li>
+                <li><strong>Érosion :</strong> Les sols avec une structure stable résistent mieux à l'érosion par le vent et l'eau.</li>
+            </ul>
+
+            <h2>Processus de formation du sol</h2>
+
+            <p>La formation du sol est un processus complexe et dynamique qui se déroule sur de longues périodes et implique plusieurs étapes clés :</p>
+
+            <h3>I. Altération de la roche mère</h3>
+
+            <p><strong>Altération physique :</strong></p>
+            <ul>
+                <li><strong>Définition :</strong> La roche mère se désintègre en particules plus petites à travers des processus mécaniques comme l'érosion par le vent, l'eau, et les variations de température.</li>
+                <li><strong>Exemples :</strong> Fragmentation par le gel et le dégel, abrasion par le vent, et fissuration due à l'expansion thermique.</li>
+            </ul>
+
+            <p><strong>Altération chimique :</strong></p>
+            <ul>
+                <li><strong>Définition :</strong> Les réactions chimiques transforment les minéraux de la roche mère en de nouvelles substances.</li>
+                <li><strong>Exemples :</strong> L'hydrolyse (réaction avec l'eau), l'oxydation (réaction avec l'oxygène), et la dissolution (solubilisation des minéraux dans l'eau).</li>
+            </ul>
+
+            <p>Ces processus réduisent la roche mère en particules de différentes tailles et compositions, formant la base minérale du sol.</p>
+
+            <h3>2. Activités biologiques et apports de matière organique</h3>
+
+            <p><strong>Colonisation biologique :</strong></p>
+            <ul>
+                <li><strong>Définition :</strong> Les organismes vivants (plantes, micro-organismes, animaux) colonisent le substrat minéral.</li>
+                <li><strong>Exemples :</strong> Les lichens et les mousses s'installent sur la roche nue, sécrètent des acides organiques qui accélèrent l'altération chimique, et initient la formation de la matière organique.</li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – Facteurs de formation du sol (climato-séquence)</strong>
+                La pédogenèse dépend de cinq facteurs : le climat (température, précipitations), le matériau parental (roche mère), les organismes vivants, le relief (topographie) et le temps. Ces facteurs, combinés, produisent des sols très variés.<br><br>
+                <em>Source : « Facteurs de formation des sols », Hans Jenny, 1941, rééd. 2018</em>
+            </div>
+
+            <div class="page-break">Page 19</div>
+
+            <p><strong>Apports de matière organique :</strong></p>
+            <ul>
+                <li><strong>Définition :</strong> La matière organique s'accumule à partir des restes de plantes et d'animaux morts, ainsi que des excréments.</li>
+                <li><strong>Exemples :</strong> Feuilles mortes, bois en décomposition, et cadavres d'animaux.</li>
+            </ul>
+
+            <p><strong>Décomposition :</strong></p>
+            <ul>
+                <li><strong>Définition :</strong> Les micro-organismes et les décomposeurs (bactéries, champignons, vers de terre) dégradent la matière organique en humus.</li>
+                <li><strong>Rôle de l'humus :</strong> L'humus améliore la structure du sol, augmente sa capacité de rétention d'eau et de nutriments, et favorise la vie microbienne.</li>
+            </ul>
+
+            <h3>3. Mécanisme de mise en place des horizons</h3>
+
+            <p><strong>Horizons du sol :</strong> Les sols se développent en couches distinctes appelées horizons, formant le profil du sol. Les principaux horizons sont :</p>
+
+            <ul>
+                <li><strong>Horizon O (organique) :</strong> Couche supérieure riche en matière organique non décomposée (litière).</li>
+                <li><strong>Horizon A (humifère) :</strong> Couche supérieure où se mélange matière organique et minérale. C'est la zone de forte activité biologique et de décomposition.</li>
+                <li><strong>Horizon E (éluval) :</strong> Zone de lessivage où les minéraux et les matières organiques sont lessivés vers les horizons inférieurs, souvent plus clair en couleur.</li>
+                <li><strong>Horizon B (illuviation) :</strong> Zone d'accumulation des matériaux lessivés (colloïdes argileux, Fe₂O₃, matière organique).</li>
+                <li><strong>Horizon C (altération) :</strong> Couche de matériau peu altéré proche de la roche mère. Il est composé de roches pourries, altérées et forme « arène » (horizon fantôme).</li>
+                <li><strong>Horizon R (roche mère) :</strong> Roche non altérée sous-jacente.</li>
+            </ul>
+
+            <h2>Cartographie</h2>
+
+            <h3>Initiation à la cartographie</h3>
+
+            <p><strong>Partie I : Lecture de carte</strong></p>
+            <p>Apprenant capable de :</p>
+            <ul>
+                <li>Comprendre, interpréter, et commenter un document cartographique</li>
+                <li>Manipuler, exploiter et utiliser un document cartographique</li>
+            </ul>
+            <p>La cartographie fait partie de la géographie.</p>
+
+            <p><strong>Partie II : Les outils manipulés, exploités en géographie</strong></p>
+
+            <p><strong>Le terrain :</strong> C'est le plus indispensable :</p>
+            <ul>
+                <li>Pour recueillir les informations (réalités, faits, phénomènes, données, situation géographique)</li>
+                <li>Pour observer l'information visible (les travaux sur le terrain)</li>
+                <li>Pour enquêter l'information invisible</li>
+            </ul>
+
+            <p><strong>Le texte :</strong> Le plus accessible et le plus utilisé</p>
+
+            <p><strong>Les graphiques :</strong> Dont la carte : les figures (camembert, histogramme, courbe à bâton, pyramide)</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Les horizons du sol</strong>
+                La description des horizons est normalisée par la classification WRB (World Reference Base). Les horizons O (organiques), A (minéraux de surface), E (éluviaux), B (illuviaux), C (altération), R (roche dure) sont universels. L'épaisseur et la composition varient selon les conditions climatiques et biologiques.<br><br>
+                <em>Source : « Référentiel pédologique », AFES, 2022</em>
+            </div>
+
+            <div class="page-break">Page 20</div>
+
+            <p><strong>La statistique et les tableaux</strong></p>
+            <p><strong>Les imageries :</strong> Photographie numérique et analogique aérienne (images satellites)</p>
+            <p><strong>Les documents sonores</strong></p>
+
+            <h3>Partie III : Qu'est-ce que la cartographie ?</h3>
+
+            <p><strong>Association des cartographes internationale :</strong></p>
+            <p>La cartographie est l'ensemble des études et des opérations scientifiques et techniques, intervenant à partir des résultats d'opérations directes ou de l'exploitation d'une documentation, en vue de l'élaboration et de l'établissement de cartes planes et autres modes d'expression ainsi que dans leur utilisation.</p>
+
+            <p>La cartographie c'est l'étude et la conception d'une carte géographique.</p>
+
+            <ol>
+                <li><strong>Étudier une carte =</strong> Lire une carte = décoder les messages et les commenter</li>
+                <li><strong>Concevoir une carte =</strong> Représenter une réalité, pour faire passer les messages. Résumer ou illustrer ce qu'on a écrit dans le texte. Développer ou présenter ce qu'on arrive à décrire fidèlement à travers le texte.</li>
+            </ol>
+
+            <p>La cartographie désigne la réalisation et l'étude des cartes géographiques. Elle est très dépendante de la géodésie.</p>
+
+            <h2>Citez et définissez les différents types de carte utilisés pour illustrer des phénomènes géographiques</h2>
+
+            <p>Il existe plusieurs types de cartes utilisées pour illustrer des phénomènes géographiques. Voici les principaux types et leurs définitions :</p>
+
+            <h3>1. Carte topographique</h3>
+            <ul>
+                <li><strong>Définition :</strong> Représente en détail les reliefs et les caractéristiques physiques d'une région, incluant les montagnes, les vallées, les cours d'eau, les forêts, les routes, les bâtiments, etc.</li>
+                <li><strong>Usage :</strong> Utilisée pour des activités comme la randonnée, la planification urbaine, et les études environnementales.</li>
+            </ul>
+
+            <h3>2. Carte thématique</h3>
+            <ul>
+                <li><strong>Définition :</strong> Se concentre sur un thème spécifique ou un phénomène particulier, comme la répartition de la population, le climat, les précipitations, la végétation, etc.</li>
+                <li><strong>Usage :</strong> Utilisée pour analyser et visualiser des données spécifiques, comme les taux de chômage, les zones de risque sismique, ou les cultures agricoles.</li>
+            </ul>
+
+            <h3>3. Carte géologique</h3>
+            <ul>
+                <li><strong>Définition :</strong> Montre la composition et la structure des formations géologiques à la surface de la Terre, incluant les types de roches et les failles.</li>
+                <li><strong>Usage :</strong> Utilisée en géologie, exploration minière, gestion des ressources naturelles, et études environnementales.</li>
+            </ul>
+
+            <h3>4. Carte climatique</h3>
+            <ul>
+                <li><strong>Définition :</strong> Illustre les zones climatiques, les régimes de précipitations, les températures, et d'autres variables météorologiques.</li>
+                <li><strong>Usage :</strong> Utilisée en climatologie, agriculture, et études environnementales pour comprendre et prévoir les conditions climatiques.</li>
+            </ul>
+
+            <h3>5. Carte de distribution</h3>
+            <ul>
+                <li><strong>Définition :</strong> Représente la distribution spatiale de différents phénomènes ou éléments, comme les espèces animales et végétales, les ressources naturelles, ou les équipements et infrastructures.</li>
+                <li><strong>Usage :</strong> Utilisée en écologie, gestion des ressources naturelles, et planification urbaine.</li>
+            </ul>
+
+            <h3>6. Carte choroplèthe</h3>
+            <ul>
+                <li><strong>Définition :</strong> Utilise des variations de couleur ou de teinte pour montrer les différences dans les valeurs d'une variable donnée à travers différentes régions ou unités géographiques.</li>
+                <li><strong>Usage :</strong> Couramment utilisée pour illustrer des données démographiques, économiques, ou sociales, comme les taux de chômage ou les revenus moyens par région.</li>
+            </ul>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="part3.html" class="nav-btn prev">⬅ Partie précédente</a>
+                <a href="index.html" class="nav-btn">🏠 Sommaire</a>
+                <a href="part5.html" class="nav-btn">Partie suivante ➡</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // Check if already authenticated
+        if (localStorage.getItem('geo_part4_auth') === 'true') {
+            loginOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                localStorage.setItem('geo_part4_auth', 'true');
+                loginOverlay.classList.add('hidden');
+                mainContent.classList.add('visible');
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                // Shake animation
+                loginOverlay.querySelector('.login-card').style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    loginOverlay.querySelector('.login-card').style.animation = '';
+                }, 500);
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') checkPassword(); 
+        });
+        passwordInput.addEventListener('input', () => { 
+            errorMsg.style.display = 'none'; 
+        });
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

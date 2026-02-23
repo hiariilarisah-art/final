@@ -1,0 +1,1032 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/>  <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 2 – Hydrosphère et océanisation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-strong: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --glass-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --accent-1: #667eea;
+            --accent-2: #f093fb;
+            --accent-3: #4facfe;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.75);
+            --text-muted: rgba(255, 255, 255, 0.5);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Orbs */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: -200px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            top: 40%;
+            left: 60%;
+            animation-delay: -14s;
+            opacity: 0.3;
+        }
+
+        .orb-4 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            top: 60%;
+            left: 10%;
+            animation-delay: -10s;
+            opacity: 0.25;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.02); }
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Main Container */
+        .main-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            min-height: 100vh;
+        }
+
+        /* Glass Container - Premium Effect */
+        .glass-container {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.05) 0%, 
+                rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 50px;
+            box-shadow: 
+                var(--glass-shadow-lg),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.4) 50%, 
+                transparent 100%);
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 0.3em;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 2em;
+            letter-spacing: 0.05em;
+        }
+
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+            margin: 0 auto 3em;
+            border-radius: 2px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            line-height: 1.3;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.6em;
+            color: var(--accent-3);
+        }
+
+        p {
+            margin: 1em 0;
+            color: var(--text-secondary);
+            text-align: justify;
+            font-weight: 300;
+        }
+
+        ul, ol {
+            margin: 1em 0 1em 2em;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin: 0.6em 0;
+            font-weight: 300;
+        }
+
+        ul li::marker {
+            color: var(--accent-1);
+        }
+
+        ol li::marker {
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Page Break */
+        .page-break {
+            margin: 3em 0;
+            padding: 20px 0;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+        }
+
+        .page-break::before, .page-break::after {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-1);
+            font-size: 0.5rem;
+        }
+
+        .page-break::before { left: 30%; }
+        .page-break::after { right: 30%; }
+
+        /* Complement Box */
+        .complement {
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.08) 0%, 
+                rgba(240, 147, 251, 0.05) 100%);
+            border-left: 4px solid var(--accent-2);
+            padding: 20px 24px;
+            margin: 1.5em 0;
+            border-radius: 12px;
+            font-style: italic;
+            color: var(--text-secondary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-left-width: 4px;
+        }
+
+        .complement strong {
+            color: var(--accent-2);
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        /* Navigation */
+        .nav-top {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border-strong);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3em;
+            padding-top: 2em;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        th {
+            background: rgba(102, 126, 234, 0.2);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        /* Login Overlay - Ultra Premium */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                        visibility 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                rgba(255, 255, 255, 0.03) 100%);
+            backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
+            padding: 56px 48px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.5), 
+                transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .login-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .login-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+
+        .login-card h2::before {
+            display: none;
+        }
+
+        .login-subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .login-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-1) 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.5s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            display: none;
+            font-size: 0.9rem;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-container {
+                padding: 30px 20px;
+                border-radius: 24px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .login-card {
+                padding: 40px 24px;
+            }
+
+            .page-break::before, .page-break::after {
+                display: none;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-link {
+                justify-content: center;
+            }
+        }
+
+        /* Hide content initially - NO FLASH OF CONTENT */
+        #mainContent {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        #mainContent.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+            </div>
+            <h2>Partie 2</h2>
+            <p class="login-subtitle">Hydrosphère et océanisation · Pages 3–6</p>
+            <div class="input-wrapper">
+                <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe" autocomplete="off">
+            </div>
+            <button id="loginBtn" class="login-btn">Accéder au document</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <div class="nav-top">
+                <a href="index.html" class="nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Sommaire
+                </a>
+                <a href="part1.html" class="nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    Partie précédente
+                </a>
+                <a href="part3.html" class="nav-link">
+                    Partie suivante
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </a>
+            </div>
+
+            <h1>Hydrosphère et océanisation</h1>
+            <p class="subtitle">Partie 2 · Pages 3–6</p>
+            <div class="divider"></div>
+
+            <!-- Contenu -->
+            <div class="page-break">Page 3</div>
+
+            <h2>L'Océanisation (Formation des Bassins Océaniques)</h2>
+
+            <p><strong>Définition :</strong> Processus par lequel une portion de <strong>croûte continentale</strong> se transforme en <strong>croûte océanique</strong>, conduisant à la formation d'un bassin océanique. Ce mécanisme est lié à la <strong>tectonique des plaques</strong> et au cycle de Wilson (ouverture et fermeture des océans).</p>
+
+            <h3>Étapes clés</h3>
+
+            <h3>1. Rifting continental</h3>
+            <ul>
+                <li>Fracturation de la croûte continentale sous l'effet de forces tectoniques extensives.</li>
+                <li>Exemple : Le rift est-africain (futur océan en formation).</li>
+            </ul>
+
+            <h3>2. Étalement crustal</h3>
+            <ul>
+                <li>Formation d'une dorsale océanique (ex. : dorsale médio-atlantique).</li>
+                <li>Émission de magma basalique créant une <strong>nouvelle croûte océanique</strong>.</li>
+            </ul>
+
+            <h3>3. Expansion océanique</h3>
+            <ul>
+                <li>Éloignement des plaques et élargissement du bassin (ex. : l'océan Atlantique).</li>
+                <li><strong>Exemple concret :</strong> L'océan Atlantique s'est formé il y a environ 180 millions d'années par divergence des plaques africaine et sud-américaine.</li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – Le cycle de Wilson</strong><br><br>
+                Le géologue canadien John Tuzo Wilson a proposé dans les années 1960 un modèle cyclique d'ouverture et de fermeture des océans. Le cycle comprend six stades :<br><br>
+                1. <strong>Stade de rift continental</strong> (ex. rift est-africain)<br>
+                2. <strong>Stade de jeune océan</strong> (ex. mer Rouge)<br>
+                3. <strong>Stade d'océan mature</strong> (ex. Atlantique)<br>
+                4. <strong>Stade de subduction</strong> (ex. Pacifique)<br>
+                5. <strong>Stade de fermeture</strong> (ex. Méditerranée)<br>
+                6. <strong>Stade de collision continentale</strong> (ex. Himalaya)<br><br>
+                Ce cycle dure environ 400 à 500 millions d'années.<br><br>
+                (Source : « Tectonique des plaques », Jacques Kornprobst, 2019)
+            </div>
+
+            <h2>Les Marges Continentales</h2>
+
+            <p><strong>Définition :</strong> Zones de transition entre la <strong>croûte continentale</strong> et la <strong>croûte océanique</strong>. Elles se divisent en deux types principaux :</p>
+
+            <h3>A. Marges Passives (ou Marges Stables)</h3>
+            <ul>
+                <li><strong>Contexte :</strong> En bordure de plaques tectoniques <strong>non actives</strong> (pas de subduction ni de collision).</li>
+                <li><strong>Formation :</strong> Résultent du rifting et de l'ouverture d'un océan.</li>
+                <li><strong>Structure :</strong>
+                    <ul>
+                        <li><strong>Plateau continental</strong> : Partie immergée peu profonde (0–200 m).</li>
+                        <li><strong>Talus continental</strong> : Pente abrupte vers les profondeurs.</li>
+                        <li><strong>Glacis continental</strong> : Accumulation de sédiments en bas du talus.</li>
+                    </ul>
+                </li>
+                <li><strong>Exemples :</strong> Côtes atlantiques de l'Europe ou de l'Amérique du Nord.</li>
+            </ul>
+
+            <h3>B. Marges Actives</h3>
+            <ul>
+                <li>Zones de <strong>subduction</strong> (une plaque plonge sous une autre).</li>
+                <li><strong>Caractéristiques :</strong>
+                    <ul>
+                        <li>Présence de <strong>fosses océaniques</strong> (ex. : fosse des Mariannes).</li>
+                        <li>Volcanisme associé (ex. : la ceinture de feu du Pacifique).</li>
+                    </ul>
+                </li>
+                <li><strong>Exemples :</strong> Côtes ouest de l'Amérique du Sud (subduction de la plaque de Nazca sous l'Amérique du Sud).</li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – Différence entre marges passives et actives</strong><br><br>
+                Les <strong>marges passives</strong>, comme celles de l'Atlantique, sont tectoniquement calmes et accumulent d'épaisses couches de sédiments. Elles sont souvent riches en hydrocarbures (ex. golfe du Mexique).<br><br>
+                Les <strong>marges actives</strong>, typiques du Pacifique, sont le siège de séismes violents, de volcanisme et de la formation de prismes d'accrétion. La fosse des Mariannes, point le plus profond du globe (-11 034 m), se trouve sur une marge active.<br><br>
+                (Source : « Géologie des marges continentales », Société géologique de France, 2021)
+            </div>
+
+            <h2>Les Cuvettes Océaniques</h2>
+
+            <p><strong>Définition :</strong> Dépressions profondes et étendues formant le plancher des océans. Elles comprennent plusieurs éléments géomorphologiques :</p>
+
+            <h3>A. Principales Structures</h3>
+
+            <ol>
+                <li><strong>Plaines abyssales</strong>
+                    <ul>
+                        <li>Zones plates à 4000–6000 m de profondeur, recouvertes de sédiments (argiles, restes organiques).</li>
+                    </ul>
+                </li>
+                <li><strong>Dorsales océaniques</strong>
+                    <ul>
+                        <li>Chaînes montagneuses sous-marines (ex. : dorsale médio-océanique) où se forme la croûte océanique.</li>
+                    </ul>
+                </li>
+                <li><strong>Fosses océaniques</strong>
+                    <ul>
+                        <li>Zones les plus profondes (jusqu'à 11 000 m), associées aux zones de subduction.</li>
+                    </ul>
+                </li>
+                <li><strong>Seamounts et guyots</strong>
+                    <ul>
+                        <li>Monts sous-marins volcaniques, parfois aplatis par l'érosion (guyots).</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>Schéma Synthétique</h3>
+            <ul>
+                <li><strong>Marge passive</strong> → Plateau continental → Talus → Glacis → Plaine abyssale.</li>
+                <li><strong>Marge active</strong> → Fosse océanique → Volcans → Arc insulaire (ex. : Japon).</li>
+                <li><strong>Cuvette océanique</strong> → Dorsale (accrétion) → Fosse (subduction).</li>
+            </ul>
+
+            <p><strong>Résumé :</strong></p>
+            <ul>
+                <li><strong>Océanisation</strong> : Processus de création de croûte océanique.</li>
+                <li><strong>Marges continentales</strong> : Zones clés entre continents et océans (passives vs actives).</li>
+                <li><strong>Cuvettes océaniques</strong> : Structures variées (plaines, dorsales, fosses) façonnées par la tectonique.</li>
+            </ul>
+
+            <div class="page-break">Page 4</div>
+
+            <h2>Fermeture d'un océan et cycle de Wilson</h2>
+
+            <h3>Processus de fermeture océanique</h3>
+
+            <p><strong>Étapes clés :</strong></p>
+            <ol>
+                <li><strong>150 Ma</strong> : Début de la subduction de la <strong>croûte océanique</strong> (plaque A sous plaque B).</li>
+                <li><strong>70 à 45 Ma</strong> : Collision continentale et <strong>obduction</strong> (chevauchement de croûte océanique sur un continent).</li>
+                <li><strong>45 à 25 Ma</strong> : Formation de chaînes de montagnes (ex. : Alpes, Himalaya) par collision finale.</li>
+            </ol>
+
+            <ul>
+                <li><strong>Cycle de Wilson</strong> : Modèle expliquant l'ouverture et la fermeture des océans sur des centaines de millions d'années.
+                    <ul>
+                        <li>Phases : Expansion océanique → Subduction → Collision → Océan stable.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – L'obduction</strong><br><br>
+                L'<strong>obduction</strong> est un phénomène tectonique rare où une portion de croûte océanique est chevauchée sur une croûte continentale, au lieu de plonger dans le manteau. On en trouve des témoins dans les ophiolites, comme celles d'Oman ou de Nouvelle-Calédonie. Ces fragments océaniques préservés renseignent sur la composition et l'âge des océans disparus.<br><br>
+                (Source : « Géodynamique », Pierre Thomas, 2018)
+            </div>
+
+            <h2>Tectonique des plaques</h2>
+
+            <ul>
+                <li><strong>Mouvements des plaques :</strong>
+                    <ul>
+                        <li><strong>Divergence</strong> : Séparation des plaques au niveau des <strong>dorsales océaniques</strong> (ex. : dorsale médio-atlantique), créant une nouvelle croûte océanique.</li>
+                        <li><strong>Convergence</strong> : Subduction (plongement d'une plaque océanique) ou collision (entre deux plaques continentales).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>Océanisation</h2>
+
+            <ul>
+                <li><strong>Processus</strong> : Formation des bassins océaniques via :
+                    <ul>
+                        <li><strong>Courants de convection mantelliques</strong> : Mouvements de matériel chaud ascendant et froid descendant dans le manteau.</li>
+                        <li><strong>Refroidissement</strong> : Solidification du magma en croûte océanique au niveau des dorsales.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>Reliefs sous-marins</h2>
+
+            <h3>A. Marges continentales</h3>
+            <ol>
+                <li><strong>Plateau continental</strong> : Zone peu profonde (0–200 m), riche en sédiments.</li>
+                <li><strong>Talus continental</strong> : Pente abrupte entre le plateau et les profondeurs.</li>
+                <li><strong>Glacis continental</strong> : Accumulation de sédiments en pied de talus.</li>
+            </ol>
+
+            <h3>B. Cuvettes océaniques</h3>
+            <ul>
+                <li><strong>Dorsales et rifts</strong> : Chaînes volcaniques actives (ex. : dorsale Est-Pacifique).</li>
+                <li><strong>Bassins océaniques</strong> : Plaines abyssales (4 000–6 000 m de profondeur).</li>
+                <li><strong>Reliefs isolés</strong> :
+                    <ul>
+                        <li><strong>Pitons</strong> : Monts sous-marins volcaniques.</li>
+                        <li><strong>Guyots</strong> : Plateaux sous-marins érodés.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="page-break">Page 5</div>
+
+            <h2>Différence entre mer et océan</h2>
+
+            <p>Les <strong>mers</strong> sont des étendues d'eau salée partiellement fermées par des terres, plus petites que les océans. Les <strong>océans</strong>, quant à eux, sont les plus vastes étendues d'eau salée couvrant la surface de la Terre et séparées par des continents.</p>
+
+            <h2>Bathyscaphe</h2>
+
+            <p>Un <strong>bathyscaphe</strong> est un type de sous-marin conçu pour explorer les grandes profondeurs des océans. Contrairement aux sous-marins conventionnels, les bathyscaphes utilisent principalement des ballasts remplis de carburant pour contrôler leur flottabilité.</p>
+
+            <h2>Éléments constitutifs des cuvettes océaniques</h2>
+
+            <p>Les cuvettes océaniques sont formées de la <strong>croûte océanique</strong> (principalement constituée de basalte), de la <strong>lithosphère océanique</strong> (la partie rigide de la croûte et du manteau supérieur), et sont caractérisées par des dorsales océaniques, des fosses abyssales et des plaines abyssales.</p>
+
+            <h2>Mouvement eustatique</h2>
+
+            <p>Le <strong>mouvement eustatique</strong> se réfère aux changements du niveau moyen des mers à l'échelle globale, souvent causés par des variations dans le volume des glaciers, la tectonique des plaques ou d'autres processus géologiques à grande échelle.</p>
+
+            <h2>Régulateur thermique</h2>
+
+            <p>En géologie et en océanographie, le <strong>régulateur thermique</strong> se rapporte aux processus qui contrôlent la distribution et le transfert de la chaleur à travers l'océan, influençant ainsi le climat global et les courants océaniques.</p>
+
+            <h2>Marges convergentes (zones de subduction)</h2>
+
+            <p>L'appellation <strong>"marges convergentes"</strong> ou <strong>"zones de subduction"</strong> fait référence aux régions où deux plaques tectoniques entrent en collision et où l'une des plaques plonge sous l'autre. Ce processus est l'un des trois types principaux de marges tectoniques, les autres étant les marges divergentes (où les plaques s'écartent) et les marges transformantes (où les plaques glissent latéralement l'une par rapport à l'autre).</p>
+
+            <h3>Subduction</h3>
+            <p>C'est le processus central des marges convergentes. Il se produit lorsque deux plaques lithosphériques entrent en collision et que l'une d'elles, généralement la plus dense en raison de sa composition plus ancienne et refroidie, plonge sous l'autre plaque. Cette zone où la plaque descendante plonge dans le manteau terrestre est appelée zone de subduction. Typiquement, la plaque océanique plus dense plonge sous la plaque continentale ou une autre plaque océanique moins dense.</p>
+
+            <h3>Principales manifestations des mouvements de convergence</h3>
+            <ul>
+                <li><strong>Subduction</strong> : Lorsque deux plaques tectoniques entrent en collision et que l'une plonge sous l'autre dans le manteau terrestre, créant souvent des zones de fosses océaniques profondes.</li>
+                <li><strong>Formation de chaînes de montagnes</strong> : Lorsque les plaques continentales entrent en collision, elles peuvent former de vastes chaînes de montagnes, telles que l'Himalaya formé par la collision entre la plaque indienne et la plaque eurasienne.</li>
+                <li><strong>Activité sismique et volcanique</strong> : Les zones de convergence sont souvent associées à une activité sismique intense et à la formation de volcans, en raison de la friction et des mouvements le long des failles et des zones de subduction.</li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – L'eustatisme et ses causes</strong><br><br>
+                Les variations eustatiques (changements du niveau marin global) peuvent être d'origine :<br><br>
+                • <strong>Tectonique</strong> : ouverture/fermeture d'un bassin océanique<br>
+                • <strong>Glacio-eustatique</strong> : variation du volume des calottes glaciaires<br>
+                • <strong>Thermo-eustatique</strong> : dilatation thermique de l'eau<br><br>
+                Actuellement, la hausse du niveau marin due au réchauffement climatique est principalement thermo-eustatique (≈50%) et glacio-eustatique (fonte des glaciers).<br><br>
+                (Source : GIEC, 6e rapport, 2021)
+            </div>
+
+            <div class="page-break">Page 6</div>
+
+            <h2>Conséquences des mouvements de convergence</h2>
+
+            <ul>
+                <li><strong>Formation de chaînes de montagnes</strong> : Comme mentionné précédemment, les collisions continentales peuvent créer de vastes chaînes de montagnes.</li>
+                <li><strong>Activité sismique et risques associés</strong> : Les zones de subduction sont souvent des zones à haut risque sismique en raison des forces accumulées et libérées par les mouvements des plaques.</li>
+                <li><strong>Formation d'îles et d'arcs volcaniques</strong> : Lorsque la subduction implique une plaque océanique, elle peut conduire à la formation d'arcs insulaires et d'îles volcaniques à la surface de la Terre.</li>
+                <li><strong>Circulation du magma et des minéraux</strong> : Les zones de subduction permettent également la remontée du magma vers la surface, enrichissant ainsi la croûte terrestre en minéraux.</li>
+            </ul>
+
+            <h2>Rivière cataclinale</h2>
+
+            <p>Une <strong>rivière cataclinale</strong> se forme le long d'une structure géologique appelée cataclinal, où les couches de roches sont inclinées mais pas suffisamment pour provoquer une faille. Ces rivières suivent généralement des lignes de faiblesse dans le substrat rocheux.</p>
+
+            <h2>Rapport entre système hydrographique et structure géologique</h2>
+
+            <p>Les <strong>systèmes hydrographiques</strong>, tels que les rivières et les bassins versants, sont largement influencés par la structure géologique sous-jacente. Par exemple, les rivières peuvent suivre les lignes de faiblesse ou les zones de fractures dans la roche, créant des cours d'eau et des bassins versants spécifiques. La composition géologique du sol affecte également la qualité et la quantité de l'eau dans ces systèmes.</p>
+
+            <h2>Cas d'adaptation</h2>
+
+            <p>En géologie, un <strong>"cas d'adaptation"</strong> fait référence à une situation où des formations géologiques se sont ajustées les unes aux autres de manière complexe, souvent en réponse à des contraintes tectoniques ou à d'autres influences géologiques. Cela peut inclure des ajustements de formations rocheuses adjacentes ou des variations dans la topographie en fonction de forces externes.</p>
+
+            <h2>Trois grands reliefs trouvés sur les continents</h2>
+
+            <p>Les trois grands reliefs trouvés sur les continents sont :</p>
+
+            <h3>Les montagnes</h3>
+            <p>Formées par des processus tectoniques comme la collision des plaques ou par l'activité volcanique.</p>
+
+            <h3>Les plaines</h3>
+            <p>De vastes étendues de terrains plats ou légèrement inclinés, souvent formées par des dépôts sédimentaires ou des processus d'érosion.</p>
+
+            <h3>Les plateaux</h3>
+            <p>Des régions élevées et relativement planes, formées par l'accumulation de matériaux ou par des processus tectoniques et érosifs.</p>
+
+            <h2>Graben</h2>
+
+            <p>Un <strong>graben</strong> est une structure géologique caractérisée par un bloc de terre abaissé, bordé par des failles normales. Ils se forment généralement dans des contextes de distension tectonique où la croûte terrestre s'étire et se déforme, créant des fossés.</p>
+
+            <h2>Cycle de l'eau</h2>
+
+            <p>Le <strong>cycle de l'eau</strong> est le processus continu de circulation de l'eau sur, sous et au-dessus de la surface de la Terre. Il comprend l'évaporation de l'eau depuis les océans et les surfaces terrestres, la condensation pour former des nuages, la précipitation sous forme de pluie ou de neige, et le retour de l'eau vers les océans via les rivières et les nappes souterraines.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Graben et horst</strong><br><br>
+                Un <strong>graben</strong> est un fossé d'effondrement limité par des failles normales, tandis qu'un <strong>horst</strong> est un bloc surélevé. Ces structures sont typiques des régions en extension, comme le rift est-africain (grabens du lac Tanganyika et du lac Malawi) ou le fossé rhénan en Europe.<br><br>
+                (Source : « Géologie structurale », Maurice Mattauer, 2017)
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Sommaire
+                </a>
+                <a href="part1.html" class="nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    Partie précédente
+                </a>
+                <a href="part3.html" class="nav-link">
+                    Partie suivante
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const PASSWORD = "Armadel";
+            const loginOverlay = document.getElementById('loginOverlay');
+            const mainContent = document.getElementById('mainContent');
+            const passwordInput = document.getElementById('passwordInput');
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMsg = document.getElementById('errorMsg');
+
+            // Check authentication status immediately
+            const isAuthenticated = sessionStorage.getItem('geo_auth') === 'true';
+
+            if (isAuthenticated) {
+                // Already authenticated - show content immediately, hide login
+                loginOverlay.style.display = 'none';
+                mainContent.style.display = 'block';
+                // Small delay to allow browser to render before animating
+                requestAnimationFrame(() => {
+                    mainContent.classList.add('visible');
+                });
+            } else {
+                // Not authenticated - ensure login is visible
+                loginOverlay.style.display = 'flex';
+                mainContent.style.display = 'none';
+                passwordInput.focus();
+            }
+
+            function authenticate() {
+                if (passwordInput.value === PASSWORD) {
+                    sessionStorage.setItem('geo_auth', 'true');
+
+                    // Fade out login
+                    loginOverlay.classList.add('hidden');
+
+                    // Show main content
+                    mainContent.style.display = 'block';
+                    setTimeout(() => {
+                        mainContent.classList.add('visible');
+                    }, 100);
+
+                    // Remove login from DOM after animation
+                    setTimeout(() => {
+                        loginOverlay.style.display = 'none';
+                    }, 800);
+                } else {
+                    errorMsg.style.display = 'block';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }
+
+            loginBtn.addEventListener('click', authenticate);
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') authenticate();
+            });
+            passwordInput.addEventListener('input', () => {
+                errorMsg.style.display = 'none';
+            });
+        })();
+    </script>
+</body>
+</html>

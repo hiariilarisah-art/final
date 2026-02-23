@@ -1,0 +1,939 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 8 – Lithosphère, Mondialisation & Trente Glorieuses</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg-strong: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-strong: rgba(255, 255, 255, 0.25);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --text-muted: rgba(255, 255, 255, 0.55);
+            --accent-1: #00d4ff;
+            --accent-2: #ff006e;
+            --accent-3: #8338ec;
+            --accent-4: #ffbe0b;
+            --gradient-main: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-cyan: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            --gradient-pink: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+            --gradient-gold: linear-gradient(135deg, #ffbe0b 0%, #ff8c00 100%);
+            --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 70%),
+                linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #0d0d12 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.8;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+
+        /* Animated Background Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: -200px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -8s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+            top: 40%;
+            left: 60%;
+            animation-delay: -16s;
+            opacity: 0.25;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.02); }
+        }
+
+        /* Login Overlay */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(1.1);
+        }
+
+        .login-card {
+            background: var(--glass-bg-strong);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border-strong);
+            border-radius: 32px;
+            padding: 60px 50px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 
+                var(--shadow-soft),
+                0 0 60px rgba(102, 126, 234, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-card:hover::before {
+            left: 100%;
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: var(--gradient-main);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+        }
+
+        .login-input-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 18px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .login-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient-main);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 16px;
+            padding: 14px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            display: none;
+            font-size: 0.95rem;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Main Content */
+        .main-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: none;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .main-wrapper.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation */
+        .top-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 24px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            background: var(--glass-bg-strong);
+            border-color: var(--glass-border-strong);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Glass Container */
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 60px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.5em;
+            margin-bottom: 1em;
+            color: var(--text-primary);
+            position: relative;
+            padding-left: 24px;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 70%;
+            background: var(--gradient-cyan);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            color: var(--text-secondary);
+        }
+
+        h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.6em;
+            color: var(--accent-1);
+        }
+
+        p {
+            margin: 1.2em 0;
+            color: var(--text-secondary);
+            text-align: justify;
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1.5em 0 1.5em 2em;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin: 0.8em 0;
+            padding-left: 0.5em;
+            position: relative;
+        }
+
+        ul li::marker {
+            color: var(--accent-1);
+            font-size: 1.2em;
+        }
+
+        ol li::marker {
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        /* Page Break */
+        .page-break {
+            margin: 4em 0;
+            padding: 30px 0;
+            text-align: center;
+            position: relative;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .page-break::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        }
+
+        .page-break span {
+            background: rgba(10, 10, 15, 0.8);
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Complement Box */
+        .complement {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(131, 56, 236, 0.08) 100%);
+            border-left: 4px solid var(--accent-1);
+            padding: 24px 28px;
+            margin: 2em 0;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .complement::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .complement strong {
+            color: var(--accent-1);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .complement em {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            display: block;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 2em 0;
+            position: relative;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--accent-4);
+        }
+
+        /* Definition Grid */
+        .def-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 2em 0;
+        }
+
+        .def-card {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .def-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--glass-border-strong);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .def-card h4 {
+            margin-top: 0;
+            font-size: 1.1rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 2em 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-1), var(--accent-3));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2em;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-1);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--accent-1);
+        }
+
+        .timeline-item h4 {
+            margin-top: 0;
+            color: var(--accent-1);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 2em 0;
+        }
+
+        .stat-card {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--glass-border-strong);
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-cyan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4em;
+            padding-top: 2em;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 14px 28px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: var(--glass-bg-strong);
+            border-color: var(--glass-border-strong);
+            transform: translateY(-2px);
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-container { padding: 30px 20px; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.6rem; }
+            h3 { font-size: 1.3rem; }
+            .login-card { padding: 40px 30px; }
+            .def-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-icon">🌍</div>
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 8 – Lithosphère, Mondialisation & Trente Glorieuses</p>
+            <div class="login-input-wrapper">
+                <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            </div>
+            <button id="loginBtn" class="login-btn">Entrer dans l'espace</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="top-nav">
+            <a href="index.html" class="nav-link">🏠 Sommaire</a>
+            <a href="part7.html" class="nav-link">⬅ Partie précédente</a>
+            <a href="part9.html" class="nav-link">Partie suivante ➡</a>
+        </div>
+
+        <div class="glass-container">
+            <h1>Lithosphère & Transformations Économiques</h1>
+            <p class="subtitle">Des reliefs continentaux aux Trente Glorieuses : géographie physique et économie mondiale</p>
+
+            <div class="page-break"><span>Page 36 – Les reliefs continentaux</span></div>
+
+            <h2>I. Les trois grands ensembles de relief continental</h2>
+
+            <p>Sur les continents, la géomorphologie distingue trois grandes catégories de relief, chacune résultant de processus géologiques et géomorphologiques spécifiques qui façonnent la surface terrestre à différentes échelles spatiales et temporelles.</p>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>⛰️ Les Montagnes</h4>
+                    <p>Reliefs élevés et escarpés, généralement formés par le plissement des couches sédimentaires sous l'effet de la compression tectonique (orogenèse), par volcanisme ou par failles verticales. Altitude généralement supérieure à 500-600 mètres avec forts dénivelés.</p>
+                    <p><strong>Exemples :</strong> Himalaya (plus haute chaîne du monde), Alpes, Andes, Rocheuses.</p>
+                </div>
+
+                <div class="def-card">
+                    <h4>🏔️ Les Plateaux</h4>
+                    <p>Zones planes ou légèrement ondulées situées en altitude par rapport aux plaines environnantes. Formés par soulèvement tectonique, volcanisme (plateaux de lave) ou érosion différentielle. Caractérisés par des surfaces d'aplanissement (pénéplaines) remontées.</p>
+                    <p><strong>Exemples :</strong> Plateau du Tibet (toit du monde), Plateau du Colorado, Haut-Plateau africain.</p>
+                </div>
+
+                <div class="def-card">
+                    <h4>🌾 Les Plaines</h4>
+                    <p>Étendues de terrain relativement plates et basses, formées par érosion, accumulation sédimentaire (alluvions) ou épandage glaciaire. Faibles dénivelés favorisant l'agriculture et l'urbanisation.</p>
+                    <p><strong>Exemples :</strong> Plaine du Gange, Plaine Nord-Américaine, Plaine d'Europe du Nord.</p>
+                </div>
+            </div>
+
+            <h2>II. Structure géologique et systèmes hydrographiques</h2>
+
+            <p>La géologie sous-jacente exerce une influence déterminante sur l'organisation spatiale des réseaux hydrographiques et la répartition des ressources en eau. Cette interaction structure/hydrologie constitue un enjeu majeur pour la gestion territoriale et l'aménagement.</p>
+
+            <div class="highlight-box">
+                <h4>Les mécanismes d'interaction</h4>
+                <ul>
+                    <li><strong>Direction des écoulements :</strong> Les structures géologiques (plis, failles, dykes) déterminent la direction des pentes et l'orientation des rivières. Les rivières antécédentes maintiennent leur cours malgré le soulèvement tectonique.</li>
+                    <li><strong>Porosité et perméabilité :</strong> La nature lithologique contrôle la présence et la circulation des aquifères, sources et nappes phréatiques. Les roches karstiques (calcaires) favorisent la circulation souterraine.</li>
+                    <li><strong>Réseaux de drainage :</strong> Les failles et fractures créent des lignes de faiblesse exploitées par l'érosion fluviale, structurant les bassins versants.</li>
+                    <li><strong>Impacts écologiques :</strong> La géologie influence la végétation, les sols et la biodiversité, conditionnant les utilisations humaines (agriculture, urbanisation).</li>
+                </ul>
+            </div>
+
+            <div class="complement">
+                <strong>📚 Complément – Les types de reliefs en géomorphologie</strong>
+                En géomorphologie structurale, on distingue : les reliefs de plissement (montagnes jeunes comme l'Himalaya), les reliefs de faille (horsts et grabens comme le fossé rhénan), les reliefs volcaniques (volcans, plateaux de lave comme le Deccan), les reliefs d'érosion (canyons, vallées, monts résiduels) et les reliefs d'accumulation (plaines alluviales, deltas, dunes). Chaque type résulte de processus spécifiques (tectonique, volcanisme, érosion) et peut être hérité de climats anciens (paléoreliefs).
+                <em>Source : Veyret, Y. (2016). « Géomorphologie de la France », Armand Colin.</em>
+            </div>
+
+            <div class="page-break"><span>Page 36-37 – La Mondialisation</span></div>
+
+            <h2>III. La Mondialisation : un processus multidimensionnel</h2>
+
+            <p>La mondialisation constitue un processus historique d'intensification des interconnexions mondiales entre les économies, les cultures, les technologies et les gouvernements. Bien que ses origines remontent à l'Antiquité avec les routes commerciales (Route de la soie), la mondialisation contemporaine se caractérise par une accélération sans précédent depuis les années 1980, marquée par la libéralisation des échanges et la révolution numérique.</p>
+
+            <h3>A. Les aspects économiques</h3>
+
+            <h4>1. La libéralisation des échanges</h4>
+            <p>La libéralisation commerciale a été facilitée par des accords internationaux sous l'égide de l'Organisation Mondiale du Commerce (OMC, créée en 1995) et des accords bilatéraux. Ces accords ont entraîné une réduction drastique des barrières tarifaires et non tarifaires. Entre 1950 et 2010, les exportations mondiales ont été multipliées par 33, tandis que le PIB mondial a été multiplié par 12.</p>
+
+            <p>Les entreprises transnationales accèdent à de nouveaux marchés et bénéficient d'économies d'échelle. La spécialisation géographique des activités favorise le développement des flux commerciaux « intra-groupe » entre filiales des multinationales, représentant aujourd'hui environ 60% du commerce mondial.</p>
+
+            <h4>2. La globalisation financière</h4>
+            <p>La globalisation financière se caractérise par l'intégration des marchés financiers mondiaux en temps réel. Les flux de capitaux et les investissements directs étrangers (IDE) ont explosé : les IDE sont passés de 50 milliards de dollars en 1980 à 1 500 milliards en 2007. Les institutions financières internationales (FMI, Banque mondiale, BRI) jouent un rôle crucial en fournissant financements et cadres normatifs.</p>
+
+            <h4>3. Les multinationales et la délocalisation</h4>
+            <p>Les entreprises multinationales (EMN) constituent les acteurs clés de la mondialisation, contrôlant environ 80% du commerce mondial. Elles organisent la délocalisation et la sous-traitance internationale pour réduire les coûts de production (main-d'œuvre, fiscalité, normes environnementales).</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Délocalisation et impacts sur l'emploi</strong>
+                Selon l'OCDE, les délocalisations représentent moins de 5% des pertes d'emploi totales en Europe, loin derrière les faillites et restructurations. Cependant, les effets indirects (sous-traitance en cascade, concurrence des filiales exportatrices) sont souvent sous-estimés. La sous-traitance internationale peut concerner aussi bien les multinationales que les PME sans activités à l'étranger, créant des chaînes de valeur complexes difficiles à quantifier.
+                <em>Source : OCDE (2007). « Les délocalisations et l'emploi ».</em>
+            </div>
+
+            <h3>B. Les aspects sociaux et culturels</h3>
+
+            <h4>1. La diffusion culturelle et l'homogénéisation</h4>
+            <p>Les technologies de l'information et les médias internationaux facilitent la propagation des modes de vie et des cultures. Cependant, cette diffusion peut conduire à une homogénéisation culturelle (« macdonaldisation » selon George Ritzer), où les cultures locales sont érodées par des influences occidentales dominantes, menaçant la diversité culturelle mondiale.</p>
+
+            <h4>2. Les migrations internationales</h4>
+            <p>Les flux migratoires s'intensifient, motivés par des raisons économiques, politiques (asile) ou environnementales. En 2020, environ 280 millions de personnes vivaient hors de leur pays de naissance. Ces migrations apportent diversité culturelle et contribuent aux économies d'accueil (transferts de fonds : 700 milliards de dollars en 2020), mais posent des défis d'intégration et de gestion du multiculturalisme.</p>
+
+            <h4>3. Les inégalités sociales</h4>
+            <p>La mondialisation a exacerbé les inégalités tant au niveau international (écart Nord/Sud persistant) qu'interne (concentration des richesses). Les pays en développement risquent de rester piégés dans des conditions de pauvreté (trappe à pauvreté), tandis que les travailleurs des pays développés subissent une concurrence accrue et des pressions à la baisse sur les salaires (dumping social).</p>
+
+            <h3>C. Les aspects politiques et environnementaux</h3>
+
+            <h4>1. La gouvernance mondiale</h4>
+            <p>La mondialisation nécessite une gouvernance transnationale (ONU, G20, OMC). Cependant, la souveraineté nationale et les intérêts divergents des États compliquent la coordination. Les crises financières (2008) et sanitaires (COVID-19) révèlent les limites de cette gouvernance.</p>
+
+            <h4>2. Les impacts environnementaux</h4>
+            <p>L'augmentation du commerce et de la production industrielle entraîne une exploitation accrue des ressources naturelles et une hausse des émissions de gaz à effet de serre. Le transport international représente environ 3% des émissions mondiales de CO2. La gestion durable des ressources et la réduction de la pollution deviennent des priorités mondiales (Accords de Paris, 2015).</p>
+
+            <h4>3. Les mouvements de résistance : l'altermondialisme</h4>
+            <p>Les mouvements altermondialistes émergent dans les années 1990 pour critiquer la mondialisation néolibérale et proposer des alternatives : commerce équitable, souveraineté alimentaire, régulation financière. Le Sommet de Seattle (1999) et les Forums sociaux mondiaux (Porto Alegre, 2001) en constituent les moments fondateurs.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – L'altermondialisme et ses revendications</strong>
+                L'altermondialisme naît dans les années 1990 comme critique de la mondialisation libérale. Popularisé par les manifestations de Seattle (1999, 40 000 manifestants), il regroupe des acteurs hétérogènes (syndicats, ONG, écologistes) partageant cinq caractéristiques : origine dans la société civile, opposition à la mondialisation néolibérale, proposition d'alternatives, principe « penser global, agir local », importance des Forums sociaux mondiaux. La Charte de Porto Alegre (2001) définit un « autre monde possible » fondé sur l'équité et la durabilité.
+                <em>Source : Fougier, E. (2020). « Histoire de l'altermondialisme », Major-Prépa ; Géoconfluences, ENS Lyon.</em>
+            </div>
+
+            <div class="page-break"><span>Page 38 – Les Trente Glorieuses</span></div>
+
+            <h2>IV. Les Trente Glorieuses (1945-1975) : La révolution invisible</h2>
+
+            <p>Les Trente Glorieuses désignent la période de prospérité économique et de transformations sociales en France et dans les pays industrialisés occidentaux, allant de 1945 à 1975 (voire 1973 avec le premier choc pétrolier). Ce terme, forgé par l'économiste Jean Fourastié en 1979, décrit une « parenthèse historique » caractérisée par une croissance exceptionnelle, le plein emploi et l'émergence de la société de consommation.</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">5%</span>
+                    <span class="stat-label">Croissance annuelle moyenne du PIB français</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3×</span>
+                    <span class="stat-label">Multiplication du PIB mondial entre 1950-1973</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">&lt;3%</span>
+                    <span class="stat-label">Taux de chômage (plein emploi)</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">19M</span>
+                    <span class="stat-label">Voitures en circulation en France (vs 1,5M en 1939)</span>
+                </div>
+            </div>
+
+            <h3>A. Les facteurs de la croissance exceptionnelle</h3>
+
+            <h4>1. La reconstruction et l'aide internationale</h4>
+            <p>Après la Seconde Guerre mondiale, l'Europe est détruite et ruinée (le PIB français en 1945 représente 40% de celui d'avant-guerre). Le Plan Marshall (1948-1952) injecte 2,4 milliards de dollars en France, permettant une reconstruction rapide et la modernisation des équipements industriels. Cette aide américaine s'inscrit dans la stratégie de containment face à l'URSS.</p>
+
+            <h4>2. Le rattrapage du capital et les innovations de guerre</h4>
+            <p>Selon le modèle de croissance néoclassique de Robert Solow, ce sont précisément la destruction du capital durant la guerre et la nécessité de rattrapage qui expliquent les taux de croissance exceptionnels. Les innovations "invisibles" issues de la guerre (électronique, nucléaire, aéronautique, plastiques) sont directement transférées au secteur productif, générant des gains de productivité spectaculaires.</p>
+
+            <h4>3. L'industrialisation planifiée et les politiques keynésiennes</h4>
+            <p>L'État joue un rôle interventionniste majeur : nationalisations (EDF, Renault, Charbonnages de France), plans quinquennaux (Plan Monnet), investissements massifs dans les infrastructures. La politique économique keynésienne stimule la demande par la Sécurité sociale (1945), l'augmentation des salaires et le développement du crédit à la consommation.</p>
+
+            <h4>4. Le baby-boom et la demande intérieure</h4>
+            <p>L'explosion démographique (baby-boom) crée une demande massive en biens de consommation (logement, équipement ménager, automobiles). La population active se "salarise", se féminise et se "tertiarise" (passage de 28% à 42% dans le tertiaire).</p>
+
+            <div class="complement">
+                <strong>📚 Complément – La "Grande Accélération" et ses conséquences</strong>
+                Les Trente Glorieuses coïncident avec la "Grande Accélération" de l'Anthropocène (1945-1975). Cette période voit s'ancrer un modèle de société déterminé par des choix techniques peu réversibles : dépendance aux énergies fossiles bon marché, généralisation de l'automobile, culture matérielle de masse. Les bilans environnementaux sont lourds : artificialisation des sols, pollution des eaux, perte de biodiversité. Certaines historiennes parlent des "Trente Ravageuses" pour souligner ces impacts écologiques.
+                <em>Source : Archives du Val-de-Marne (2026). « 1945-1976 : La Grande Accélération des Trente Glorieuses ».</em>
+            </div>
+
+            <h3>B. Les transformations sociales et structurelles</h3>
+
+            <div class="highlight-box">
+                <h4>La révolution des modes de vie</h4>
+                <ul>
+                    <li><strong>Fin des paysans :</strong> Le secteur primaire chute de 50% à 12% de la population active (Henri Mendras, 1967). L'exode rural massif alimente l'urbanisation.</li>
+                    <li><strong>Société de consommation :</strong> Diffusion des biens durables (réfrigérateur, télévision, lave-linge, automobile). La part des dépenses alimentaires dans le budget des ménages diminue au profit des biens manufacturés.</li>
+                    <li><strong>Montée des qualifications :</strong> Développement des "cols blancs" et du secteur tertiaire. Allongement de la scolarité (doublement des bachelières entre 1950-1970).</li>
+                    <li><strong>Temps de loisir :</strong> Réduction du temps de travail et congés payés (1956, 1968) favorisent le tourisme de masse et les activités récréatives.</li>
+                </ul>
+            </div>
+
+            <h3>C. Le déclin et la fin des Trente Glorieuses</h3>
+
+            <p>La période s'achève brutalement avec le premier choc pétrolier de 1973 (quadruplement du prix du baril), suivi du second en 1979. L'arrêt de la croissance (stagflation), le retour du chômage de masse et la crise des modèles keynésiens marquent la transition vers une nouvelle ère économique, celle de la mondialisation néolibérale des années 1980.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>1973 – Premier choc pétrolier</h4>
+                    <p>Guerre du Kippour et embargo arabe. Le prix du pétrole passe de 3 à 12 dollars le baril. Début de la stagflation (stagnation + inflation).</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>1976 – Fin officielle selon Fourastié</h4>
+                    <p>Jean Fourastié date la fin des Trente Glorieuses de 1976, marquant la fin de la croissance régulière et du plein emploi structurel.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>1979 – Second choc pétrolier</h4>
+                    <p>Révolution iranienne. Nouvelle flambée des prix du pétrole. Crise industrielle majeure et restructurations massives.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>1983 – Tournant de la rigueur</h4>
+                    <p>Politique de désinflation compétitive en France. Émergence de la mondialisation financière et des politiques néolibérales.</p>
+                </div>
+            </div>
+
+            <div class="complement">
+                <strong>📚 Complément – Le progrès technique selon Jean Fourastié</strong>
+                Jean Fourastié (1907-1990) explique les Trente Glorieuses par la conjonction exceptionnelle de facteurs : progrès technique (troisième révolution industrielle), cadre institutionnel renouvelé (État-providence), paradigme keynésien, évolution des sociétés vers la consommation de masse. Pour lui, cette période constitue une "révolution invisible" car les transformations structurelles (tertiarisation, salarisation, féminisation du travail) étaient masquées par la croissance apparente.
+                <em>Source : Fourastié, J. (1979). « Les Trente Glorieuses ou la Révolution invisible de 1946 à 1975 » ; Mister Prépa (2024).</em>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="bottom-nav">
+                <a href="index.html" class="nav-btn">🏠 Sommaire</a>
+                <a href="part7.html" class="nav-btn">⬅ Partie précédente</a>
+                <a href="part9.html" class="nav-btn">Partie suivante ➡</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // Check if already authenticated
+        if (localStorage.getItem('geoAuth') === 'true') {
+            loginOverlay.classList.add('hidden');
+            setTimeout(() => {
+                mainContent.classList.add('visible');
+            }, 100);
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                localStorage.setItem('geoAuth', 'true');
+                loginOverlay.classList.add('hidden');
+                setTimeout(() => {
+                    mainContent.classList.add('visible');
+                }, 100);
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                setTimeout(() => {
+                    errorMsg.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') checkPassword(); 
+        });
+        passwordInput.addEventListener('input', () => { 
+            errorMsg.style.display = 'none'; 
+        });
+    </script>
+</body>
+</html>

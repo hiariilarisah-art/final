@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 5 – Cartographie et Économie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --accent-1: #00d4ff;
+            --accent-2: #7b2cbf;
+            --accent-3: #ff006e;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --text-muted: rgba(255, 255, 255, 0.5);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.8;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(0,212,255,0.4) 0%, transparent 70%);
+            top: -200px; left: -200px;
+        }
+
+        .orb-2 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(123,44,191,0.4) 0%, transparent 70%);
+            bottom: -150px; right: -150px;
+            animation-delay: -8s;
+        }
+
+        .orb-3 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(255,0,110,0.3) 0%, transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -16s;
+            opacity: 0.25;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.1); }
+            50% { transform: translate(-30px, 50px) scale(0.95); }
+            75% { transform: translate(20px, -20px) scale(1.05); }
+        }
+
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(1.1);
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 60px 50px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.5),
+                inset 0 1px 0 var(--glass-highlight);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-1), transparent);
+            opacity: 0.5;
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            box-shadow: 0 10px 40px rgba(0,212,255,0.3);
+        }
+
+        .login-card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.4rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 18px 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+            transition: all 0.4s ease;
+        }
+
+        .login-input:focus {
+            background: rgba(255,255,255,0.06);
+            border-color: var(--accent-1);
+            box-shadow: 0 0 30px rgba(0,212,255,0.15);
+        }
+
+        .login-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,212,255,0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,212,255,0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 20px;
+            padding: 14px;
+            background: rgba(255,107,107,0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(255,107,107,0.2);
+            display: none;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .main-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            display: none;
+        }
+
+        .main-wrapper.visible {
+            display: block;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-container {
+            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 50px;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent-1);
+            transform: translateY(-2px);
+            color: var(--accent-1);
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-1) 50%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin: 0 0 50px 0;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 50px 0 20px 0;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent-1);
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--accent-1);
+            margin: 30px 0 15px 0;
+        }
+
+        p {
+            margin: 16px 0;
+            color: var(--text-secondary);
+            text-align: justify;
+            font-weight: 300;
+            line-height: 1.9;
+        }
+
+        ul, ol {
+            margin: 20px 0 20px 30px;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin: 12px 0;
+            font-weight: 300;
+            padding-left: 10px;
+        }
+
+        li::marker {
+            color: var(--accent-1);
+        }
+
+        .page-break {
+            margin: 60px 0;
+            padding: 30px 0;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .page-break::before, .page-break::after {
+            content: '✦';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-1);
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        .page-break::before { left: 25%; }
+        .page-break::after { right: 25%; }
+
+        .complement {
+            background: linear-gradient(135deg, rgba(0,212,255,0.05) 0%, rgba(123,44,191,0.05) 100%);
+            border-left: 3px solid var(--accent-1);
+            padding: 24px 28px;
+            margin: 30px 0;
+            border-radius: 16px;
+            color: var(--text-secondary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .complement strong {
+            color: var(--accent-1);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 14px 28px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent-1);
+            transform: translateX(5px);
+            color: var(--accent-1);
+        }
+
+        .nav-btn.prev:hover {
+            transform: translateX(-5px);
+        }
+
+        ::selection {
+            background: rgba(0,212,255,0.3);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .glass-container { padding: 30px 24px; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.4rem; }
+            .login-card { padding: 40px 30px; }
+            .page-break::before, .page-break::after { display: none; }
+            .navigation { flex-direction: column; gap: 12px; }
+            .nav-btn { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-icon">🗺️</div>
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 5 – Cartographie et Économie</p>
+            <div class="input-wrapper">
+                <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            </div>
+            <button id="loginBtn" class="login-btn">Entrer</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <div class="top-nav">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part4.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part6.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+
+            <h1>Cartographie et Introduction à l'Économie</h1>
+
+            <div class="page-break">Page 20</div>
+
+            <h2>Types de cartes (suite)</h2>
+
+            <h3>7. Carte isoplèthe</h3>
+            <ul>
+                <li><strong>Définition :</strong> Montre les lignes d'égale valeur (isoplèthes) pour des phénomènes continus, comme les courbes de niveau (isohypses), les isothermes (températures égales), ou les isobares (pressions atmosphériques égales).</li>
+                <li><strong>Usage :</strong> Utilisée en météorologie, climatologie, et topographie.</li>
+            </ul>
+
+            <h3>8. Carte de flux</h3>
+            <ul>
+                <li><strong>Définition :</strong> Illustre les mouvements ou les flux de personnes, de biens, d'informations, ou d'autres variables entre différents points géographiques.</li>
+                <li><strong>Usage :</strong> Utilisée pour visualiser les migrations, les échanges commerciaux, les réseaux de transport, et les communications.</li>
+            </ul>
+
+            <h3>9. Carte de densité</h3>
+            <ul>
+                <li><strong>Définition :</strong> Montre la concentration d'un phénomène par unité de surface, comme la densité de population ou la densité de végétation.</li>
+                <li><strong>Usage :</strong> Utilisée en géographie humaine, études urbaines, et gestion des ressources naturelles.</li>
+            </ul>
+
+            <h3>10. Carte cadastrale</h3>
+            <ul>
+                <li><strong>Définition :</strong> Représente les limites des propriétés foncières, incluant les parcelles, les bâtiments, et les infrastructures associées.</li>
+                <li><strong>Usage :</strong> Utilisée pour la gestion des propriétés, la planification urbaine, et les transactions immobilières.</li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – Les types de cartes</strong>
+                La cartographie moderne distingue les cartes à grande échelle (détail, ex. cadastre) et les cartes à petite échelle (vue d'ensemble). Les cartes thématiques utilisent des variables visuelles (couleur, taille, forme) pour représenter des données qualitatives ou quantitatives. Les SIG (systèmes d'information géographique) permettent aujourd'hui de superposer et d'analyser ces différentes couches d'information.<br><br>
+                <em>Source : « Sémiologie graphique », Jacques Bertin, 1967, rééd. 2020</em>
+            </div>
+
+            <h2>Introduction aux Faits Économiques et Sociaux (IFES)</h2>
+
+            <h2>Qu'est-ce que l'inflation ?</h2>
+
+            <h3>1.1. Définition</h3>
+            <p>L'inflation correspond à une hausse continue du niveau général des prix à l'intérieur d'un espace donné. Elle se distingue donc :</p>
+            <ul>
+                <li>D'une part, des hausses sectorielles de certains prix</li>
+                <li>D'autre part, des hausses de prix généralisées mais sans lendemain</li>
+            </ul>
+
+            <h2>1. Comment expliquer l'inflation ?</h2>
+            <p>On peut expliquer les périodes d'inflation de plusieurs façons. Nous retiendrons ici les quatre grands types d'explications économiques du phénomène.</p>
+
+            <h3>2.1. L'inflation monétaire</h3>
+            <p>Pour les économistes monétaristes, l'inflation est un phénomène purement monétaire. Pour eux, la monnaie n'est qu'un voile : elle n'a pas (ou seulement à très court terme) d'influence sur le revenu réel de l'économie. Elle influence seulement le niveau des prix.</p>
+
+            <h3>2.2. L'inflation par la demande</h3>
+            <p>On peut également expliquer les phénomènes inflationnistes par un excès durable de la demande réelle par rapport à l'offre réelle. Cette analyse d'excès de demande est due à Keynes. L'augmentation de la demande peut provenir de l'accroissement des dépenses publiques ou de l'entrée de revenus supplémentaires sur le territoire (excédent de balance commerciale, entrée de capitaux). Elle peut également être due à l'accroissement des dépenses de consommation des ménages, du fait de l'apparition de nouveaux produits, d'une modification du système de prix relatifs, d'un enrichissement de certaines catégories sociales leur permettant d'avoir accès à de nouveaux biens, d'un changement dans les anticipations (prix, revenus, rémunération de l'épargne).</p>
+
+            <h3>2.3. L'inflation par les coûts</h3>
+            <p>L'inflation peut être également expliquée par une croissance de la rémunération des facteurs de production supérieure à celle de leur productivité. L'augmentation de la rémunération des facteurs de production conduit les entreprises à augmenter le prix des produits qu'ils vendent :</p>
+            <ul>
+                <li>À d'autres entreprises qui elles-mêmes élèveront leurs prix</li>
+                <li>Aux consommateurs qui revendiquent alors de nouvelles hausses de rémunération</li>
+            </ul>
+
+            <div class="page-break">Page 21</div>
+
+            <h2>La hausse de l'inflation à Madagascar en 2022 : causes, conséquences et perspectives</h2>
+
+            <h3>1. Introduction</h3>
+            <p>Depuis plusieurs mois, Madagascar est confronté à une inflation à deux chiffres, avec une hausse des prix de l'ordre de 10,8% en glissement annuel en novembre 2022 par rapport à la même période l'année précédente. Cette situation a des conséquences importantes sur le coût de la vie pour les ménages malgaches, qui doivent faire face à une augmentation des prix des produits de première nécessité et des services.</p>
+
+            <p>Elle trouve son origine dans un contexte international marqué par une envolée des prix des produits agricoles et énergétiques, en raison notamment de la tension entre la Russie et l'Ukraine depuis février 2022. Madagascar, pays fortement dépendant du pétrole, a été contraint d'ajuster ses prix à la pompe à la hausse, ce qui a eu un impact sur l'ensemble de l'économie.</p>
+
+            <p>Face à cette situation, l'État malagasy a pris des mesures pour protéger les consommateurs et limiter l'impact de l'inflation sur le pouvoir d'achat. De son côté, la Banque Centrale de Madagascar (Banky Foiben'i Madagasikara - BFM) a également mis en place des politiques monétaires pour maîtriser l'inflation.</p>
+
+            <p>Dans ce contexte, cette analyse se propose d'identifier les caractéristiques de l'inflation à Madagascar en 2022, en évaluant les causes et les conséquences de cette situation, ainsi que les mesures prises par les autorités pour y faire face. Nous examinerons également les mesures mises en œuvre par la BFM pour contrôler l'inflation, en évaluant leur efficacité face à la situation actuelle.</p>
+
+            <h3>2. Les caractéristiques de l'inflation à Madagascar en 2022</h3>
+
+            <h3>2.1 Les causes de l'inflation à Madagascar en 2022</h3>
+            <p>L'inflation à Madagascar en 2022 est en grande partie due à des facteurs externes tels que l'impact de la situation géopolitique mondiale sur les prix des produits énergétiques. En effet, Madagascar étant un pays extrêmement dépendant des importations de pétrole, les augmentations des prix sur les marchés mondiaux ont directement affecté le coût de la vie des ménages malgaches. La tension entre la Russie et l'Ukraine qui a commencé en février 2022 a entraîné une flambée des prix du pétrole sur les marchés mondiaux, ce qui a eu un impact direct sur les prix des produits pétroliers à Madagascar.</p>
+
+            <p>Outre les facteurs externes, il y a également des facteurs internes qui ont contribué à l'inflation à Madagascar. Parmi ceux-ci, on peut citer la dévaluation de la monnaie malgache, l'ariary, par rapport au dollar américain et à l'euro. Cette dévaluation a eu un impact direct sur les prix des produits importés, ce qui a entraîné une augmentation des prix sur le marché intérieur.</p>
+
+            <p>En outre, la pandémie de COVID-19 a également eu un impact sur l'économie malgache, entraînant une baisse de la production et une augmentation des coûts de production pour de nombreuses entreprises. Cette situation a également contribué à la hausse des prix des produits sur le marché intérieur.</p>
+
+            <p>Enfin, la faiblesse des investissements dans l'agriculture et l'industrie manufacturière à Madagascar a également eu un impact sur l'inflation. La production nationale de biens et services est insuffisante pour répondre à la demande, ce qui oblige le pays à dépendre des importations pour répondre aux besoins de la population. Cette dépendance accrue aux importations contribue également à la hausse des prix des produits sur le marché intérieur.</p>
+
+            <h3>2.2 Les conséquences de l'inflation à Madagascar en 2022</h3>
+            <p>L'inflation à Madagascar en 2022 a eu plusieurs conséquences négatives sur la population, en particulier sur le coût de la vie pour les ménages.</p>
+
+            <p>Tout d'abord, l'inflation a entraîné une augmentation significative des prix des produits alimentaires de base, tels que le riz, les légumes, les fruits et la viande. Les ménages ont dû faire face à des dépenses plus élevées pour se nourrir, ce qui a réduit leur pouvoir d'achat et leur capacité à épargner.</p>
+
+            <p>Elle a également augmenté les coûts des biens importés, tels que les carburants, les médicaments et les produits électroniques. Les consommateurs ont donc dû payer plus cher pour ces produits, ce qui a eu un impact sur leur budget mensuel.</p>
+
+            <p>Par ailleurs, elle a également entraîné une augmentation des coûts de production pour les entreprises, notamment en raison de l'augmentation des prix des matières premières et de l'énergie. Cela a eu un impact sur les prix des produits locaux, qui sont devenus plus chers pour les consommateurs.</p>
+
+            <p>Enfin, elle a eu un impact sur le taux d'intérêt, qui a augmenté pour enrayer sa progression. Cela a eu un impact négatif sur les emprunteurs, qui ont dû payer plus cher pour leurs prêts, y compris les prêts immobiliers et les prêts étudiants.</p>
+
+            <p>Dans l'ensemble, l'inflation à Madagascar en 2022 a eu un impact significatif sur le coût de la vie pour les ménages, réduisant leur pouvoir d'achat et leur capacité à épargner. Les consommateurs ont dû faire face à des dépenses plus élevées pour se nourrir et acheter des produits importés, tandis que les entreprises ont dû augmenter leurs prix pour compenser les coûts de production plus élevés.</p>
+
+            <div class="page-break">Page 22</div>
+
+            <h2>La politique économique</h2>
+
+            <h3>Définition de la politique économique</h3>
+            <p><strong>Politique économique :</strong> Ensemble des mesures prises par les autorités publiques (gouvernement, banque centrale, etc.) pour influencer et orienter l'économie d'un pays. Ces mesures visent à atteindre certains objectifs économiques et sociaux, en utilisant divers instruments et actions.</p>
+
+            <h3>Objectifs de la politique économique</h3>
+            <ol>
+                <li><strong>Stabilité économique :</strong> Maintenir la stabilité des prix (contrôle de l'inflation) et stabiliser les cycles économiques pour éviter les récessions et les booms excessifs.</li>
+                <li><strong>Croissance économique :</strong> Favoriser une croissance économique soutenue et durable, augmentant ainsi la production de biens et services dans l'économie.</li>
+                <li><strong>Plein emploi :</strong> Réduire le chômage et maximiser l'emploi dans l'économie, assurant ainsi que tous ceux qui veulent travailler puissent trouver un emploi.</li>
+                <li><strong>Équilibre extérieur :</strong> Assurer un équilibre entre les importations et les exportations, ainsi que stabiliser la balance des paiements pour éviter des déficits ou des excédents trop importants.</li>
+                <li><strong>Répartition équitable des revenus :</strong> Promouvoir une distribution plus équitable des revenus et des richesses pour réduire les inégalités économiques et sociales.</li>
+                <li><strong>Développement durable :</strong> Encourager une utilisation durable des ressources naturelles et réduire l'impact environnemental des activités économiques.</li>
+            </ol>
+
+            <h3>Différentes politiques économiques</h3>
+
+            <h3>1. Politique budgétaire</h3>
+            <ul>
+                <li><strong>Définition :</strong> Utilisation des dépenses publiques et de la fiscalité pour influencer l'économie.</li>
+                <li><strong>Instruments :</strong> Budget de l'État, taxes, impôts, dépenses publiques, subventions, etc.</li>
+                <li><strong>Objectifs :</strong> Stimuler la demande globale, redistribuer les revenus, financer des projets d'infrastructure, etc.</li>
+            </ul>
+
+            <h3>2. Politique monétaire</h3>
+            <ul>
+                <li><strong>Définition :</strong> Gestion de l'offre de monnaie et des taux d'intérêt par la banque centrale pour contrôler l'inflation et stabiliser la monnaie.</li>
+                <li><strong>Instruments :</strong> Taux d'intérêt, réserves obligatoires, opérations sur le marché ouvert, etc.</li>
+                <li><strong>Objectifs :</strong> Contrôler l'inflation, stabiliser la monnaie, promouvoir la croissance économique, etc.</li>
+            </ul>
+
+            <h3>3. Politique de change</h3>
+            <ul>
+                <li><strong>Définition :</strong> Régulation du taux de change et des réserves de devises pour influencer les exportations et les importations.</li>
+                <li><strong>Instruments :</strong> Intervention sur le marché des changes, ajustement des taux de change, etc.</li>
+                <li><strong>Objectifs :</strong> Maintenir la stabilité du taux de change, équilibrer la balance des paiements, etc.</li>
+            </ul>
+
+            <h3>4. Politique de l'emploi</h3>
+            <ul>
+                <li><strong>Définition :</strong> Mesures visant à promouvoir le plein emploi et à réduire le chômage.</li>
+                <li><strong>Instruments :</strong> Programmes de formation professionnelle, incitations à l'embauche, législation du travail, etc.</li>
+                <li><strong>Objectifs :</strong> Réduire le chômage, améliorer la qualité de l'emploi, etc.</li>
+            </ul>
+
+            <h3>5. Politique industrielle</h3>
+            <ul>
+                <li><strong>Définition :</strong> Actions visant à développer et soutenir certains secteurs industriels stratégiques.</li>
+                <li><strong>Instruments :</strong> Subventions, prêts préférentiels, allégements fiscaux, régulations, etc.</li>
+                <li><strong>Objectifs :</strong> Stimuler l'innovation, améliorer la compétitivité, créer des emplois, etc.</li>
+            </ul>
+
+            <h3>6. Politique de redistribution</h3>
+            <ul>
+                <li><strong>Définition :</strong> Mesures visant à réduire les inégalités de revenus et de patrimoine.</li>
+                <li><strong>Instruments :</strong> Impôts progressifs, prestations sociales, services publics gratuits, etc.</li>
+                <li><strong>Objectifs :</strong> Réduire la pauvreté, promouvoir l'égalité des chances, etc.</li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – Les écoles de pensée en économie</strong>
+                Les politiques économiques s'inspirent de différents courants : keynésianisme (intervention publique), monétarisme (régulation de la masse monétaire), libéralisme (marché autorégulateur). Aujourd'hui, une approche pragmatique combine souvent ces outils.<br><br>
+                <em>Source : « Histoire de l'analyse économique », Joseph Schumpeter, 1954</em>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="part4.html" class="nav-btn prev">⬅ Partie précédente</a>
+                <a href="index.html" class="nav-btn">🏠 Sommaire</a>
+                <a href="part6.html" class="nav-btn">Partie suivante ➡</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        if (localStorage.getItem('geo_part5_auth') === 'true') {
+            loginOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                localStorage.setItem('geo_part5_auth', 'true');
+                loginOverlay.classList.add('hidden');
+                mainContent.classList.add('visible');
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                loginOverlay.querySelector('.login-card').style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    loginOverlay.querySelector('.login-card').style.animation = '';
+                }, 500);
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') checkPassword(); 
+        });
+        passwordInput.addEventListener('input', () => { 
+            errorMsg.style.display = 'none'; 
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

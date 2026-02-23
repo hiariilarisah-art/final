@@ -1,0 +1,1041 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 9 – Trente Glorieuses, Géographie Sociale & Agriculture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg-strong: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-strong: rgba(255, 255, 255, 0.25);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --text-muted: rgba(255, 255, 255, 0.55);
+            --accent-1: #00d4ff;
+            --accent-2: #ff006e;
+            --accent-3: #8338ec;
+            --accent-4: #ffbe0b;
+            --gradient-main: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-cyan: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            --gradient-pink: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+            --gradient-gold: linear-gradient(135deg, #ffbe0b 0%, #ff8c00 100%);
+            --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 70%),
+                linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #0d0d12 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.8;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+
+        /* Animated Background Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: -200px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -8s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+            top: 40%;
+            left: 60%;
+            animation-delay: -16s;
+            opacity: 0.25;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.02); }
+        }
+
+        /* Login Overlay */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(1.1);
+        }
+
+        .login-card {
+            background: var(--glass-bg-strong);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border-strong);
+            border-radius: 32px;
+            padding: 60px 50px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 
+                var(--shadow-soft),
+                0 0 60px rgba(102, 126, 234, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-card:hover::before {
+            left: 100%;
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: var(--gradient-main);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+        }
+
+        .login-input-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 18px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .login-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient-main);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 16px;
+            padding: 14px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            display: none;
+            font-size: 0.95rem;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Main Content */
+        .main-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: none;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .main-wrapper.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation */
+        .top-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 24px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            background: var(--glass-bg-strong);
+            border-color: var(--glass-border-strong);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Glass Container */
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 60px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.5em;
+            margin-bottom: 1em;
+            color: var(--text-primary);
+            position: relative;
+            padding-left: 24px;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 70%;
+            background: var(--gradient-cyan);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            color: var(--text-secondary);
+        }
+
+        h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.6em;
+            color: var(--accent-1);
+        }
+
+        p {
+            margin: 1.2em 0;
+            color: var(--text-secondary);
+            text-align: justify;
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1.5em 0 1.5em 2em;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin: 0.8em 0;
+            padding-left: 0.5em;
+            position: relative;
+        }
+
+        ul li::marker {
+            color: var(--accent-1);
+            font-size: 1.2em;
+        }
+
+        ol li::marker {
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        /* Page Break */
+        .page-break {
+            margin: 4em 0;
+            padding: 30px 0;
+            text-align: center;
+            position: relative;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .page-break::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        }
+
+        .page-break span {
+            background: rgba(10, 10, 15, 0.8);
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Complement Box */
+        .complement {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(131, 56, 236, 0.08) 100%);
+            border-left: 4px solid var(--accent-1);
+            padding: 24px 28px;
+            margin: 2em 0;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .complement::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .complement strong {
+            color: var(--accent-1);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .complement em {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            display: block;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 2em 0;
+            position: relative;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--accent-4);
+        }
+
+        /* Definition Grid */
+        .def-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 2em 0;
+        }
+
+        .def-card {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .def-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--glass-border-strong);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .def-card h4 {
+            margin-top: 0;
+            font-size: 1.1rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 2em 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-1), var(--accent-3));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2em;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-1);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--accent-1);
+        }
+
+        .timeline-item h4 {
+            margin-top: 0;
+            color: var(--accent-1);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 2em 0;
+        }
+
+        .stat-card {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--glass-border-strong);
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-cyan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4em;
+            padding-top: 2em;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 14px 28px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: var(--glass-bg-strong);
+            border-color: var(--glass-border-strong);
+            transform: translateY(-2px);
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-container { padding: 30px 20px; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.6rem; }
+            h3 { font-size: 1.3rem; }
+            .login-card { padding: 40px 30px; }
+            .def-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-icon">🌍</div>
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 9 – Trente Glorieuses, Géographie Sociale & Agriculture</p>
+            <div class="login-input-wrapper">
+                <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            </div>
+            <button id="loginBtn" class="login-btn">Entrer dans l'espace</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="top-nav">
+            <a href="index.html" class="nav-link">🏠 Sommaire</a>
+            <a href="part8.html" class="nav-link">⬅ Partie précédente</a>
+            <a href="part10.html" class="nav-link">Partie suivante ➡</a>
+        </div>
+
+        <div class="glass-container">
+            <h1>Trente Glorieuses & Géographie Sociale</h1>
+            <p class="subtitle">De la croissance exceptionnelle à la géographie sociale critique et l'agriculture mondiale</p>
+
+            <div class="page-break"><span>Page 38 – Les impacts des Trente Glorieuses</span></div>
+
+            <h2>I. Les Trente Glorieuses : Impacts sociaux et économiques</h2>
+
+            <p>La période des Trente Glorieuses (1945-1975) a profondément transformé la société française, marquant le passage d'une économie agricole et artisanale à une société industrielle et de consommation. Ces transformations ont eu des répercussions durables sur les territoires, les modes de vie et les structures sociales.</p>
+
+            <h3>A. L'amélioration des conditions de vie</h3>
+
+            <p>Les Trente Glorieuses ont vu une amélioration spectaculaire des conditions de vie, fondée sur la généralisation de l'État-providence et la croissance des salaires réels.</p>
+
+            <div class="highlight-box">
+                <h4>Les avancées sociales majeures</h4>
+                <ul>
+                    <li><strong>Éducation :</strong> Augmentation massive du taux de scolarisation, création de nouvelles universités, allongement de la scolarité moyenne. Le nombre de bacheliers double entre 1950 et 1970.</li>
+                    <li><strong>Logement :</strong> Développement du logement social (HLM) et des grands ensembles pour répondre aux besoins de la population croissante et de l'exode rural.</li>
+                    <li><strong>Santé :</strong> Généralisation de la Sécurité sociale (1945), amélioration des infrastructures sanitaires, augmentation de l'espérance de vie.</li>
+                    <li><strong>Consommation :</strong> Équipement des ménages en biens durables (réfrigérateur, télévision, lave-linge, automobile).</li>
+                </ul>
+            </div>
+
+            <h3>B. La transformation de la société</h3>
+
+            <p>La société française a subi des mutations structurelles profondes durant cette période, bouleversant les équilibres entre ville et campagne, entre travail et loisir.</p>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>🏙️ Urbanisation massive</h4>
+                    <p>L'exode rural s'accélère, les grandes villes explosent démographiquement. Les modes de vie ruraux disparaissent progressivement au profit de la société urbaine de masse.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🛒 Société de consommation</h4>
+                    <p>Émergence des supermarchés (Carrefour invente l'hypermarché en 1963), généralisation de l'équipement ménager, culture matérielle de masse.</p>
+                </div>
+                <div class="def-card">
+                    <h4>✊ Mouvements sociaux</h4>
+                    <p>Mai 68 exprime les aspirations à plus de liberté, de justice sociale et d'autonomie. Remise en question des hiérarchies traditionnelles.</p>
+                </div>
+            </div>
+
+            <h3>C. Les mutations économiques structurelles</h3>
+
+            <p>L'économie française connaît une diversification et une tertiarisation accélérées. Le secteur tertiaire (services) supplante progressivement le secteur primaire (agriculture), tandis que les gains de productivité industrielle soutiennent la croissance.</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">50%</span>
+                    <span class="stat-label">Population active agricole en 1945</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">12%</span>
+                    <span class="stat-label">Population active agricole en 1975</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">28%</span>
+                    <span class="stat-label">Tertiaire en 1950</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">42%</span>
+                    <span class="stat-label">Tertiaire en 1970</span>
+                </div>
+            </div>
+
+            <h2>II. Le déclin des Trente Glorieuses et ses causes</h2>
+
+            <h3>A. Les chocs pétroliers (1973 et 1979)</h3>
+            <p>Le premier choc pétrolier de 1973 (guerre du Kippour, embargo arabe) marque la fin brutale de la croissance régulière. Le prix du baril quadruple, entraînant une inflation galopante et une récession économique (stagflation). Le second choc de 1979 (révolution iranienne) achève de fragiliser le modèle keynésien.</p>
+
+            <h3>B. Les limites structurelles du modèle</h3>
+            <p>Avant même les chocs pétroliers, le modèle montre des signes d'essoufflement : saturation des marchés de consommation, rigidités du marché du travail, endettement croissant de l'État pour financer les politiques de demande.</p>
+
+            <h3>C. Les transformations sociétales</h3>
+            <p>Les aspirations des jeunes générations à plus d'autonomie, les revendications sociales, et la concurrence internationale croissante des pays émergents rendent les industries traditionnelles françaises moins compétitives.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – La fin des Trente Glorieuses</strong>
+                La période 1973-1983 marque une transition brutale : fin du plein emploi structurel, retour du chômage de masse, crise de la production industrielle, émergence de la mondialisation financière. Le tournant de la rigueur de 1983 inaugure une nouvelle ère économique fondée sur la compétitivité et la désinflation.
+                <em>Source : Fourastié, J. (1979). « Les Trente Glorieuses ».</em>
+            </div>
+
+            <div class="page-break"><span>Page 39-40 – L'évolution de la géographie</span></div>
+
+            <h2>III. L'évolution de la géographie : d'une histoire naturelle à une science sociale</h2>
+
+            <p>La géographie, en tant que discipline académique, a connu une évolution fondamentale depuis ses origines antiques jusqu'à sa forme contemporaine. Cette transformation épistémologique reflète les changements de paradigmes scientifiques et les évolutions des sociétés humaines.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>1. Géographie comme histoire naturelle</h4>
+                    <p>À ses débuts (Antiquité – XIXe siècle), la géographie est essentiellement descriptive. Ptolémée, Strabon et les explorateurs cartographient le monde connu et décrivent les montagnes, rivières, climats et éléments du paysage. L'accent est mis sur l'observation et la documentation des phénomènes naturels.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>2. Géographie physique</h4>
+                    <p>À partir du XIXe siècle, la discipline se structure comme science rigoureuse. La géographie physique étudie les processus naturels : géomorphologie (reliefs), climatologie, pédologie (sols), hydrologie, biogéographie (écosystèmes). Elle utilise des méthodes scientifiques pour comprendre les dynamiques naturelles.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>3. Géographie humaine</h4>
+                    <p>La révolution industrielle conduit à s'intéresser aux aspects humains. La géographie humaine examine comment les sociétés s'organisent dans l'espace : dynamiques démographiques, structures économiques, cultures, systèmes politiques, urbanisation, migrations.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>4. Géographie sociale</h4>
+                    <p>Depuis la fin du XXe siècle, la géographie tend à devenir sociale, intégrant sociologie, anthropologie et études culturelles. Elle s'intéresse aux inégalités socio-spatiales, aux identités, aux représentations, à la justice spatiale et aux rapports de pouvoir dans la production de l'espace.</p>
+                </div>
+            </div>
+
+            <h2>IV. La géographie sociale : concepts et enjeux</h2>
+
+            <p>La géographie sociale constitue aujourd'hui l'un des courants les plus dynamiques de la discipline, articulant espace et justice sociale, territoire et rapports de pouvoir.</p>
+
+            <h3>A. Henri Lefebvre et le droit à la ville</h3>
+
+            <p>Henri Lefebvre (1901-1991), philosophe et sociologue marxiste, a profondément marqué la géographie sociale avec ses concepts de « droit à la ville » (1968) et de « production de l'espace » (1974).</p>
+
+            <div class="highlight-box">
+                <h4>Le droit à la ville selon Lefebvre</h4>
+                <p>Le droit à la ville ne se réduit pas à un simple droit d'accès ou de retour vers les villes traditionnelles. C'est le droit à la <strong>vie urbaine transformée et renouvelée</strong>, à la centralité, aux lieux de rencontre et d'échange, aux rythmes de vie permettant l'usage plein et entier de ces moments et lieux.</p>
+                <p>C'est avant tout une <strong>revendication autogestionnaire</strong> qui s'oppose à l'urbanisme comme conception scientistes par et pour l'alliance entre l'État et le Capital. Seule la classe ouvrière peut devenir l'agent, porteur ou support social de cette réalisation.</p>
+            </div>
+
+            <h3>B. La triade lefebvrienne de l'espace</h3>
+
+            <p>Lefebvre distingue trois dimensions de l'espace social :</p>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>🔍 Espace perçu (spatial practice)</h4>
+                    <p>L'espace de la perception quotidienne, de la vie courante, des pratiques spatiales. C'est l'espace vécu par les habitants dans leur routine.</p>
+                </div>
+                <div class="def-card">
+                    <h4>📐 Espace conçu (representations of space)</h4>
+                    <p>L'espace des concepteurs, des urbanistes, des architectes, des ingénieurs, des décideurs politiques. Espace abstrait, technique, dominant.</p>
+                </div>
+                <div class="def-card">
+                    <h4>❤️ Espace vécu (representational space)</h4>
+                    <p>L'espace des représentations, des symboles, de l'imaginaire, de la mémoire. Espace complexe, chargé d'affect et d'histoire.</p>
+                </div>
+            </div>
+
+            <div class="complement">
+                <strong>📚 Complément – La géographie sociale contemporaine</strong>
+                La géographie sociale analyse les inégalités socio-spatiales (gentrification, ségrégation résidentielle, accès inégal aux services), les mobilisations citoyennes et les rapports de pouvoir dans la production de l'espace. Elle s'intéresse aussi aux territoires de la marginalité, aux dynamiques de genre et de race dans l'espace, et aux luttes pour la justice spatiale.
+                <em>Source : Géoconfluences ENS Lyon (2025) ; Robic, M.-C. (2019).</em>
+            </div>
+
+            <div class="page-break"><span>Page 40-41 – Géographie rurale</span></div>
+
+            <h2>V. Géographie rurale : notions fondamentales</h2>
+
+            <p>La géographie rurale étudie les espaces à faible densité de population, marqués par l'importance des activités agricoles et des formations végétales. Elle analyse les transformations de ces territoires face aux processus d'urbanisation, de déprise et de multifonctionnalité.</p>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>🌾 Agriculture</h4>
+                    <p>Ensemble des activités consistant à travailler le sol ou élever des animaux pour pourvoir aux besoins alimentaires des humains. Combine les trois facteurs de production : terre, capital et travail.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🏚️ Déprise rurale</h4>
+                    <p>Processus de fragilisation de l'espace rural marqué par le dépeuplement (exode rural) et la disparition progressive des activités rurales (agriculture, commerces, services, artisanat).</p>
+                </div>
+                <div class="def-card">
+                    <h4>📈 Développement rural</h4>
+                    <p>Processus de diversification et d'enrichissement des activités économiques et sociales fondé sur l'investissement des acteurs locaux. Valorise les ressources locales dans une approche transversale.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🛒 Économie présentielle</h4>
+                    <p>Économie basée sur la production de biens et services visant la satisfaction des besoins des personnes présentes dans la zone (résidents ou touristes). Concept forgé par l'équipe de l'Université Paris 1 (Damette, Scheibling, Davezies).</p>
+                </div>
+                <div class="def-card">
+                    <h4>🏭 Économie productive</h4>
+                    <p>Économie fondée sur des activités produisant des biens et services majoritairement consommés hors de la zone de production. L'agriculture et l'industrie en sont les exemples types.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🗺️ Espace rural</h4>
+                    <p>Espace marqué par les faibles densités (population, constructions, emplois, équipements), les paysages où les formations végétales dominent, et l'importance des activités agricoles en surfaces. Défini généralement en négatif de l'espace urbain.</p>
+                </div>
+            </div>
+
+            <h3>L'exode rural en France : une histoire longue</h3>
+
+            <p>L'exode rural désigne la migration durable des populations rurales vers les villes. En France, ce phénomène s'étale sur plus d'un siècle et demi, avec des intensités variables selon les périodes et les régions.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>1840-1850 – Apogée de la population rurale</h4>
+                    <p>La population rurale française atteint son maximum avec 27,3 millions de ruraux (75% de la population). Commence ensuite un déclin continu.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>1870-1914 – Accélération de l'exode</h4>
+                    <p>À partir de 1870 : 100 000 départs par an. Crise du phylloxéra (1876-1881) : l'exode passe à 160 000 départs annuels. La population urbaine dépasse 50% en 1931.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>1945-1975 – Exode rural massif</h4>
+                    <p>Les Trente Glorieuses marquent l'apogée de l'exode avec la mécanisation agricole et l'attrait des emplois industriels urbains. La population active agricole passe de 50% à 12%.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>1975-aujourd'hui – Inversion et ruralité nouvelle</h4>
+                    <p>Le mouvement s'inverse à partir de 1975 avec l'arrivée des néo-ruraux, le développement du périurbain et la multifonctionnalité des espaces ruraux.</p>
+                </div>
+            </div>
+
+            <div class="complement">
+                <strong>📚 Complément – La diagonale du vide</strong>
+                Roger Béteille (1981) qualifiait de « France du vide » les espaces à très faible densité (< 45 hab./km²), majoritairement répartis sur une diagonale nord-est/sud-ouest (Lozère, 14 hab./km²). Cette diagonale tend aujourd'hui à se fractionner sous l'effet de l'étalement urbain.
+                <em>Source : Géoconfluences ENS Lyon (2025).</em>
+            </div>
+
+            <h3>Les facteurs de production agricole</h3>
+
+            <p>La production agricole repose sur la combinaison de trois facteurs fondamentaux :</p>
+
+            <div class="highlight-box">
+                <h4>La triade productive agricole</h4>
+                <ul>
+                    <li><strong>La terre :</strong> Disponibilité foncière (surface et qualité agronomique des sols). Facteur le plus difficile à maîtriser car dépendant des opportunités du marché foncier.</li>
+                    <li><strong>Le capital :</strong> Bâtiments, matériels, cheptels, stocks et actifs financiers. Détermine la capacité de production, les conditions de travail et le niveau d'endettement.</li>
+                    <li><strong>Le travail :</strong> Main-d'œuvre familiale ou salariée, compétences, savoir-faire. En agriculture, caractérisé par un fort saisonnier.</li>
+                </ul>
+                <p>La cohérence globale de ces trois facteurs garantit la viabilité et la pérennité de l'exploitation agricole.</p>
+            </div>
+
+            <h3>Systèmes agroalimentaires : extensif vs intensif</h3>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>🌿 Système extensif</h4>
+                    <p>Caractérisé par de faibles investissements et de bas rendements. Nécessite de vastes superficies pour atteindre un volume de production donné. Exemple : élevage pastoral en prairies naturelles.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🔬 Système intensif</h4>
+                    <p>Caractérisé par de forts rendements à l'hectare obtenus par travail minutieux ou investissements importants en capitaux (intrants, mécanisation, OGM). Exemple : cultures industrielles, élevage en bâtiment.</p>
+                </div>
+            </div>
+
+            <h3>Multifonctionnalité de l'espace rural</h3>
+
+            <p>Au-delà de la fonction agricole, l'espace rural développe aujourd'hui une pluralité de fonctions : résidentielle (périurbain, néo-rural), touristique (gîtes, randonnée, patrimoine), environnementale (parcs naturels, zones de protection), industrielle (zones d'activités en milieu rural).</p>
+
+            <div class="page-break"><span>Page 41-42 – Agriculture tropicale</span></div>
+
+            <h2>VI. L'agriculture dans les régions tropicales</h2>
+
+            <p>L'agriculture tropicale se développe dans une zone intertropicale délimitée par les tropiques du Cancer et du Capricorne (entre 23,5°N et 23,5°S). Elle présente des caractéristiques spécifiques liées au climat, aux sols et aux écosystèmes de ces régions.</p>
+
+            <h3>A. Caractéristiques climatiques</h3>
+
+            <div class="highlight-box">
+                <h4>Les traits dominants du climat tropical</h4>
+                <ul>
+                    <li><strong>Températures élevées :</strong> Moyennes annuelles entre 20°C et 30°C. Variations saisonnières faibles (amplitude < 10°C). Pas de période de gel.</li>
+                    <li><strong>Précipitations abondantes mais irrégulières :</strong> Pluviosité annuelle pouvant dépasser 2000 mm dans les forêts tropicales humides, mais avec des saisons sèches marquées dans les zones de savane.</li>
+                    <li><strong>Humidité élevée :</strong> Humidité relative souvent supérieure à 80% dans les forêts humides, contribuant à la luxuriance de la végétation.</li>
+                    <li><strong>Climat journalier :</strong> Les fluctuations thermiques journalières sont plus importantes que les variations saisonnières.</li>
+                </ul>
+            </div>
+
+            <h3>B. Les grands types de climats intertropicaux</h3>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>🌧️ Climat équatorial (guinéen/amazonien)</h4>
+                    <p>Température élevée mais non excessive, humidité constamment élevée, pluviosité > 1500 mm/an sans déficit hydrique marqué. Domaine de la forêt dense et de l'agriculture de plantation (café, cacao, banane).</p>
+                </div>
+                <div class="def-card">
+                    <h4>🌳 Climat tropical (soudanien)</h4>
+                    <p>Pluviosité < 1500 mm/an, une saison des pluies et une saison sèche bien marquées. Domaine des forêts claires et des savanes. Agriculture de céréales (mil, sorgho) et cultures cotonnières.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🌾 Climat sahélien</h4>
+                    <p>Chaleur estivale très élevée, saison des pluies très courte (un cycle cultural), saison sèche très longue avec fort déficit de saturation. Fortes variations interannuelles de pluviosité. Domaine des steppes et de l'élevage pastoral.</p>
+                </div>
+            </div>
+
+            <h3>C. Caractéristiques des sols tropicaux</h3>
+
+            <p>Les sols tropicaux présentent des contraintes majeures pour l'agriculture :</p>
+
+            <ul>
+                <li><strong>Extrême pauvreté chimique :</strong> Faible teneur en matière organique (minéralisation rapide), acidité élevée, toxicité aluminium.</li>
+                <li><strong>Fragilité physique :</strong> Sensibilité à l'érosion hydrique (pertes pouvant dépasser 1000 tonnes/ha/an), latéritisation, compaction.</li>
+                <li><strong>Exceptions locales :</strong> Sols volcaniques (Andes, Rift africain, Indonésie) offrant d'excellentes qualités chimiques et physiques, expliquant les fortes densités de population de ces zones.</li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – L'agriculture tropicale et ses défis</strong>
+                L'agriculture tropicale fait face à des défis spécifiques : pression démographique forte, déforestation massive (boisements tropicaux représentent 1/3 des réserves mondiales de forêts), vulnérabilité aux changements climatiques (sécheresses, cyclones), et difficulté de maintenir la fertilité des sols sous climat chaud et humide. Les systèmes traditionnels de jachère longue sont mis en difficulté par l'accroissement démographique.
+                <em>Source : Encyclopædia Universalis ; FAO ; Echo Community.</em>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="bottom-nav">
+                <a href="index.html" class="nav-btn">🏠 Sommaire</a>
+                <a href="part8.html" class="nav-btn">⬅ Partie précédente</a>
+                <a href="part10.html" class="nav-btn">Partie suivante ➡</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // Check if already authenticated
+        if (localStorage.getItem('geoAuth') === 'true') {
+            loginOverlay.classList.add('hidden');
+            setTimeout(() => {
+                mainContent.classList.add('visible');
+            }, 100);
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                localStorage.setItem('geoAuth', 'true');
+                loginOverlay.classList.add('hidden');
+                setTimeout(() => {
+                    mainContent.classList.add('visible');
+                }, 100);
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                setTimeout(() => {
+                    errorMsg.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') checkPassword(); 
+        });
+        passwordInput.addEventListener('input', () => { 
+            errorMsg.style.display = 'none'; 
+        });
+    </script>
+</body>
+</html>

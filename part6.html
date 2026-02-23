@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoMaster Pro · Partie 6 – Faits Économiques, Sociaux et Épistémologie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg-strong: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border-strong: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --glass-shadow-lg: 0 35px 60px -15px rgba(0, 0, 0, 0.6);
+
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-tertiary: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-quaternary: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-warm: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --text-muted: rgba(255, 255, 255, 0.5);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: 
+                radial-gradient(ellipse at 0% 0%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(79, 172, 254, 0.1) 0%, transparent 70%),
+                linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1429 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.8;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+            mix-blend-mode: screen;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--gradient-primary);
+            top: -10%;
+            left: -10%;
+            animation: float-1 25s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--gradient-secondary);
+            bottom: -5%;
+            right: -5%;
+            animation: float-2 30s ease-in-out infinite;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: var(--gradient-tertiary);
+            top: 40%;
+            left: 60%;
+            animation: float-3 20s ease-in-out infinite;
+        }
+
+        .orb-4 {
+            width: 300px;
+            height: 300px;
+            background: var(--gradient-quaternary);
+            top: 60%;
+            left: 20%;
+            animation: float-4 35s ease-in-out infinite;
+            opacity: 0.2;
+        }
+
+        @keyframes float-1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -30px) scale(1.1); }
+            66% { transform: translate(-30px, 50px) scale(0.9); }
+        }
+
+        @keyframes float-2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-40px, 40px) scale(1.05); }
+            66% { transform: translate(30px, -30px) scale(0.95); }
+        }
+
+        @keyframes float-3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-60px, -40px) scale(1.15); }
+        }
+
+        @keyframes float-4 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(40px, -60px) rotate(180deg); }
+        }
+
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at center, rgba(15, 20, 41, 0.95) 0%, rgba(10, 14, 39, 0.98) 100%);
+            backdrop-filter: blur(40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(1.1);
+        }
+
+        .login-card {
+            background: var(--glass-bg-strong);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border-strong);
+            border-radius: 32px;
+            padding: 60px 48px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 
+                var(--glass-shadow-lg),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-card:hover::before {
+            left: 100%;
+        }
+
+        .login-icon {
+            font-size: 3rem;
+            margin-bottom: 24px;
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .login-input-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 18px 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-input:focus {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(250, 112, 154, 0.6);
+            box-shadow: 0 0 30px rgba(250, 112, 154, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient-warm);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(250, 112, 154, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(250, 112, 154, 0.6);
+        }
+
+        .login-btn:hover::after {
+            left: 100%;
+        }
+
+        .error-msg {
+            color: #ff6b8a;
+            margin-top: 20px;
+            padding: 14px;
+            background: rgba(255, 107, 138, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 138, 0.3);
+            display: none;
+            font-weight: 500;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .main-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            display: none;
+        }
+
+        .main-wrapper.visible {
+            display: block;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 60px;
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+
+        .nav-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: var(--glass-bg-strong);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 24px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover {
+            background: rgba(250, 112, 154, 0.2);
+            border-color: rgba(250, 112, 154, 0.4);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: var(--gradient-warm);
+            color: white;
+            box-shadow: 0 8px 20px rgba(250, 112, 154, 0.4);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin: 0 0 16px 0;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 60px;
+            font-weight: 300;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-top: 3em;
+            margin-bottom: 1em;
+            color: var(--text-primary);
+            position: relative;
+            padding-left: 24px;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 80%;
+            background: var(--gradient-warm);
+            border-radius: 3px;
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2.5em;
+            margin-bottom: 0.8em;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h3::before {
+            content: '◆';
+            color: #fa709a;
+            font-size: 0.8rem;
+        }
+
+        h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 0.6em;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        p {
+            margin: 1.2em 0;
+            color: var(--text-secondary);
+            text-align: justify;
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        ul, ol {
+            margin: 1.5em 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        li {
+            margin: 1em 0;
+            padding-left: 2em;
+            position: relative;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.6em;
+            width: 8px;
+            height: 8px;
+            background: var(--gradient-warm);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(250, 112, 154, 0.5);
+        }
+
+        ol {
+            counter-reset: item;
+        }
+
+        ol li {
+            counter-increment: item;
+        }
+
+        ol li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fa709a;
+        }
+
+        .page-break {
+            margin: 4em 0;
+            padding: 30px 0;
+            text-align: center;
+            position: relative;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .page-break-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .page-break::before,
+        .page-break::after {
+            content: '❋';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fa709a;
+            font-size: 1.2rem;
+            opacity: 0.6;
+        }
+
+        .page-break::before { left: 25%; }
+        .page-break::after { right: 25%; }
+
+        .complement {
+            background: 
+                linear-gradient(135deg, rgba(250, 112, 154, 0.1) 0%, rgba(254, 225, 64, 0.05) 100%);
+            border-left: 4px solid;
+            border-image: var(--gradient-warm) 1;
+            padding: 28px 32px;
+            margin: 2.5em 0;
+            border-radius: 0 20px 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .complement::before {
+            content: '✦';
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 1.5rem;
+            opacity: 0.3;
+            color: #fa709a;
+        }
+
+        .complement-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fee140;
+        }
+
+        .complement-content {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1rem;
+        }
+
+        .complement-source {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .definition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 2em 0;
+        }
+
+        .definition-card {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .definition-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--glass-border-strong);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .definition-term {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #4facfe;
+            margin-bottom: 12px;
+        }
+
+        .definition-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(250, 112, 154, 0.3) 0%, rgba(250, 112, 154, 0.1) 100%);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .concept-box {
+            background: var(--glass-bg-strong);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin: 1.5em 0;
+            border: 1px solid var(--glass-border);
+        }
+
+        .concept-title {
+            font-weight: 600;
+            color: #43e97b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navigation-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4em;
+            padding-top: 2em;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 28px;
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(250, 112, 154, 0.2);
+            border-color: rgba(250, 112, 154, 0.4);
+            transform: translateX(5px);
+            color: white;
+        }
+
+        .nav-btn.prev:hover {
+            transform: translateX(-5px);
+        }
+
+        @media (max-width: 768px) {
+            .glass-container { padding: 32px 24px; border-radius: 24px; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.6rem; }
+            .nav-bar { justify-content: center; }
+            .definition-grid { grid-template-columns: 1fr; }
+            .page-break::before, .page-break::after { display: none; }
+        }
+
+        ::selection {
+            background: rgba(250, 112, 154, 0.4);
+            color: white;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-warm);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gradient-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-icon">📊</div>
+            <h2>GeoMaster Pro</h2>
+            <p class="login-subtitle">Partie 6 – Faits Économiques, Sociaux et Épistémologie</p>
+            <div class="login-input-wrapper">
+                <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe d'accès">
+            </div>
+            <button id="loginBtn" class="login-btn">Accéder au document</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect. Veuillez réessayer.</div>
+        </div>
+    </div>
+
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <nav class="nav-bar">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part5.html" class="nav-link prev">⬅ Partie 5</a>
+                <a href="part7.html" class="nav-link">Partie 7 ➡</a>
+            </nav>
+
+            <header>
+                <h1>Faits Économiques et Sociaux</h1>
+                <p class="subtitle">Fondements économiques, systèmes de production et épistémologie de la géographie</p>
+            </header>
+
+            <div class="page-break">
+                <span class="page-break-text">Introduction</span>
+            </div>
+
+            <p>La compréhension des <span class="highlight">faits économiques et sociaux</span> est essentielle pour tout géographe. Cette partie présente les concepts fondamentaux de l'économie politique, les différents systèmes économiques, ainsi que l'épistémologie de la géographie – la réflexion sur la construction des savoirs géographiques et l'évolution de la pensée géographique.</p>
+
+            <h2>1. Concepts Fondamentaux d'Économie</h2>
+
+            <h3>1.1 Le Produit Intérieur Brut (PIB)</h3>
+
+            <p>Le <span class="highlight">PIB</span> représente la valeur totale de tous les biens et services produits dans un pays sur une période donnée (généralement un an ou un trimestre). Il constitue l'indicateur principal de l'activité économique et de la taille d'une économie.</p>
+
+            <div class="concept-box">
+                <div class="concept-title">📈 Calcul du PIB</div>
+                <p>Le PIB peut être calculé selon trois approches :</p>
+                <ul>
+                    <li><strong>Approche par la production :</strong> Somme de la valeur ajoutée de tous les secteurs</li>
+                    <li><strong>Approche par les revenus :</strong> Somme des salaires, profits, loyers et intérêts</li>
+                    <li><strong>Approche par la dépense :</strong> C + I + G + (X - M) où C = consommation, I = investissement, G = dépenses publiques, X = exportations, M = importations</li>
+                </ul>
+            </div>
+
+            <div class="complement">
+                <div class="complement-header">
+                    <span>📚</span>
+                    <span>Complément – Au-delà du PIB</span>
+                </div>
+                <div class="complement-content">
+                    Le PIB présente des limites importantes : il ne mesure pas les inégalités, ignore l'économie informelle et les activités domestiques, et ne tient pas compte de la durabilité environnementale. C'est pourquoi le PNUD a développé l'Indice de Développement Humain (IDH) qui intègre l'espérance de vie, le niveau d'éducation et le revenu par habitant. En 2024, le rapport PNUD révèle un ralentissement sans précédent du développement humain depuis 35 ans.
+                </div>
+                <div class="complement-source">
+                    Source : PNUD, Rapport sur le développement humain 2024/2025 ; Inegalites.fr, 2022
+                </div>
+            </div>
+
+            <h3>1.2 Offre et Demande</h3>
+
+            <p>Le marché repose sur l'interaction entre <span class="highlight">demande</span> (quantité de biens/services que les consommateurs sont prêts à acheter à un certain prix) et <span class="highlight">offre</span> (quantité que les producteurs sont prêts à vendre). Le prix d'équilibre s'établit à l'intersection de ces deux courbes.</p>
+
+            <h3>1.3 Les Agents Économiques</h3>
+
+            <p>Les <span class="highlight">agents économiques</span> sont les entités qui participent aux processus économiques. Selon Paul Samuelson (1915-2009), économiste américain lauréat du prix Nobel, on distingue :</p>
+
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <div class="definition-term">🏠 Ménages</div>
+                    <div class="definition-text">Consomment des biens et services, fournissent la main-d'œuvre (offre de travail) et épargnent une partie de leur revenu.</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">🏢 Entreprises</div>
+                    <div class="definition-text">Produisent des biens et services, investissent pour accroître leur capacité de production, créent de l'emploi.</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">🏛️ État</div>
+                    <div class="definition-text">Régule l'économie, redistribue les revenus, fournit des biens publics (santé, éducation, défense).</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">🌍 Reste du monde</div>
+                    <div class="definition-text">Échanges internationaux : exportations, importations, flux de capitaux et migrations.</div>
+                </div>
+            </div>
+
+            <h2>2. Les Politiques Économiques</h2>
+
+            <h3>2.1 Politique Monétaire</h3>
+
+            <p>Conduite par la banque centrale, elle vise à réguler la masse monétaire et les taux d'intérêt pour contrôler l'inflation et stimuler l'activité économique. Les instruments principaux sont les taux directeurs, les opérations d'open market et les réserves obligatoires.</p>
+
+            <h3>2.2 Politique Fiscale</h3>
+
+            <p>Elle concerne l'utilisation des <span class="highlight">impôts</span> et des <span class="highlight">dépenses publiques</span> pour influencer l'économie. Une politique expansionniste augmente les dépenses ou réduit les impôts ; une politique restrictive fait l'inverse.</p>
+
+            <h3>2.3 Autres Politiques Économiques</h3>
+
+            <ul>
+                <li><strong>Politique de redistribution :</strong> Impôts progressifs, prestations sociales, aides aux familles pour réduire les inégalités</li>
+                <li><strong>Politique environnementale :</strong> Taxes écologiques, subventions aux énergies renouvelables, réglementations</li>
+                <li><strong>Politique commerciale :</strong> Tarifs douaniers, quotas, accords de libre-échange pour réguler les échanges internationaux</li>
+                <li><strong>Politique structurelle :</strong> Réformes visant à améliorer l'efficacité économique et la compétitivité</li>
+            </ul>
+
+            <h2>3. Croissance et Fluctuations Économiques</h2>
+
+            <h3>3.1 La Croissance Économique</h3>
+
+            <p>La <span class="highlight">croissance économique</span> désigne l'augmentation soutenue de la production de biens et services sur le long terme. Elle est mesurée par l'évolution du PIB réel (ajusté de l'inflation).</p>
+
+            <div class="concept-box">
+                <div class="concept-title">🚀 Facteurs de croissance</div>
+                <ul>
+                    <li><strong>Accumulation de capital :</strong> Investissement dans les machines, infrastructures</li>
+                    <li><strong>Progrès technologique :</strong> Innovation, recherche et développement</li>
+                    <li><strong>Capital humain :</strong> Éducation, formation, santé de la population</li>
+                    <li><strong>Croissance démographique :</strong> Augmentation de la population active</li>
+                    <li><strong>Institutions :</strong> Cadre juridique, stabilité politique, droits de propriété</li>
+                </ul>
+            </div>
+
+            <h3>3.2 Les Cycles Économiques</h3>
+
+            <p>Les <span class="highlight">fluctuations économiques</span> ou cycles économiques correspondent aux variations périodiques de l'activité économique. Plusieurs types de cycles ont été identifiés :</p>
+
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <div class="definition-term">Cycle de Kitchin</div>
+                    <div class="definition-text">Cycle court de 3-4 ans lié aux variations des stocks et de la politique de stockage des entreprises.</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">Cycle de Juglar</div>
+                    <div class="definition-text">Cycle moyen de 8-10 ans (1862) lié à la dynamique de l'investissement des entreprises. Clément Juglar voyait les crises comme un « assainissement du système ».</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">Cycle de Kuznets</div>
+                    <div class="definition-text">Cycle de 15-25 ans (années 1930) basé sur les variations démographiques et les mouvements migratoires.</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">Cycle de Kondratiev</div>
+                    <div class="definition-text">Cycle long de 40-60 ans (années 1920) expliqué par Joseph Schumpeter comme des « vagues d'innovation » successives.</div>
+                </div>
+            </div>
+
+            <div class="complement">
+                <div class="complement-header">
+                    <span>📚</span>
+                    <span>Complément – Les cycles selon Schumpeter</span>
+                </div>
+                <div class="complement-content">
+                    Joseph Schumpeter (1883-1950) a expliqué les cycles longs de Kondratiev par l'émergence de « grappes d'innovations » : la machine à vapeur et le textile (1790-1840), le chemin de fer et l'acier (1840-1890), l'électricité et la chimie (1890-1940), l'automobile et le pétrole (1940-1990), les technologies de l'information (depuis 1990). Ces innovations bouleversent les structures économiques et relancent la croissance.
+                </div>
+                <div class="complement-source">
+                    Source : Schumpeter J., « Business Cycles », 1939 ; Lafinancepourtous.com, 2025
+                </div>
+            </div>
+
+            <div class="page-break">
+                <span class="page-break-text">Systèmes économiques</span>
+            </div>
+
+            <h2>4. Les Systèmes Économiques</h2>
+
+            <h3>4.1 Le Capitalisme</h3>
+
+            <p>Le <span class="highlight">capitalisme</span> est un système économique fondé sur la propriété privée des moyens de production et la recherche du profit. Ses caractéristiques principales sont :</p>
+
+            <ul>
+                <li><strong>Propriété privée :</strong> Les ressources et entreprises appartiennent à des individus ou entités privées</li>
+                <li><strong>Libre marché :</strong> Les prix sont déterminés par l'offre et la demande avec intervention minimale de l'État</li>
+                <li><strong>Concurrence :</strong> Rivalité entre entreprises pour les parts de marché, stimulant l'innovation</li>
+                <li><strong>Liberté économique :</strong> Choix de travail, d'investissement et de consommation</li>
+                <li><strong>Profit :</strong> Motivation principale des agents économiques</li>
+            </ul>
+
+            <h3>4.2 Le Socialisme</h3>
+
+            <p>Le <span class="highlight">socialisme</span> privilégie la propriété collective ou publique des moyens de production et vise à satisfaire les besoins sociaux plutôt que le profit individuel :</p>
+
+            <ul>
+                <li><strong>Propriété collective :</strong> L'État ou les collectivités détiennent les moyens de production</li>
+                <li><strong>Planification :</strong> L'État planifie la production et fixe les prix</li>
+                <li><strong>Objectif social :</strong> Réduction des inégalités, accès équitable aux ressources</li>
+                <li><strong>Régulation étatique :</strong> Contrôle important de l'économie par les pouvoirs publics</li>
+            </ul>
+
+            <h3>4.3 L'Économie Mixte</h3>
+
+            <p>La plupart des pays contemporains adoptent une <span class="highlight">économie mixte</span>, combinant éléments capitalistes (marché, propriété privée) et intervention publique (services publics, redistribution). Les modèles nordiques (Suède, Norvège) illustrent cette synthèse avec un État-providence développé et une économie de marché compétitive.</p>
+
+            <div class="complement">
+                <div class="complement-header">
+                    <span>📚</span>
+                    <span>Complément – Les socialismes réels</span>
+                </div>
+                <div class="complement-content">
+                    Au XXe siècle, plusieurs expériences socialistes ont émergé : l'URSS (1917) avec la planification centralisée ; la Chine (1949) qui a évolué vers une « économie socialiste de marché » ; le socialisme yougoslave de Tito avec l'autogestion ouvrière ; le socialisme africain (Nyerere en Tanzanie, Senghor au Sénégal) qui tentait d'adapter le socialisme aux traditions communautaires africaines. Depuis les années 1990, la plupart des économies ont convergé vers des modèles mixtes.
+                </div>
+                <div class="complement-source">
+                    Source : Sunudaara.com, 2023 ; Scribd, Cours de géographie économique
+                </div>
+            </div>
+
+            <div class="page-break">
+                <span class="page-break-text">Épistémologie de la géographie</span>
+            </div>
+
+            <h2>5. Épistémologie de la Géographie</h2>
+
+            <h3>5.1 Définition et Enjeux</h3>
+
+            <p>L'<span class="highlight">épistémologie</span> (du grec « episteme » = science et « logos » = étude) est la réflexion sur les fondements, les méthodes et la validité des connaissances scientifiques. L'épistémologie de la géographie interroge :</p>
+
+            <ul>
+                <li>Quelle est la <strong>spécificité</strong> de la géographie par rapport aux autres sciences ?</li>
+                <li>Quels sont les <strong>paradigmes</strong> (cadres de pensée) qui ont structuré la discipline ?</li>
+                <li>Comment les <strong>savoirs géographiques</strong> se construisent-ils et évoluent-ils ?</li>
+                <li>Quelle est la <strong>portée</strong> (téléologie) de la géographie : science académique, outil de gestion, critique sociale ?</li>
+            </ul>
+
+            <h3>5.2 Les Quatre Dimensions de l'Épistémologie</h3>
+
+            <p>Selon Raffestin et Turco, l'analyse épistémologique comporte quatre dimensions essentielles :</p>
+
+            <div class="concept-box">
+                <div class="concept-title">🔍 Dimension téléologique</div>
+                <p>Réflexion sur la finalité de la géographie : statut académique, utilité sociale, opérationnalité (capacité à agir sur le monde). Sans la géographie, la planification territoriale, l'aménagement du territoire et la gestion des ressources naturelles seraient impossibles.</p>
+            </div>
+
+            <div class="concept-box">
+                <div class="concept-title">📜 Dimension historique</div>
+                <p>Étude de l'évolution de la discipline : apparition des concepts, mutations théoriques, évolution des outils méthodologiques (cartographie traditionnelle → télédétection → SIG). Cette dimension prend en compte l'environnement scientifique et social de chaque époque.</p>
+            </div>
+
+            <div class="concept-box">
+                <div class="concept-title">💡 Dimension heuristique</div>
+                <p>Analyse des causes des révolutions scientifiques : émergence, déclin et succession des paradigmes. Elle s'intéresse aux « ruptures épistémologiques » (Bachelard) qui réorientent la recherche, comme le passage du déterminisme au possibilisme, puis à la nouvelle géographie.</p>
+            </div>
+
+            <div class="concept-box">
+                <div class="concept-title">🎓 Dimension didactique</div>
+                <p>Réflexion sur la transmission des savoirs : supports pédagogiques, évolution des programmes scolaires, impact des technologies éducatives (numérique, MOOC, réalité virtuelle) sur l'apprentissage.</p>
+            </div>
+
+            <h3>5.3 Les Paradigmes de la Géographie</h3>
+
+            <p>Un <span class="highlight">paradigme</span> est un ensemble de concepts, de méthodes et de valeurs partagés par une communauté scientifique à une époque donnée (Kuhn, 1962). La géographie a connu plusieurs paradigmes :</p>
+
+            <h4>A. Le Déterminisme (XIXe siècle)</h4>
+
+            <p>Les conditions physiques (climat, relief) déterminent les sociétés humaines. Friedrich Ratzel (1844-1904) et Ellsworth Huntington défendaient l'idée que le milieu naturel façonne les « races » et les civilisations. Cette approche a été critiquée pour son caractère réducteur et ses implications idéologiques.</p>
+
+            <h4>B. Le Possibilisme (fin XIXe - début XXe)</h4>
+
+            <p>Paul <span class="highlight">Vidal de la Blache</span> (1845-1918), fondateur de l'École française de géographie, a développé le possibilisme. Selon lui, la nature offre des <strong>possibilités</strong> que les hommes utilisent différemment selon leurs « genres de vie ». L'homme n'est pas déterminé par le milieu mais interagit avec lui.</p>
+
+            <div class="complement">
+                <div class="complement-header">
+                    <span>📚</span>
+                    <span>Complément – Vidal de la Blache et le genre de vie</span>
+                </div>
+                <div class="complement-content">
+                    Paul Vidal de la Blache a introduit le concept de « genre de vie » pour désigner l'ensemble des pratiques par lesquelles une société s'approprie son milieu. Son « Tableau de la géographie de la France » (1903) reste une référence. Il a également milité pour une réforme territoriale de la France, critiquant le découpage départemental trop rigide. Le possibilisme a été théorisé comme tel par Lucien Febvre en 1922 dans « La Terre et l'évolution humaine », bien que Vidal lui-même n'ait jamais employé ce terme.
+                </div>
+                <div class="complement-source">
+                    Source : Universalis.fr, « Possibilisme » ; Sanguin A.-L., « De Reclus à Vidal », UQAM
+                </div>
+            </div>
+
+            <h4>C. La Nouvelle Géographie (années 1960-1970)</h4>
+
+            <p>Influencée par les sciences dures et la quantification, la <span class="highlight">nouvelle géographie</span> (ou géographie quantitative) privilégie :</p>
+
+            <ul>
+                <li>L'<strong>analyse spatiale</strong> et les modèles mathématiques</li>
+                <li>La <strong>méthode hypothético-déductive</strong> (théorie → hypothèse → vérification)</li>
+                <li>Les <strong>lois</strong> de localisation (von Thünen, Christaller, Losch)</li>
+                <li>L'utilisation des <strong>ordinateurs</strong> et des statistiques</li>
+            </ul>
+
+            <p>William Bunge (« Theoretical Geography », 1962), Peter Haggett, Richard Chorley et David Harvey ont été des figures marquantes. Cette approche a été critiquée pour son caractère trop abstrait et son néglige de la dimension humaine.</p>
+
+            <h4>D. Les Courants Contemporains</h4>
+
+            <p>Depuis les années 1970, la géographie s'est diversifiée en plusieurs courants :</p>
+
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <div class="definition-term">Géographie radicale</div>
+                    <div class="definition-text">Influencée par le marxisme (David Harvey, Richard Peet), elle analyse les inégalités spatiales comme des productions du système capitaliste. La revue « Antipode » est emblématique de ce courant.</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">Géographie humaniste</div>
+                    <div class="definition-text">Yi-Fu Tuan (1976) et Edward Relph s'intéressent à l'expérience vécue de l'espace, à la « topophilie » (amour des lieux) et au « déracinement ». Ils critiquent la géographie quantitative pour son manque d'humanité.</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">Géographie réaliste</div>
+                    <div class="definition-text">Inspirée par Roy Bhaskar, elle cherche à concilier structure et agence (action individuelle). Elle propose une vision synthétique du monde, reliant le local au planétaire.</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">Géographie chorematique</div>
+                    <div class="definition-text">Roger Brunet a développé les « chorèmes », figures élémentaires d'organisation spatiale (réseaux, polarités, domaines) permettant de décrire et modéliser l'espace.</div>
+                </div>
+            </div>
+
+            <div class="complement">
+                <div class="complement-header">
+                    <span>📚</span>
+                    <span>Complément – La géographie aujourd'hui</span>
+                </div>
+                <div class="complement-content">
+                    La géographie contemporaine est marquée par le « tournant spatial » qui redonne centralité à l'espace dans les sciences sociales. Les thématiques actuelles incluent : la mondialisation et ses territoires, les inégalités socio-spatiales, le développement durable, les risques et vulnérabilités, et les nouvelles mobilités. La discipline a également intégré les systèmes d'information géographique (SIG) et la télédétection comme outils essentiels.
+                </div>
+                <div class="complement-source">
+                    Source : Claval P., « Épistémologie de la géographie », 2013 ; Racine J.-B., « De l'analyse multivariée à l'analyse systémique »
+                </div>
+            </div>
+
+            <h2>6. Les Fondements Méthodologiques</h2>
+
+            <h3>6.1 Les Démarches en Géographie</h3>
+
+            <p>La géographie utilise plusieurs démarches complémentaires :</p>
+
+            <ul>
+                <li><strong>Démarche empirique :</strong> Observation, description et interprétation du terrain. privilégie l'induction (du particulier au général).</li>
+                <li><strong>Démarche déductive :</strong> Part d'une théorie pour émettre des hypothèses, puis les vérifier par l'observation ou l'expérimentation.</li>
+                <li><strong>Démarche dialectique :</strong> Confrontation des idées, analyse des contradictions, des conflits et des rapports de pouvoir dans l'organisation de l'espace.</li>
+                <li><strong>Démarche systémique :</strong> Considère les territoires comme des systèmes complexes avec interactions, rétroactions et régulations.</li>
+            </ul>
+
+            <h3>6.2 L'Objet de la Géographie</h3>
+
+            <p>La géographie étudie l'<span class="highlight">organisation de l'espace</span> et les <span class="highlight">pratiques spatiales</span>. Elle interroge :</p>
+
+            <ul>
+                <li><strong>Qui ?</strong> Les acteurs (individus, groupes, institutions) qui occupent, maîtrisent et organisent l'espace</li>
+                <li><strong>Quoi ?</strong> Les phénomènes, les productions, les flux et les processus spatiaux</li>
+                <li><strong>Où ?</strong> La localisation, la distribution, la structuration spatiale</li>
+                <li><strong>Comment ?</strong> Les processus, les mécanismes, les dynamiques à l'œuvre</li>
+                <li><strong>Pourquoi ?</strong> Les finalités, les stratégies, les rapports de pouvoir</li>
+            </ul>
+
+            <div class="complement">
+                <div class="complement-header">
+                    <span>🎯</span>
+                    <span>Synthèse – Les cinq thèmes de la géographie</span>
+                </div>
+                <div class="complement-content">
+                    Selon Roger Brunet, la géographie s'articule autour de cinq thèmes fondamentaux : la différenciation spatiale, le paysage, les rapports homme-environnement, les distributions spatiales, et la géométrie (avec la cartographie comme outil central). Cette pluralité fait de la géographie une science à la fois ancienne et constamment renouvelée, capable d'intégrer les apports d'autres disciplines tout en conservant sa spécificité : la dimension spatiale.
+                </div>
+            </div>
+
+            <!-- Navigation Footer -->
+            <div class="navigation-footer">
+                <a href="part5.html" class="nav-btn prev">
+                    <span>⬅</span>
+                    <span>Partie 5</span>
+                </a>
+                <a href="index.html" class="nav-btn">
+                    <span>🏠</span>
+                    <span>Sommaire</span>
+                </a>
+                <a href="part7.html" class="nav-btn">
+                    <span>Partie 7</span>
+                    <span>➡</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        if (localStorage.getItem('geoAuth6') === 'true') {
+            loginOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                localStorage.setItem('geoAuth6', 'true');
+                loginOverlay.classList.add('hidden');
+                mainContent.classList.add('visible');
+                document.body.style.overflow = 'auto';
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                setTimeout(() => {
+                    errorMsg.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkPassword();
+        });
+        passwordInput.addEventListener('input', () => {
+            errorMsg.style.display = 'none';
+        });
+
+        window.addEventListener('load', () => {
+            passwordInput.focus();
+        });
+    </script>
+</body>
+</html>

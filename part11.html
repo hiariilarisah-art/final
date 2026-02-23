@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 11 – Géographie Urbaine Avancée</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg-strong: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border-strong: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --glass-shadow-lg: 0 35px 60px -15px rgba(0, 0, 0, 0.6);
+
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-tertiary: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-quaternary: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-warm: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --accent-glow: rgba(102, 126, 234, 0.5);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: 
+                radial-gradient(ellipse at 0% 0%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(79, 172, 254, 0.1) 0%, transparent 70%),
+                linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1429 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.8;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+
+        /* Orbes animés améliorés */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+            mix-blend-mode: screen;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--gradient-primary);
+            top: -10%;
+            left: -10%;
+            animation: float-1 25s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--gradient-secondary);
+            bottom: -5%;
+            right: -5%;
+            animation: float-2 30s ease-in-out infinite;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: var(--gradient-tertiary);
+            top: 40%;
+            left: 60%;
+            animation: float-3 20s ease-in-out infinite;
+        }
+
+        .orb-4 {
+            width: 300px;
+            height: 300px;
+            background: var(--gradient-quaternary);
+            top: 60%;
+            left: 20%;
+            animation: float-4 35s ease-in-out infinite;
+            opacity: 0.2;
+        }
+
+        @keyframes float-1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -30px) scale(1.1); }
+            66% { transform: translate(-30px, 50px) scale(0.9); }
+        }
+
+        @keyframes float-2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-40px, 40px) scale(1.05); }
+            66% { transform: translate(30px, -30px) scale(0.95); }
+        }
+
+        @keyframes float-3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-60px, -40px) scale(1.15); }
+        }
+
+        @keyframes float-4 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(40px, -60px) rotate(180deg); }
+        }
+
+        /* Overlay de connexion premium */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at center, rgba(15, 20, 41, 0.95) 0%, rgba(10, 14, 39, 0.98) 100%);
+            backdrop-filter: blur(40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(1.1);
+        }
+
+        .login-card {
+            background: var(--glass-bg-strong);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border-strong);
+            border-radius: 32px;
+            padding: 60px 48px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 
+                var(--glass-shadow-lg),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-card:hover::before {
+            left: 100%;
+        }
+
+        .login-icon {
+            font-size: 3rem;
+            margin-bottom: 24px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .login-input-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 18px 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-input:focus {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .login-btn:hover::after {
+            left: 100%;
+        }
+
+        .error-msg {
+            color: #ff6b8a;
+            margin-top: 20px;
+            padding: 14px;
+            background: rgba(255, 107, 138, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 138, 0.3);
+            display: none;
+            font-weight: 500;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Contenu principal */
+        .main-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            display: none;
+        }
+
+        .main-wrapper.visible {
+            display: block;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 60px;
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+
+        /* Navigation premium */
+        .nav-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: var(--glass-bg-strong);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 24px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Typographie améliorée */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            background: var(--gradient-tertiary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin: 0 0 16px 0;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 60px;
+            font-weight: 300;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-top: 3em;
+            margin-bottom: 1em;
+            color: var(--text-primary);
+            position: relative;
+            padding-left: 24px;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 80%;
+            background: var(--gradient-secondary);
+            border-radius: 3px;
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2.5em;
+            margin-bottom: 0.8em;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h3::before {
+            content: '◆';
+            color: #667eea;
+            font-size: 0.8rem;
+        }
+
+        h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 0.6em;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        p {
+            margin: 1.2em 0;
+            color: var(--text-secondary);
+            text-align: justify;
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        /* Listes stylisées */
+        ul, ol {
+            margin: 1.5em 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        li {
+            margin: 1em 0;
+            padding-left: 2em;
+            position: relative;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.6em;
+            width: 8px;
+            height: 8px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        ol {
+            counter-reset: item;
+        }
+
+        ol li {
+            counter-increment: item;
+        }
+
+        ol li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        /* Séparateurs de page */
+        .page-break {
+            margin: 4em 0;
+            padding: 30px 0;
+            text-align: center;
+            position: relative;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .page-break-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .page-break::before,
+        .page-break::after {
+            content: '❋';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.2rem;
+            opacity: 0.6;
+        }
+
+        .page-break::before { left: 25%; }
+        .page-break::after { right: 25%; }
+
+        /* Encadrés de complément enrichis */
+        .complement {
+            background: 
+                linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-left: 4px solid;
+            border-image: var(--gradient-primary) 1;
+            padding: 28px 32px;
+            margin: 2.5em 0;
+            border-radius: 0 20px 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .complement::before {
+            content: '✦';
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 1.5rem;
+            opacity: 0.3;
+            color: #667eea;
+        }
+
+        .complement-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #a5b4fc;
+        }
+
+        .complement-content {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1rem;
+        }
+
+        .complement-source {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Grille de définitions */
+        .definition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 2em 0;
+        }
+
+        .definition-card {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .definition-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--glass-border-strong);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .definition-term {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #f093fb;
+            margin-bottom: 12px;
+        }
+
+        .definition-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Mise en évidence */
+        .highlight {
+            background: linear-gradient(120deg, rgba(102, 126, 234, 0.3) 0%, rgba(102, 126, 234, 0.1) 100%);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .concept-box {
+            background: var(--glass-bg-strong);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin: 1.5em 0;
+            border: 1px solid var(--glass-border);
+        }
+
+        .concept-title {
+            font-weight: 600;
+            color: #4facfe;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Navigation footer */
+        .navigation-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4em;
+            padding-top: 2em;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 28px;
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.4);
+            transform: translateX(5px);
+            color: white;
+        }
+
+        .nav-btn.prev:hover {
+            transform: translateX(-5px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-container { padding: 32px 24px; border-radius: 24px; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.6rem; }
+            .nav-bar { justify-content: center; }
+            .definition-grid { grid-template-columns: 1fr; }
+            .page-break::before, .page-break::after { display: none; }
+        }
+
+        ::selection {
+            background: rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        /* Scrollbar personnalisée */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gradient-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-icon">🌍</div>
+            <h2>GeoMaster Pro</h2>
+            <p class="login-subtitle">Partie 11 – Géographie Urbaine Avancée</p>
+            <div class="login-input-wrapper">
+                <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe d'accès">
+            </div>
+            <button id="loginBtn" class="login-btn">Accéder au document</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect. Veuillez réessayer.</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <nav class="nav-bar">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part10.html" class="nav-link prev">⬅ Partie 10</a>
+                <a href="part12.html" class="nav-link">Partie 12 ➡</a>
+            </nav>
+
+            <header>
+                <h1>Géographie Urbaine</h1>
+                <p class="subtitle">Structure, organisation et dynamiques des espaces citadins contemporains</p>
+            </header>
+
+            <div class="page-break">
+                <span class="page-break-text">Introduction</span>
+            </div>
+
+            <p>La <span class="highlight">géographie urbaine</span> constitue l'un des champs les plus dynamiques de la géographie contemporaine. Elle analyse non seulement la forme et la structure des villes, mais aussi les processus sociaux, économiques et politiques qui les façonnent. Cette discipline s'est considérablement enrichie depuis les premiers modèles de l'École de Chicago jusqu'aux approches actuelles intégrant la durabilité et les smart cities.</p>
+
+            <h2>1. Les Modèles d'Organisation Spatiale Urbaine</h2>
+
+            <p>Les modèles classiques de structure urbaine, développés principalement aux États-Unis entre 1925 et 1945, demeurent des références fondamentales pour comprendre l'organisation interne des villes, même si ils ont été nuancés et critiqués par la suite.</p>
+
+            <h3>1.1 Le Modèle Concentrique de Burgess (1925)</h3>
+
+            <p>Élaboré par le sociologue Ernest Burgess de l'École de Chicago, ce modèle postule que les villes se développent en <span class="highlight">cercles concentriques</span> autour du Central Business District (CBD). Chaque zone correspond à une fonction urbaine spécifique et à un groupe social particulier.</p>
+
+            <div class="concept-box">
+                <div class="concept-title">📍 Structure du modèle</div>
+                <ul>
+                    <li><strong>Zone I (Centre) :</strong> CBD, activités commerciales et financières</li>
+                    <li><strong>Zone II :</strong> Zone de transition, industries légères, logements dégradés</li>
+                    <li><strong>Zone III :</strong> Quartiers ouvriers, habitat dense</li>
+                    <li><strong>Zone IV :</strong> Quartiers résidentiels aisés, maisons individuelles</li>
+                    <li><strong>Zone V :</strong> Banlieue pavillonnaire, commuters</li>
+                </ul>
+            </div>
+
+            <div class="complement">
+                <div class="complement-header">
+                    <span>📚</span>
+                    <span>Complément critique – L'École de Chicago</span>
+                </div>
+                <div class="complement-content">
+                    L'École de Chicago a marqué le début de l'application des sciences sociales à la ville. Cependant, son approche d'« écologie urbaine » utilise des concepts issus de l'écologie végétale (compétition, invasion, succession), risquant de naturaliser les phénomènes sociaux comme la ségrégation. Le modèle de Burgess, bien qu'influent, a été critiqué pour son caractère descriptif et sa rigidité spatiale.
+                </div>
+                <div class="complement-source">
+                    Source : Grafmeyer Y., Joseph I., « L'École de Chicago. Naissance de l'écologie urbaine », 1990 ; Cosinschi & Racine, « Géographie urbaine », 1998
+                </div>
+            </div>
+
+            <h3>1.2 Le Modèle Sectoriel de Hoyt (1939)</h3>
+
+            <p>L'économiste Homer Hoyt a proposé une alternative au modèle concentrique en analysant précisément les loyers de 142 villes américaines. Son modèle met en évidence le rôle structurant des <span class="highlight">axes de transport</span> et la permanence des quartiers.</p>
+
+            <p>Contrairement à Burgess, Hoyt montre que les zones résidentielles ne se déplacent pas uniformément vers l'extérieur, mais s'étirent le long des corridors de transport (chemins de fer, artères routières), créant des <span class="highlight">secteurs radiaires</span> de richesse variable.</p>
+
+            <h3>1.3 Le Modèle Multinucléaire de Harris et Ullman (1945)</h3>
+
+            <p>Ce modèle reconnaît l'existence de <span class="highlight">plusieurs centres d'activité</span> dans une même agglomération, plutôt qu'un seul centre-ville. Ces noyaux spécialisés (centres commerciaux secondaires, universités, zones industrielles) s'articulent entre eux par des axes de transport.</p>
+
+            <div class="complement">
+                <div class="complement-header">
+                    <span>🎯</span>
+                    <span>Actualité – Des edge cities aux métropoles polycentriques</span>
+                </div>
+                <div class="complement-content">
+                    Le concept de « edge cities » développé par Joel Garreau (1991) prolonge le modèle multinucléaire. Il désigne ces périphéries urbaines devenus de véritables centres économiques autonomes (La Défense près de Paris, Silicon Valley). L'Union Européenne promeut aujourd'hui une « Europe urbaine polycentrique » pour éviter la concentration excessive dans les mégalopoles.
+                </div>
+                <div class="complement-source">
+                    Source : Pumain D., « Pour une théorie évolutive des villes », 1997 ; Garreau J., « Edge City », 1991
+                </div>
+            </div>
+
+            <h2>2. Les Zones Urbaines Fonctionnelles</h2>
+
+            <h3>2.1 Le Centre-Ville (CBD)</h3>
+
+            <p>Le Central Business District représente le cœur économique et historique de la ville. Il concentre les fonctions de commandement (sièges sociaux, institutions financières), le commerce de luxe, la culture et l'administration. Sa valeur foncière est maximale, générant une rente de situation qui pousse à la verticalisation (gratte-ciel).</p>
+
+            <h3>2.2 Les Banlieues Résidentielles</h3>
+
+            <p>Zones périphériques caractérisées par une densité plus faible et une prédominance de l'habitat. On distingue :</p>
+
+            <ul>
+                <li><strong>Banlieue pavillonnaire :</strong> Habitat individuel, classes moyennes et supérieures</li>
+                <li><strong>Grands ensembles :</strong> Constructions collectives des années 1950-1970, souvent en difficulté sociale</li>
+                <li><strong>Quartiers périurbains :</strong> Étalement urbain récent, dépendance automobile</li>
+            </ul>
+
+            <h3>2.3 Les Zones d'Activités</h3>
+
+            <p>Les zones industrielles, commerciales et logistiques se localisent selon des critères d'accessibilité et de coût du foncier. La logique de <span class="highlight">localisation industrielle</span> privilégie les axes de transport (autoroutes, ports, aéroports) et les périphéries où le foncier est moins cher.</p>
+
+            <div class="page-break">
+                <span class="page-break-text">Dynamiques urbaines contemporaines</span>
+            </div>
+
+            <h2>3. Planification et Aménagement Urbain</h2>
+
+            <h3>3.1 Objectifs contemporains</h3>
+
+            <p>L'urbanisme du XXIe siècle doit répondre à des défis croisés :</p>
+
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <div class="definition-term">Densification maîtrisée</div>
+                    <div class="definition-text">Optimiser l'utilisation du sol urbain existant pour limiter l'étalement périurbain et préserver les espaces naturels et agricoles.</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">Mixité fonctionnelle</div>
+                    <div class="definition-text">Associer habitat, emplois, commerces et services dans un même quartier pour réduire les déplacements et créer de la vie de quartier.</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">Justice spatiale</div>
+                    <div class="definition-text">Réduire les inégalités d'accès aux équipements, aux transports et à l'emploi selon les territoires.</div>
+                </div>
+                <div class="definition-card">
+                    <div class="definition-term">Résilience urbaine</div>
+                    <div class="definition-text">Préparer les villes aux chocs climatiques, économiques et sanitaires par une conception adaptative des infrastructures.</div>
+                </div>
+            </div>
+
+            <h3>3.2 Instruments de planification</h3>
+
+            <p>Le <span class="highlight">zonage</span> reste l'outil fondamental de régulation de l'occupation des sols. Il délimite des zones où certaines activités sont autorisées, interdites ou réglementées. Les plans locaux d'urbanisme (PLU) en France intègrent désormais des objectifs de développement durable.</p>
+
+            <p>La <span class="highlight">réglementation du bâti</span> concerne les normes de construction (hauteur, emprise au sol, esthétique) et s'inscrit dans une recherche de qualité architecturale et environnementale (bâtiments basse consommation, labels HQE).</p>
+
+            <h2>4. Dynamiques Sociales et Économiques</h2>
+
+            <h3>4.1 La Gentrification</h3>
+
+            <p>Processus de transformation sociale et spatiale par lequel des quartiers populaires ou dégradés sont réhabilités et réinvestis par des catégories sociales plus aisées. Ce phénomène, identifié par Ruth Glass en 1964 à Londres, entraîne :</p>
+
+            <ul>
+                <li>La rénovation physique des logements et des espaces publics</li>
+                <li>L'augmentation des loyers et des prix immobiliers</li>
+                <li>Le déplacement des populations d'origine (displacement)</li>
+                <li>L'arrivée de nouveaux commerces et services (cafés, galeries d'art)</li>
+            </ul>
+
+            <div class="complement">
+                <div class="complement-header">
+                    <span>🏙️</span>
+                    <span>Débat – La gentrification : opportunité ou exclusion ?</span>
+                </div>
+                <div class="complement-content">
+                    La gentrification est un enjeu majeur des politiques urbaines contemporaines. Si elle permet la revitalisation économique de quartiers en déclin et l'augmentation des recettes fiscales des municipalités, elle est critiquée pour l'exclusion des populations vulnérables. Des politiques de « gentrification équitable » tentent de concilier revitalisation et maintien des populations d'origine via le logement social et la propriété.
+                </div>
+                <div class="complement-source">
+                    Source : Séchet R., « Géographie sociale », 2017 ; Smith N., « The New Urban Frontier », 1996
+                </div>
+            </div>
+
+            <h3>4.2 La Ségrégation Socio-spatiale</h3>
+
+            <p>La concentration de groupes sociaux homogènes dans des espaces spécifiques résulte de mécanismes économiques (prix du foncier), sociaux (réseaux de relations) et institutionnels (politiques de logement). Elle peut prendre des formes résidentielles (ghettos de riches, quartiers défavorisés), scolaires ou professionnelles.</p>
+
+            <h2>5. Environnement Urbain et Durabilité</h2>
+
+            <h3>5.1 Les défis environnementaux</h3>
+
+            <p>Les villes concentrent les pollutions atmosphériques (transport, industrie, chauffage), génèrent des déchets massifs et consomment énormément d'énergie. L'<span class="highlight">îlot de chaleur urbain</span> (urban heat island) désigne l'élévation des températures en centre-ville due aux surfaces imperméables et aux activités humaines.</p>
+
+            <h3>5.2 La Ville Durable</h3>
+
+            <p>Le concept de ville durable intègre trois dimensions :</p>
+
+            <ul>
+                <li><strong>Environnementale :</strong> réduction des émissions, gestion des déchets, préservation de la biodiversité urbaine</li>
+                <li><strong>Économique :</strong> économie circulaire, emplois de proximité, sobriété énergétique</li>
+                <li><strong>Économique :</strong> économie circulaire, emplois de proximité, sobriété énergétique</li>
+            </ul>
+
+            <div class="complement">
+                <div class="complement-header">
+                    <span>🌱</span>
+                    <span>Innovation – Les écoquartiers et smart cities</span>
+                </div>
+                <div class="complement-content">
+                    Les écoquartiers (Hammarby Sjöstad à Stockholm, Quartier Camille Claudel à Palaiseau) expérimentent des solutions durables : bâtiments passifs, gestion intégrée des eaux, mobilité douce, agriculture urbaine. Les smart cities utilisent les technologies numériques pour optimiser la gestion des ressources (énergie, eau, transport) et améliorer la qualité de vie.
+                </div>
+                <div class="complement-source">
+                    Source : Bibri S., « Eco-districts and Data-driven Smart Eco-Cities », 2022 ; Levy J.-P., « Urbanisme durable », 2019
+                </div>
+            </div>
+
+            <h2>6. Les Villes dans la Mondialisation</h2>
+
+            <h3>6.1 Les Villes Globales</h3>
+
+            <p>Saskia Sassen a théorisé le concept de <span class="highlight">ville globale</span> pour désigner les métropoles (New York, Londres, Tokyo, Paris, Singapour) qui concentrent les fonctions de commandement de l'économie mondiale : sièges sociaux, services financiers avancés, bourses, organisations internationales.</p>
+
+            <p>Ces villes sont des <span class="highlight">nœuds</span> dans les réseaux de la mondialisation, connectées entre elles plus qu'aux territoires nationaux qui les entourent. Elles attirent les élites économiques et intellectuelles du monde entier.</p>
+
+            <h3>6.2 Les Métropoles du Sud</h3>
+
+            <p>L'urbanisation rapide des pays en développement (Afrique, Asie) produit des mégalopoles de plus de 10 millions d'habitants (Lagos, Mumbai, São Paulo) caractérisées par des infrastructures insuffisantes, l'explosion des bidonvilles et une économie informelle prédominante.</p>
+
+            <div class="page-break">
+                <span class="page-break-text">Synthèse</span>
+            </div>
+
+            <h2>Conclusion – L'Urbanisation : Tendances et Enjeux</h2>
+
+            <p>L'urbanisation, définie comme la croissance de la population urbaine et l'extension des zones bâties, est un processus irréversible : plus de 55% de l'humanité vit désormais en ville, et ce chiffre pourrait atteindre 68% d'ici 2050 selon l'ONU.</p>
+
+            <p>Les causes principales incluent :</p>
+            <ul>
+                <li>La <strong>migration rurale-urbaine</strong> à la recherche d'emplois et de services</li>
+                <li>L'<strong>industrialisation</strong> qui crée des emplois urbains</li>
+                <li>La <strong>croissance démographique naturelle</strong> en milieu urbain</li>
+                <li>La <strong>modernisation</strong> et les changements de modes de vie</li>
+            </ul>
+
+            <p>Les enjeux contemporains de l'urbanisation sont multiples : gestion des ressources (eau, énergie), adaptation au changement climatique, réduction des inégalités, gouvernance métropolitaine. La planification urbaine doit désormais intégrer une approche systémique, pensant la ville comme un écosystème complexe et interdépendant.</p>
+
+            <div class="complement">
+                <div class="complement-header">
+                    <span>🔮</span>
+                    <span>Prospective – L'avenir des villes</span>
+                </div>
+                <div class="complement-content">
+                    Les théories contemporaines (Pumain, Batty) considèrent la ville comme un système complexe auto-organisé. L'approche par les « sciences de la complexité » (fractales, théorie des réseaux) permet de modéliser l'évolution urbaine. Les défis futurs incluent la résilience face aux pandémies, la transition écologique et l'intelligence artificielle appliquée à la gestion urbaine.
+                </div>
+                <div class="complement-source">
+                    Source : Pumain D., « Une géographie contemporaine : modèles et systèmes », 2002 ; Batty M., « The New Science of Cities », 2013
+                </div>
+            </div>
+
+            <!-- Navigation Footer -->
+            <div class="navigation-footer">
+                <a href="part10.html" class="nav-btn prev">
+                    <span>⬅</span>
+                    <span>Partie 10</span>
+                </a>
+                <a href="index.html" class="nav-btn">
+                    <span>🏠</span>
+                    <span>Sommaire</span>
+                </a>
+                <a href="part12.html" class="nav-btn">
+                    <span>Partie 12</span>
+                    <span>➡</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // Vérifier si déjà authentifié
+        if (localStorage.getItem('geoAuth11') === 'true') {
+            loginOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                localStorage.setItem('geoAuth11', 'true');
+                loginOverlay.classList.add('hidden');
+                mainContent.classList.add('visible');
+                document.body.style.overflow = 'auto';
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                setTimeout(() => {
+                    errorMsg.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkPassword();
+        });
+        passwordInput.addEventListener('input', () => {
+            errorMsg.style.display = 'none';
+        });
+
+        // Focus automatique
+        window.addEventListener('load', () => {
+            passwordInput.focus();
+        });
+    </script>
+</body>
+</html>

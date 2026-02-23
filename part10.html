@@ -1,0 +1,1021 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 10 – Agriculture Tropicale & Géographie Urbaine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg-strong: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-strong: rgba(255, 255, 255, 0.25);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --text-muted: rgba(255, 255, 255, 0.55);
+            --accent-1: #00d4ff;
+            --accent-2: #ff006e;
+            --accent-3: #8338ec;
+            --accent-4: #ffbe0b;
+            --gradient-main: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-cyan: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            --gradient-pink: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+            --gradient-gold: linear-gradient(135deg, #ffbe0b 0%, #ff8c00 100%);
+            --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 70%),
+                linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #0d0d12 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.8;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+
+        /* Animated Background Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: -200px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -8s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+            top: 40%;
+            left: 60%;
+            animation-delay: -16s;
+            opacity: 0.25;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.02); }
+        }
+
+        /* Login Overlay */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(1.1);
+        }
+
+        .login-card {
+            background: var(--glass-bg-strong);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border-strong);
+            border-radius: 32px;
+            padding: 60px 50px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 
+                var(--shadow-soft),
+                0 0 60px rgba(102, 126, 234, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-card:hover::before {
+            left: 100%;
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: var(--gradient-main);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+        }
+
+        .login-input-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 18px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .login-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient-main);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 16px;
+            padding: 14px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            display: none;
+            font-size: 0.95rem;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Main Content */
+        .main-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: none;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .main-wrapper.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation */
+        .top-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 24px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            background: var(--glass-bg-strong);
+            border-color: var(--glass-border-strong);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Glass Container */
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 60px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 2.5em;
+            margin-bottom: 1em;
+            color: var(--text-primary);
+            position: relative;
+            padding-left: 24px;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 70%;
+            background: var(--gradient-cyan);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            color: var(--text-secondary);
+        }
+
+        h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.6em;
+            color: var(--accent-1);
+        }
+
+        p {
+            margin: 1.2em 0;
+            color: var(--text-secondary);
+            text-align: justify;
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1.5em 0 1.5em 2em;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin: 0.8em 0;
+            padding-left: 0.5em;
+            position: relative;
+        }
+
+        ul li::marker {
+            color: var(--accent-1);
+            font-size: 1.2em;
+        }
+
+        ol li::marker {
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        /* Page Break */
+        .page-break {
+            margin: 4em 0;
+            padding: 30px 0;
+            text-align: center;
+            position: relative;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .page-break::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        }
+
+        .page-break span {
+            background: rgba(10, 10, 15, 0.8);
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Complement Box */
+        .complement {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(131, 56, 236, 0.08) 100%);
+            border-left: 4px solid var(--accent-1);
+            padding: 24px 28px;
+            margin: 2em 0;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .complement::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .complement strong {
+            color: var(--accent-1);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .complement em {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            display: block;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 2em 0;
+            position: relative;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--accent-4);
+        }
+
+        /* Definition Grid */
+        .def-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 2em 0;
+        }
+
+        .def-card {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .def-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--glass-border-strong);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .def-card h4 {
+            margin-top: 0;
+            font-size: 1.1rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 2em 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-1), var(--accent-3));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2em;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-1);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--accent-1);
+        }
+
+        .timeline-item h4 {
+            margin-top: 0;
+            color: var(--accent-1);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 2em 0;
+        }
+
+        .stat-card {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--glass-border-strong);
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-cyan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4em;
+            padding-top: 2em;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 14px 28px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: var(--glass-bg-strong);
+            border-color: var(--glass-border-strong);
+            transform: translateY(-2px);
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-container { padding: 30px 20px; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.6rem; }
+            h3 { font-size: 1.3rem; }
+            .login-card { padding: 40px 30px; }
+            .def-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-icon">🌍</div>
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 10 – Agriculture Tropicale & Géographie Urbaine</p>
+            <div class="login-input-wrapper">
+                <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            </div>
+            <button id="loginBtn" class="login-btn">Entrer dans l'espace</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="top-nav">
+            <a href="index.html" class="nav-link">🏠 Sommaire</a>
+            <a href="part9.html" class="nav-link">⬅ Partie précédente</a>
+            <a href="part11.html" class="nav-link">Partie suivante ➡</a>
+        </div>
+
+        <div class="glass-container">
+            <h1>Agriculture Tropicale & Géographie Urbaine</h1>
+            <p class="subtitle">De l'agriculture sur brûlis aux structures spatiales des villes</p>
+
+            <div class="page-break"><span>Page 42 – Agriculture tropicale : caractéristiques</span></div>
+
+            <h2>I. L'agriculture dans les régions tropicales</h2>
+
+            <p>L'agriculture tropicale se développe dans une zone intertropicale délimitée par les tropiques du Cancer et du Capricorne (entre 23,5°N et 23,5°S). Elle présente des caractéristiques spécifiques liées au climat, aux sols et aux écosystèmes de ces régions, ainsi qu'une grande diversité de systèmes de production adaptés aux conditions locales.</p>
+
+            <h3>A. Caractéristiques climatiques et géographiques</h3>
+
+            <div class="highlight-box">
+                <h4>Les traits dominants du milieu tropical</h4>
+                <ul>
+                    <li><strong>Températures élevées :</strong> Moyennes annuelles entre 20°C et 30°C. Variations saisonnières faibles (amplitude < 10°C). Pas de période de gel, permettant la croissance végétale continue.</li>
+                    <li><strong>Précipitations abondantes mais irrégulières :</strong> Pluviosité annuelle pouvant dépasser 2000 mm dans les forêts tropicales humides, mais avec des saisons sèches marquées dans les zones de savane.</li>
+                    <li><strong>Humidité élevée :</strong> Humidité relative souvent supérieure à 80% dans les forêts humides, contribuant à la luxuriance de la végétation et à la diversité biologique.</li>
+                    <li><strong>Climat journalier :</strong> Les fluctuations thermiques journalières sont plus importantes que les variations saisonnières.</li>
+                </ul>
+            </div>
+
+            <h3>B. Les grands types de climats intertropicaux</h3>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>🌧️ Climat équatorial (guinéen/amazonien)</h4>
+                    <p>Température élevée mais non excessive, humidité constamment élevée, pluviosité > 1500 mm/an sans déficit hydrique marqué. Domaine de la forêt dense et de l'agriculture de plantation (café, cacao, banane).</p>
+                </div>
+                <div class="def-card">
+                    <h4>🌳 Climat tropical (soudanien)</h4>
+                    <p>Pluviosité < 1500 mm/an, une saison des pluies et une saison sèche bien marquées. Domaine des forêts claires et des savanes. Agriculture de céréales (mil, sorgho) et cultures cotonnières.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🌾 Climat sahélien</h4>
+                    <p>Chaleur estivale très élevée, saison des pluies très courte (un cycle cultural), saison sèche très longue avec fort déficit de saturation. Fortes variations interannuelles de pluviosité. Domaine des steppes et de l'élevage pastoral.</p>
+                </div>
+            </div>
+
+            <h3>C. Caractéristiques des sols tropicaux</h3>
+
+            <p>Les sols tropicaux présentent des contraintes majeures pour l'agriculture :</p>
+
+            <ul>
+                <li><strong>Extrême pauvreté chimique :</strong> Faible teneur en matière organique (minéralisation rapide), acidité élevée, toxicité aluminium.</li>
+                <li><strong>Fragilité physique :</strong> Sensibilité à l'érosion hydrique (pertes pouvant dépasser 1000 tonnes/ha/an), latéritisation, compaction.</li>
+                <li><strong>Exceptions locales :</strong> Sols volcaniques (Andes, Rift africain, Indonésie) offrant d'excellentes qualités chimiques et physiques, expliquant les fortes densités de population de ces zones.</li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – L'agriculture tropicale et ses défis</strong>
+                L'agriculture tropicale fait face à des défis spécifiques : pression démographique forte, déforestation massive (boisements tropicaux représentent 1/3 des réserves mondiales de forêts), vulnérabilité aux changements climatiques (sécheresses, cyclones), et difficulté de maintenir la fertilité des sols sous climat chaud et humide. Les systèmes traditionnels de jachère longue sont mis en difficulté par l'accroissement démographique.
+                <em>Source : Encyclopædia Universalis ; FAO ; Echo Community.</em>
+            </div>
+
+            <div class="page-break"><span>Page 43-44 – Types de cultures et pratiques agricoles</span></div>
+
+            <h2>II. Types de cultures et pratiques agricoles tropicales</h2>
+
+            <h3>A. Cultures vivrières</h3>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>🍚 Riz</h4>
+                    <p>Principal aliment de base dans de nombreuses régions tropicales, surtout en Asie du Sud-Est. Les systèmes de riziculture peuvent être irrigués, pluviaux ou en terrasses. Madagascar est un pays de culture rizicole par excellence.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🌽 Maïs</h4>
+                    <p>Important en Amérique centrale et en Afrique, cultivé pour la consommation humaine et animale. S'adapte à diverses conditions édaphiques et climatiques.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🥔 Manioc</h4>
+                    <p>Source clé de glucides en Afrique subsaharienne et en Amérique latine. Cultivé pour ses tubercules amidonnés. Résistant aux sols pauvres et à la sécheresse.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🍌 Banane et Plantain</h4>
+                    <p>Aliments de base dans plusieurs régions tropicales, notamment en Afrique et en Amérique latine. Culture pérenne nécessitant peu d'intrants.</p>
+                </div>
+            </div>
+
+            <h3>B. Cultures de rente</h3>
+
+            <ul>
+                <li><strong>Cacao :</strong> Essentiel pour l'industrie du chocolat, cultivé principalement en Afrique de l'Ouest, en Amérique latine et en Asie.</li>
+                <li><strong>Café :</strong> Cultivé dans les zones montagneuses des tropiques, avec des principaux producteurs en Amérique latine (Brésil, Colombie), en Afrique (Éthiopie) et en Asie (Vietnam).</li>
+                <li><strong>Caoutchouc :</strong> Principalement cultivé en Asie du Sud-Est (Thaïlande, Indonésie, Malaisie).</li>
+                <li><strong>Thé :</strong> Cultivé dans les régions tropicales et subtropicales, avec des producteurs majeurs comme l'Inde, le Sri Lanka et la Chine.</li>
+                <li><strong>Huile de palme :</strong> Cultivée dans les zones humides de l'Asie du Sud-Est et de l'Afrique, utilisée dans une variété de produits alimentaires et industriels.</li>
+            </ul>
+
+            <h3>C. L'agriculture itinérante sur brûlis (slash-and-burn)</h3>
+
+            <p>L'agriculture itinérante sur brûlis est un système traditionnel d'utilisation des terres caractérisé par un cycle de défrichage, de culture et d'abandon de parcelles. Pratiquée par 300 à 500 millions de personnes dans le monde, elle reste une stratégie de subsistance vitale dans les régions tropicales.</p>
+
+            <div class="highlight-box">
+                <h4>Les étapes du cycle itinérant</h4>
+                <ol>
+                    <li><strong>Sélection du site :</strong> Choix d'une parcelle en forêt ou en jachère</li>
+                    <li><strong>Défrichage :</strong> Coupe de la végétation (hache, coupe-coupe)</li>
+                    <li><strong>Séchage et brûlis :</strong> Libération des nutriments par les cendres</li>
+                    <li><strong>Culture :</strong> 2 à 3 ans de production (riz, manioc, maïs)</li>
+                    <li><strong>Jachère longue :</strong> 10 à 30 ans de régénération forestière</li>
+                </ol>
+            </div>
+
+            <div class="complement">
+                <strong>📚 Complément – Logique du système itinérant</strong>
+                L'agriculture sur brûlis n'est pas une agriculture itinérante proprement dite, mais une agriculture de rotation où champs cultivés, jachère forestière et forêt intacte s'inscrivent dans le même paysage. La jachère n'est pas une phase inerte : elle sert à la collecte de fruits, plantes médicinales, bois, piégeage du gibier, et affirme les droits fonciers. Les droits de récolte sur la jachère restent attachés à la personne qui a défriché.
+                <em>Source : Carrière, S.M., Dounias, E., Michon, G. (2025). « L'agriculture itinérante sur brûlis », IRD.</em>
+            </div>
+
+            <h3>D. L'agroforesterie</h3>
+
+            <p>L'agroforesterie combine cultures agricoles avec des arbres, offrant des bénéfices multiples : ombrage, protection des sols, diversification des produits (fruits, bois). Les systèmes agroforestiers tropicaux sont souvent complexes, multi-étages et multi-espèces.</p>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>🌳 Systèmes à base de café/cacao</h4>
+                    <p>Arbres d'ombrage (acajou, érythrine) fournissant 30% d'ombrage. En Indonésie, les « jungle rubber » associent hévéas et forêt secondaire.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🌴 Systèmes à base de cocotier</h4>
+                    <p>Dans les palmeraies naturelles en Afrique de l'Ouest, association avec cacao, bananes, plantes vivrières.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🏡 Jardins de case</h4>
+                    <p>Systèmes complexes près des habitations combinant fruitiers, légumes, épices, plantes médicinales et ornementales. Jusqu'à 250 espèces cultivées dans un seul village.</p>
+                </div>
+            </div>
+
+            <div class="page-break"><span>Page 46-47 – Agriculture à Madagascar : Vakinankaratra</span></div>
+
+            <h2>III. Études de cas : Agriculture à Madagascar</h2>
+
+            <h3>A. La région de Vakinankaratra</h3>
+
+            <p>La région de Vakinankaratra, située dans les Hautes Terres centrales de Madagascar, constitue l'un des principaux greniers agricoles du pays. Elle bénéficie de conditions agro-climatiques exceptionnelles liées à son origine volcanique.</p>
+
+            <div class="highlight-box">
+                <h4>Caractéristiques géographiques et pédologiques</h4>
+                <ul>
+                    <li><strong>Relief :</strong> Plateaux, vallées et montagnes (mont Tsiafajavona). Sols volcaniques (andosols) particulièrement fertiles.</li>
+                    <li><strong>Climat :</strong> Tempéré d'altitude, températures modérées, précipitations bien réparties favorisant une production diversifiée.</li>
+                    <li><strong>Sols :</strong> 
+                        <ul>
+                            <li>« Tany mena » (terre rouge) : sols dégradés colonisés par les mimosas</li>
+                            <li>« Tany mainty » (terre noire) : sols alluviaux et colluvions de bas de pente, exceptionnellement fertiles</li>
+                            <li>Sols à gley des cuvettes : adaptés à la riziculture (pH ~5,5)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <h3>B. Types de cultures à Vakinankaratra</h3>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>🌾 Riziculture</h4>
+                    <p>Culture principale dans les vallées irriguées. 55,3% des surfaces cultivées. Systèmes variés : riziculture irriguée intensive, riz pluvial (7% des surfaces rizicoles), pépinières sèches.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🥔 Pomme de terre</h4>
+                    <p>Culture de montagne (Faratsiho, >1400m) en culture pluviale. Deux cycles par an. Cultivée en contre-saison dans les rizières (plus de 50% des rizières).</p>
+                </div>
+                <div class="def-card">
+                    <h4>🥕 Légumes et fruits</h4>
+                    <p>Carottes, choux, tomates. Horticulture florale (roses pour l'exportation). Fraises emblématiques de la région.</p>
+                </div>
+            </div>
+
+            <div class="complement">
+                <strong>📚 Complément – Structure foncière et organisation du terroir</strong>
+                À Tsarahonenana (terroir type), 60% des ménages cultivent moins de 0,5 ha de rizières (17,7% des surfaces), tandis que 10% des « notables » accaparent 41% des rizières. Cette structure inégalitaire contraste avec l'extension des cultures sèches (44,7% des surfaces) sur les sols de pente. L'aménagement complet des zones inondables en damier rizicole contraste avec le caractère extensif de l'occupation sur la montagne.
+                <em>Source : IRD, « Introduction à la région d'Ambohibary (Vakinankaratra) » ; Monographie Vakinankaratra, GEM Madagascar.</em>
+            </div>
+
+            <div class="page-break"><span>Page 47-49 – Les Betsimisaraka et le tavy</span></div>
+
+            <h3>C. L'agriculture des Betsimisaraka : le tavy</h3>
+
+            <p>Les Betsimisaraka, ethnie de la côte est de Madagascar, pratiquent le « tavy », une agriculture itinérante sur brûlis centrée sur la riziculture pluviale. Cette pratique structure l'organisation sociale et spatiale de leur territoire.</p>
+
+            <div class="highlight-box">
+                <h4>Le tavy : pratique et significations</h4>
+                <p>Le tavy est défini comme une pratique de riziculture essentiellement basée sur le brûlis. Il se caractérise par :</p>
+                <ul>
+                    <li>Défrichement de la végétation naturelle à la hache (antsy)</li>
+                    <li>Séchage des abattis suivis du brûlage</li>
+                    <li>Mise en culture du riz pluvial</li>
+                    <li>Abandon de la terre à la jachère forestière (savoka)</li>
+                </ul>
+                <p><strong>Importance sociale et religieuse :</strong> Le tavy représente un cadre privilégié où se réalise le dialogue avec les ancêtres. Les activités sont soumises à des règles religieuses spécifiques : sacrifices avant défrichement, interdits de travail et alimentaires. « Interdire le tavy, c'est vouloir la mort des Betsimisaraka » (paysan de Varatenina, 1960).</p>
+            </div>
+
+            <h3>D. Organisation spatiale du terroir Betsimisaraka</h3>
+
+            <p>L'espace est structuré en trois grandes catégories :</p>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>🔥 Les tavy</h4>
+                    <p>Parcelles en culture où est pratiquée la riziculture pluviale sur brûlis. Cœur du système agraire et de l'identité culturelle.</p>
+                </div>
+                <div class="def-card">
+                    <h4>🌿 Les savoka</h4>
+                    <p>Jachères forestières des anciens tavy, périodiquement remises en culture. Forêt secondaire riche en ressources (fruits, gibier, bois).</p>
+                </div>
+                <div class="def-card">
+                    <h4>🌳 La forêt naturelle</h4>
+                    <p>Réserve de terres à cultiver, refuge, source de produits multiples. L'accès à la forêt est régulé par des droits coutumiers.</p>
+                </div>
+            </div>
+
+            <div class="complement">
+                <strong>📚 Complément – Perceptions contrastées de la forêt</strong>
+                Les ethnies forestières (Betsimisaraka, Antanala, Tsimihety) perçoivent la forêt comme un espace de vie, une réserve de terres à cultiver, un refuge. À l'inverse, les ethnies des Hautes Terres (Merina, Betsileo) structurent leur espace autour des rizières aménagées ; la forêt est un lieu hostile, mal connu, refuge des bandits. Cette dichotomie explique les tensions autour de la gestion forestière à Madagascar.
+                <em>Source : Schachenmann, P. « Dynamiques des forêts naturelles de montagne à Madagascar », CIRAD.</em>
+            </div>
+
+            <div class="page-break"><span>Page 49 – Introduction à la géographie urbaine</span></div>
+
+            <h2>IV. Introduction à la géographie urbaine</h2>
+
+            <p>La géographie urbaine est une branche de la géographie humaine dont l'objet est l'étude géographique du phénomène urbain. Elle analyse à la fois l'organisation spatiale interne de la ville et l'organisation des villes entre elles en réseaux urbains.</p>
+
+            <h3>A. Objets d'étude de la géographie urbaine</h3>
+
+            <div class="highlight-box">
+                <h4>Les deux échelles d'analyse</h4>
+                <ul>
+                    <li><strong>Échelle intra-urbaine :</strong> Organisation spatiale interne de la ville, paysages urbains, ségrégation des populations, utilisation des sols, morphologie urbaine.</li>
+                    <li><strong>Échelle inter-urbaine :</strong> Réseaux urbains, hiérarchies des villes, relations entre villes, systèmes de villes.</li>
+                </ul>
+            </div>
+
+            <h3>B. Structure et organisation urbaine</h3>
+
+            <p>La structure et l'organisation urbaine se réfèrent à la manière dont les villes sont physiquement organisées et fonctionnellement structurées. Cela comprend :</p>
+
+            <ul>
+                <li><strong>Répartition spatiale des activités :</strong> Zones économiques, résidentielles, commerciales, industrielles</li>
+                <li><strong>Modèles d'utilisation des terres :</strong> Densités, formes urbaines, étalement urbain</li>
+                <li><strong>Réseaux de transport :</strong> Accessibilité, mobilité, infrastructures</li>
+                <li><strong>Ségrégation spatiale :</strong> Zonage socio-économique, gentrification, fragmentation urbaine</li>
+            </ul>
+
+            <h3>C. Le modèle des lieux centraux de Christaller</h3>
+
+            <p>Walter Christaller (1933) a proposé un modèle théorique d'organisation spatiale des villes basé sur la hiérarchie des services et la minimisation des distances. Les principes fondamentaux sont :</p>
+
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>📐 Treillis hexagonal</h4>
+                    <p>Les zones de chalandise des villes forment des hexagones emboîtés, minimisant les distances et maximisant l'efficacité du réseau.</p>
+                </div>
+                <div class="def-card">
+                    <h4>⚖️ Hiérarchie des villes</h4>
+                    <p>Les villes se répartissent en niveaux hiérarchiques selon la gamme de services offerts, suivant une progression géométrique des rayons (√3).</p>
+                </div>
+                <div class="def-card">
+                    <h4>🛒 Primauté du fait commercial</h4>
+                    <p>Logique de marché où les trajets entre lieux centraux et villes satellites sont les plus courts possibles.</p>
+                </div>
+            </div>
+
+            <div class="complement">
+                <strong>📚 Complément – Distinction géographie urbaine / urbanisme</strong>
+                La géographie urbaine étudie et explique les phénomènes urbains dans leur complexité spatiale, sociale et économique. L'urbanisme utilise l'approche de géographie urbaine (ainsi que la sociologie urbaine, l'économie urbaine, l'histoire) pour concevoir et aménager les villes. La géographie urbaine est descriptive et explicative, tandis que l'urbanisme est normatif et projectif.
+                <em>Source : Wikipedia ; Thèse Kaddouri, « Structures spatiales et mises en réseaux de villes ».</em>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="bottom-nav">
+                <a href="index.html" class="nav-btn">🏠 Sommaire</a>
+                <a href="part9.html" class="nav-btn">⬅ Partie précédente</a>
+                <a href="part11.html" class="nav-btn">Partie suivante ➡</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // Check if already authenticated
+        if (localStorage.getItem('geoAuth') === 'true') {
+            loginOverlay.classList.add('hidden');
+            setTimeout(() => {
+                mainContent.classList.add('visible');
+            }, 100);
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                localStorage.setItem('geoAuth', 'true');
+                loginOverlay.classList.add('hidden');
+                setTimeout(() => {
+                    mainContent.classList.add('visible');
+                }, 100);
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                setTimeout(() => {
+                    errorMsg.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') checkPassword(); 
+        });
+        passwordInput.addEventListener('input', () => { 
+            errorMsg.style.display = 'none'; 
+        });
+    </script>
+</body>
+</html>

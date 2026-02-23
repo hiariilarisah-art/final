@@ -1,0 +1,925 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 1 – Atmosphère</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-strong: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --glass-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --accent-1: #667eea;
+            --accent-2: #f093fb;
+            --accent-3: #4facfe;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.75);
+            --text-muted: rgba(255, 255, 255, 0.5);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Orbs */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: -200px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            top: 40%;
+            left: 60%;
+            animation-delay: -14s;
+            opacity: 0.3;
+        }
+
+        .orb-4 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            top: 60%;
+            left: 10%;
+            animation-delay: -10s;
+            opacity: 0.25;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.02); }
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Main Container */
+        .main-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            min-height: 100vh;
+        }
+
+        /* Glass Container - Premium Effect */
+        .glass-container {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.05) 0%, 
+                rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 50px;
+            box-shadow: 
+                var(--glass-shadow-lg),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.4) 50%, 
+                transparent 100%);
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 0.3em;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 2em;
+            letter-spacing: 0.05em;
+        }
+
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+            margin: 0 auto 3em;
+            border-radius: 2px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            line-height: 1.3;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.6em;
+            color: var(--accent-3);
+        }
+
+        p {
+            margin: 1em 0;
+            color: var(--text-secondary);
+            text-align: justify;
+            font-weight: 300;
+        }
+
+        ul, ol {
+            margin: 1em 0 1em 2em;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin: 0.6em 0;
+            font-weight: 300;
+        }
+
+        ul li::marker {
+            color: var(--accent-1);
+        }
+
+        ol li::marker {
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Page Break */
+        .page-break {
+            margin: 3em 0;
+            padding: 20px 0;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+        }
+
+        .page-break::before, .page-break::after {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-1);
+            font-size: 0.5rem;
+        }
+
+        .page-break::before { left: 30%; }
+        .page-break::after { right: 30%; }
+
+        /* Complement Box */
+        .complement {
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.08) 0%, 
+                rgba(240, 147, 251, 0.05) 100%);
+            border-left: 4px solid var(--accent-2);
+            padding: 20px 24px;
+            margin: 1.5em 0;
+            border-radius: 12px;
+            font-style: italic;
+            color: var(--text-secondary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-left-width: 4px;
+        }
+
+        .complement strong {
+            color: var(--accent-2);
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        /* Navigation */
+        .nav-top {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border-strong);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3em;
+            padding-top: 2em;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        th {
+            background: rgba(102, 126, 234, 0.2);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        /* Login Overlay - Ultra Premium */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                        visibility 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                rgba(255, 255, 255, 0.03) 100%);
+            backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
+            padding: 56px 48px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.5), 
+                transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .login-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .login-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+
+        .login-card h2::before {
+            display: none;
+        }
+
+        .login-subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .login-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-1) 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.5s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            display: none;
+            font-size: 0.9rem;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-container {
+                padding: 30px 20px;
+                border-radius: 24px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .login-card {
+                padding: 40px 24px;
+            }
+
+            .page-break::before, .page-break::after {
+                display: none;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-link {
+                justify-content: center;
+            }
+        }
+
+        /* Hide content initially - NO FLASH OF CONTENT */
+        #mainContent {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        #mainContent.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+            </div>
+            <h2>Partie 1</h2>
+            <p class="login-subtitle">Atmosphère · Pages 1–3</p>
+            <div class="input-wrapper">
+                <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe" autocomplete="off">
+            </div>
+            <button id="loginBtn" class="login-btn">Accéder au document</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <div class="nav-top">
+                <a href="index.html" class="nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Sommaire
+                </a>
+                <a href="part2.html" class="nav-link">
+                    Partie suivante
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </a>
+            </div>
+
+            <h1>Atmosphère</h1>
+            <p class="subtitle">Partie 1 · Pages 1–3</p>
+            <div class="divider"></div>
+
+            <!-- Contenu -->
+            <div class="page-break">Page 1</div>
+
+            <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 2em;">TSY AZO ADIKA NA ALAIN-TAHAKA 2024-2025</p>
+
+            <p><strong>Responsable :</strong> RANDRIAMANANTSOA Manambina JASIELA</p>
+
+            <h2>L'atmosphère : Définition et caractéristiques</h2>
+
+            <p>L'<strong>atmosphère</strong> désigne l'<strong>enveloppe gazeuse</strong> entourant la Terre, maintenue par la gravité terrestre. Elle constitue une interface dynamique entre la surface planétaire et l'espace extraterrestre, jouant un rôle central dans les processus climatiques, météorologiques et écologiques.</p>
+
+            <h3>Composition chimique</h3>
+
+            <p>L'air atmosphérique est composé de :</p>
+
+            <table>
+                <tr>
+                    <th colspan="2">Teneur invariable (% en volume)</th>
+                </tr>
+                <tr><td>Diazote (N₂)</td><td>78,8%</td></tr>
+                <tr><td>Dioxygène (O₂)</td><td>20,95%</td></tr>
+                <tr><td>Argon (Ar)</td><td>0,93%</td></tr>
+                <tr><td>Néon (Ne)</td><td>0,0018%</td></tr>
+                <tr><td>Hélium (He)</td><td>0,0005%</td></tr>
+                <tr><td>Hydrogène (H₂)</td><td>0,00006%</td></tr>
+                <tr><td>Xénon (Xe)</td><td>0,000009%</td></tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th colspan="2">Teneur variable (% en volume)</th>
+                </tr>
+                <tr><td>Vapeur d'eau</td><td>0 à 4%</td></tr>
+                <tr><td>Dioxyde de carbone (CO₂)</td><td>0,037%</td></tr>
+                <tr><td>Méthane (CH₄)</td><td>0,00017%</td></tr>
+                <tr><td>Oxyde d'azote (N₂O)</td><td>0,00003%</td></tr>
+                <tr><td>Ozone (O₃)</td><td>0,00003%</td></tr>
+                <tr><td>Particules solides</td><td>0,000005%</td></tr>
+                <tr><td>Chloro-Fluoro-Carbone (CFC)</td><td>0,00000002%</td></tr>
+            </table>
+
+            <div class="complement">
+                <strong>📚 Complément – Rôle des gaz atmosphériques</strong><br><br>
+                Le <strong>diazone (N₂)</strong> est un gaz inerte qui dilue l'oxygène et limite la combustion. Le <strong>dioxygène (O₂)</strong> est essentiel à la respiration des êtres vivants et à la combustion. L'<strong>argon</strong> est un gaz noble sans réactivité chimique.<br><br>
+                La <strong>vapeur d'eau (H₂O)</strong> est le principal gaz à effet de serre naturel et joue un rôle clé dans le cycle hydrologique. Le <strong>dioxyde de carbone (CO₂)</strong> et le <strong>méthane (CH₄)</strong> sont des gaz à effet de serre d'origine naturelle et anthropique, responsables du réchauffement climatique.<br><br>
+                L'<strong>ozone (O₃)</strong> stratosphérique protège la vie des rayons ultraviolets, tandis que l'ozone troposphérique est un polluant. (Source : Organisation météorologique mondiale, 2023)
+            </div>
+
+            <h3>Structure verticale</h3>
+
+            <p>L'atmosphère est stratifiée en couches distinctes, définies par des gradients de température et des propriétés physico-chimiques :</p>
+
+            <ol>
+                <li><strong>Troposphère</strong> (0 à 8-15 km) : Couche la plus basse, siège des phénomènes météorologiques. La température décroît avec l'altitude.</li>
+                <li><strong>Stratosphère</strong> (jusqu'à ~50 km) : Contient la couche d'ozone (O₃), absorbant les UV. La température y augmente avec l'altitude.</li>
+                <li><strong>Mésosphère</strong> (jusqu'à ~85 km) : Température décroissante, lieu de désintégration des météores.</li>
+                <li><strong>Thermosphère</strong> (jusqu'à ~600 km) : Température très élevée due à l'absorption des rayonnements solaires.</li>
+                <li><strong>Exosphère</strong> : Transition vers l'espace, où les molécules gazeuses s'échappent.</li>
+            </ol>
+
+            <div class="complement">
+                <strong>📚 Complément – Pourquoi la température varie-t-elle dans chaque couche ?</strong><br><br>
+                Dans la <strong>troposphère</strong>, le refroidissement avec l'altitude est dû à la diminution de la pression et à l'éloignement de la source de chaleur (surface terrestre).<br><br>
+                Dans la <strong>stratosphère</strong>, l'augmentation de température résulte de l'absorption du rayonnement UV par l'ozone.<br><br>
+                Dans la <strong>mésosphère</strong>, le refroidissement est lié à la faible densité et au rayonnement infrarouge émis par le CO₂.<br><br>
+                Dans la <strong>thermosphère</strong>, l'absorption des rayons X et UV extrêmes par les atomes d'oxygène élève la température jusqu'à 1500°C (mais la sensation de chaleur est nulle en raison de la très faible densité).<br><br>
+                (D'après « Physique de l'atmosphère », Guy Brasseur, 2020)
+            </div>
+
+            <h2>Concepts clés</h2>
+
+            <h3>1. Gaz carbonique (CO₂)</h3>
+            <p>Le gaz carbonique, ou dioxyde de carbone, est un gaz composé d'un atome de carbone et de deux atomes d'oxygène. Il est naturellement présent dans l'atmosphère et joue un rôle crucial dans le cycle du carbone. C'est également un <strong>gaz à effet de serre</strong>, contribuant au réchauffement climatique.</p>
+
+            <h3>2. Gaz à effet de serre</h3>
+            <p>Les gaz à effet de serre (GES) sont des gaz qui absorbent et réémettent une partie des rayons infrarouges émis par la Terre, contribuant ainsi à retenir la chaleur dans l'atmosphère. Les principaux GES sont la vapeur d'eau (H₂O), le dioxyde de carbone (CO₂), le méthane (CH₄) et le protoxyde d'azote (N₂O).</p>
+
+            <h3>3. Chaleur latente</h3>
+            <p>La chaleur latente est l'énergie absorbée ou libérée par une substance lors d'un changement de phase (par exemple, de liquide à gaz ou de gaz à liquide) sans changement de température. Par exemple, l'évaporation de l'eau absorbe de la chaleur, tandis que la condensation en libère.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Chaleur latente et dynamique atmosphérique</strong><br><br>
+                La chaleur latente est un moteur essentiel des tempêtes tropicales. Lorsque la vapeur d'eau se condense dans les nuages, elle libère environ 2,5 × 10⁶ J/kg, ce qui réchauffe l'air et alimente la convection. Ce phénomène est particulièrement actif dans la ZCIT, où l'air humide s'élève et forme d'énormes cumulonimbus.<br><br>
+                (Source : « Météorologie tropicale », La Météorologie, 2019)
+            </div>
+
+            <h3>4. Zone de convergence intertropicale (ZCIT)</h3>
+            <p>La ZCIT est une région située près de l'équateur où les alizés de l'hémisphère nord et de l'hémisphère sud convergent. Cette convergence provoque des ascendances d'air chaud et humide, entraînant des précipitations intenses et une activité orageuse fréquente.</p>
+
+            <div class="page-break">Page 2</div>
+
+            <h3>5. Mousson</h3>
+            <p>La mousson est un système de vents saisonniers qui apporte des changements climatiques marqués, notamment des pluies abondantes. Elle est causée par la différence de température entre les continents et les océans. La mousson la plus connue est celle de l'Asie du Sud-Est.</p>
+
+            <h3>6. Alizés</h3>
+            <p>Les alizés sont des vents réguliers et constants qui soufflent des zones subtropicales de haute pression vers la zone de convergence intertropicale (ZCIT). Ils sont principalement orientés d'est en ouest et jouent un rôle clé dans la circulation atmosphérique tropicale.</p>
+
+            <h3>7. Cellule de Hadley</h3>
+            <p>La cellule de Hadley est un modèle de circulation atmosphérique qui transporte la chaleur de l'équateur vers les tropiques. L'air chaud monte à l'équateur, se déplace vers les pôles en altitude, puis redescend dans les régions subtropicales, créant ainsi une boucle de circulation.</p>
+
+            <h3>8. Cellule de Ferrel</h3>
+            <p>La cellule de Ferrel est une cellule de circulation atmosphérique située entre la cellule de Hadley (tropicale) et la cellule polaire. Elle transporte l'air des régions subtropicales vers les latitudes moyennes et est associée aux systèmes météorologiques des zones tempérées.</p>
+
+            <h3>9. Vent orographique</h3>
+            <p>Le vent orographique est un vent influencé par le relief, comme les montagnes. Lorsque l'air rencontre une montagne, il est forcé de monter, ce qui peut entraîner des précipitations sur le versant au vent (côté exposé) et un effet d'ombre pluviométrique sur le versant sous le vent (côté abrité).</p>
+
+            <h3>10. Force de Coriolis</h3>
+            <p>La force de Coriolis est une force apparente due à la rotation de la Terre, qui dévie les objets en mouvement (comme les vents ou les courants océaniques) vers la droite dans l'hémisphère nord et vers la gauche dans l'hémisphère sud. Elle influence la direction des vents et des courants marins.</p>
+
+            <h3>Vapeur d'eau</h3>
+            <p>La vapeur d'eau est la phase gazeuse de l'eau, invisible à l'œil nu. C'est un composant naturel de l'atmosphère et un gaz à effet de serre important. Elle joue un rôle clé dans le cycle de l'eau et dans la régulation du climat.</p>
+
+            <h3>Ondes électromagnétiques</h3>
+            <p>Les ondes électromagnétiques sont des perturbations périodiques <strong>des champs électrique et magnétique</strong> qui se propagent dans l'espace sans nécessiter de support matériel.</p>
+
+            <h3>Ozone (O₃)</h3>
+            <p>L'<strong>ozone</strong> (O₃) est une molécule triatomique de l'oxygène, présente principalement dans deux couches atmosphériques :</p>
+            <ul>
+                <li><strong>Ozone stratosphérique</strong> : couche protectrice absorbant les UV</li>
+                <li><strong>Ozone troposphérique</strong> : polluant à l'origine de smogs photochimiques</li>
+            </ul>
+
+            <h3>Effet de foehn</h3>
+            <p>Phénomène météorologique résultant de la <strong>circulation d'une masse d'air sur un relief montagneux</strong>. Lors de l'ascension, l'air se refroidit par détente adiabatique, entraînant condensation et précipitations sur le versant au vent. En redescendant, l'air sec se réchauffe adiabatiquement générant un <strong>vent chaud et sec</strong> sur le versant sous le vent.</p>
+
+            <h3>Front</h3>
+            <p>En météorologie, un <strong>front</strong> désigne une <strong>zone de transition</strong> entre deux masses d'air aux propriétés distinctes (température, humidité, densité). On distingue :</p>
+            <ul>
+                <li><strong>Front froid</strong> : l'air froid avance et soulève l'air chaud, provoquant des précipitations intenses.</li>
+                <li><strong>Front chaud</strong> : l'air chaud glisse sur l'air froid, associé à des nuages stratiformes et des pluies modérées.</li>
+                <li><strong>Front occlus</strong> : résultant de la rencontre d'un front froid et chaud, souvent lié à des systèmes dépressionnaires complexes.</li>
+            </ul>
+
+            <h3>Lumière visible</h3>
+            <p>Partie du spectre électromagnétique perceptible par l'œil humain.</p>
+
+            <h2>Les processus de formation des pluies</h2>
+
+            <p>Les processus de formation des pluies impliquent plusieurs étapes :</p>
+
+            <ol>
+                <li><strong>Évaporation :</strong> L'eau des surfaces liquides (mers, lacs, rivières, etc.) est chauffée par le soleil, ce qui la transforme en vapeur d'eau et la fait monter dans l'atmosphère.</li>
+                <li><strong>Condensation :</strong> Lorsque la vapeur d'eau monte dans l'atmosphère, elle rencontre des couches d'air plus froides en altitude. Cette rencontre provoque la condensation de la vapeur d'eau en minuscules gouttelettes d'eau ou en cristaux de glace, formant ainsi des nuages.</li>
+            </ol>
+
+            <div class="complement">
+                <strong>📚 Complément – Les trois types de pluie</strong><br><br>
+                En météorologie, on distingue trois mécanismes principaux de formation des pluies :<br><br>
+                • <strong>Pluies convectives</strong> : liées à l'ascension rapide d'air chaud et humide (orages).<br>
+                • <strong>Pluies frontales</strong> : associées au soulèvement de l'air le long des fronts (dépressions des latitudes moyennes).<br>
+                • <strong>Pluies orographiques</strong> : provoquées par le relief (comme l'effet de foehn décrit plus haut).<br><br>
+                Dans tous les cas, la condensation nécessite la présence de noyaux de condensation (aérosols, poussières).<br><br>
+                (Source : « Le temps et le climat », Météo-France, 2022)
+            </div>
+
+            <div class="page-break">Page 3</div>
+
+            <ol start="3">
+                <li><strong>Croissance des gouttelettes :</strong> À mesure que les gouttelettes d'eau ou les cristaux de glace se forment, ils peuvent fusionner avec d'autres particules pour former des gouttes de pluie ou des flocons de neige plus gros.</li>
+                <li><strong>Précipitation :</strong> Lorsque les gouttes d'eau ou les cristaux de glace deviennent suffisamment lourds, ils tombent vers le sol sous l'effet de la gravité. C'est ce qu'on appelle la précipitation, qui peut se présenter sous forme de pluie, de neige, de grésil, etc.</li>
+                <li><strong>Cycle de l'eau :</strong> Une fois sur le sol, l'eau peut s'infiltrer dans le sol pour former des nappes phréatiques, être absorbée par les plantes, ou retourner dans les cours d'eau pour recommencer le cycle.</li>
+            </ol>
+
+            <p>Ces processus interdépendants constituent le <strong>cycle de l'eau</strong>, un élément crucial pour le maintien de la vie sur Terre et pour la régulation du climat global.</p>
+
+            <h2>Hydrosphère</h2>
+
+            <h3>L'Océanisation (Formation des Bassins Océaniques)</h3>
+
+            <p><strong>Définition :</strong> Processus par lequel une portion de <strong>croûte continentale</strong> se transforme en <strong>croûte océanique</strong>, conduisant à la formation d'un bassin océanique. Ce mécanisme est lié à la <strong>tectonique des plaques</strong> et au cycle de Wilson (ouverture et fermeture des océans).</p>
+
+            <p><strong>Étapes clés :</strong></p>
+
+            <h3>1. Rifting continental</h3>
+            <ul>
+                <li>Fracturation de la croûte continentale sous l'effet de forces tectoniques extensives.</li>
+                <li>Exemple : Le rift est-africain (futur océan en formation).</li>
+            </ul>
+
+            <h3>2. Étalement crustal</h3>
+            <ul>
+                <li>Formation d'une dorsale océanique (ex. : dorsale médio-atlantique).</li>
+                <li>Émission de magma basalique créant une <strong>nouvelle croûte océanique</strong>.</li>
+            </ul>
+
+            <h3>3. Expansion océanique</h3>
+            <ul>
+                <li>Éloignement des plaques et élargissement du bassin (ex. : l'océan Atlantique).</li>
+                <li><strong>Exemple concret :</strong> L'océan Atlantique s'est formé il y a environ 180 millions d'années par divergence des plaques africaine et sud-américaine.</li>
+            </ul>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Sommaire
+                </a>
+                <a href="part2.html" class="nav-link">
+                    Partie suivante
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const PASSWORD = "Armadel";
+            const loginOverlay = document.getElementById('loginOverlay');
+            const mainContent = document.getElementById('mainContent');
+            const passwordInput = document.getElementById('passwordInput');
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMsg = document.getElementById('errorMsg');
+
+            // Check authentication status immediately
+            const isAuthenticated = sessionStorage.getItem('geo_auth') === 'true';
+
+            if (isAuthenticated) {
+                // Already authenticated - show content immediately, hide login
+                loginOverlay.style.display = 'none';
+                mainContent.style.display = 'block';
+                // Small delay to allow browser to render before animating
+                requestAnimationFrame(() => {
+                    mainContent.classList.add('visible');
+                });
+            } else {
+                // Not authenticated - ensure login is visible
+                loginOverlay.style.display = 'flex';
+                mainContent.style.display = 'none';
+                passwordInput.focus();
+            }
+
+            function authenticate() {
+                if (passwordInput.value === PASSWORD) {
+                    sessionStorage.setItem('geo_auth', 'true');
+
+                    // Fade out login
+                    loginOverlay.classList.add('hidden');
+
+                    // Show main content
+                    mainContent.style.display = 'block';
+                    setTimeout(() => {
+                        mainContent.classList.add('visible');
+                    }, 100);
+
+                    // Remove login from DOM after animation
+                    setTimeout(() => {
+                        loginOverlay.style.display = 'none';
+                    }, 800);
+                } else {
+                    errorMsg.style.display = 'block';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }
+
+            loginBtn.addEventListener('click', authenticate);
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') authenticate();
+            });
+            passwordInput.addEventListener('input', () => {
+                errorMsg.style.display = 'none';
+            });
+        })();
+    </script>
+</body>
+</html>

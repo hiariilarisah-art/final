@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 3 – Environnement et écologie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-strong: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --glass-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --accent-1: #667eea;
+            --accent-2: #f093fb;
+            --accent-3: #4facfe;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.75);
+            --text-muted: rgba(255, 255, 255, 0.5);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Orbs */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: -200px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            top: 40%;
+            left: 60%;
+            animation-delay: -14s;
+            opacity: 0.3;
+        }
+
+        .orb-4 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            top: 60%;
+            left: 10%;
+            animation-delay: -10s;
+            opacity: 0.25;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.02); }
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Main Container */
+        .main-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            min-height: 100vh;
+        }
+
+        /* Glass Container - Premium Effect */
+        .glass-container {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.05) 0%, 
+                rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 50px;
+            box-shadow: 
+                var(--glass-shadow-lg),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.4) 50%, 
+                transparent 100%);
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 0.3em;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 2em;
+            letter-spacing: 0.05em;
+        }
+
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+            margin: 0 auto 3em;
+            border-radius: 2px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            line-height: 1.3;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.6em;
+            color: var(--accent-3);
+        }
+
+        p {
+            margin: 1em 0;
+            color: var(--text-secondary);
+            text-align: justify;
+            font-weight: 300;
+        }
+
+        ul, ol {
+            margin: 1em 0 1em 2em;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin: 0.6em 0;
+            font-weight: 300;
+        }
+
+        ul li::marker {
+            color: var(--accent-1);
+        }
+
+        ol li::marker {
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Page Break */
+        .page-break {
+            margin: 3em 0;
+            padding: 20px 0;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+        }
+
+        .page-break::before, .page-break::after {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-1);
+            font-size: 0.5rem;
+        }
+
+        .page-break::before { left: 30%; }
+        .page-break::after { right: 30%; }
+
+        /* Complement Box */
+        .complement {
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.08) 0%, 
+                rgba(240, 147, 251, 0.05) 100%);
+            border-left: 4px solid var(--accent-2);
+            padding: 20px 24px;
+            margin: 1.5em 0;
+            border-radius: 12px;
+            font-style: italic;
+            color: var(--text-secondary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-left-width: 4px;
+        }
+
+        .complement strong {
+            color: var(--accent-2);
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        /* Navigation */
+        .nav-top {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border-strong);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3em;
+            padding-top: 2em;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        /* Login Overlay - Ultra Premium */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                        visibility 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                rgba(255, 255, 255, 0.03) 100%);
+            backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
+            padding: 56px 48px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.5), 
+                transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .login-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .login-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+
+        .login-card h2::before {
+            display: none;
+        }
+
+        .login-subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .login-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-1) 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.5s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            display: none;
+            font-size: 0.9rem;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-container {
+                padding: 30px 20px;
+                border-radius: 24px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .login-card {
+                padding: 40px 24px;
+            }
+
+            .page-break::before, .page-break::after {
+                display: none;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-link {
+                justify-content: center;
+            }
+        }
+
+        /* Hide content initially - NO FLASH OF CONTENT */
+        #mainContent {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        #mainContent.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+            </div>
+            <h2>Partie 3</h2>
+            <p class="login-subtitle">Environnement et écologie · Pages 9–14</p>
+            <div class="input-wrapper">
+                <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe" autocomplete="off">
+            </div>
+            <button id="loginBtn" class="login-btn">Accéder au document</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <div class="nav-top">
+                <a href="index.html" class="nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Sommaire
+                </a>
+                <a href="part2.html" class="nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    Partie précédente
+                </a>
+                <a href="part4.html" class="nav-link">
+                    Partie suivante
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </a>
+            </div>
+
+            <h1>Environnement et écologie</h1>
+            <p class="subtitle">Partie 3 · Pages 9–14</p>
+            <div class="divider"></div>
+
+            <!-- Contenu -->
+            <div class="page-break">Page 9</div>
+
+            <h2>Concepts géographiques</h2>
+
+            <h3>Ségrégation spatiale</h3>
+            <p>Pierre George utilise ce terme pour décrire la <strong>séparation physique ou sociale</strong> des groupes humains dans l'espace urbain ou rural, souvent basée sur des critères économiques, ethniques, raciaux ou socio-culturels, influençant la structure sociale et spatiale des villes.</p>
+
+            <h3>Ruralité</h3>
+            <p>Ce concept décrit les <strong>caractéristiques et les dynamiques spécifiques des espaces ruraux</strong>, y compris les activités agricoles, les modes de vie traditionnels, et les interactions entre les populations et leur environnement naturel.</p>
+
+            <h3>Aménagement du territoire</h3>
+            <p>Dans l'aménagement du territoire, le terme "territoire" désigne souvent un <strong>espace administratif et politique</strong> pour plusieurs raisons :</p>
+            <ol>
+                <li><strong>Gouvernance et réglementation :</strong> Les espaces administratifs et politiques sont des entités où les autorités locales, régionales ou nationales ont le pouvoir de prendre des décisions et de mettre en œuvre des politiques. Cela permet une gestion structurée et coordonnée des ressources et des infrastructures.</li>
+                <li><strong>Planification et développement :</strong> Les territoires administratifs et politiques sont les niveaux auxquels la planification urbaine et rurale est généralement effectuée. Les décisions concernant le développement économique, le logement, les transports, l'environnement, et autres, sont prises à ces niveaux.</li>
+                <li><strong>Financement et ressources :</strong> Les gouvernements allouent des fonds et des ressources en fonction des divisions administratives et politiques. Les projets d'aménagement du territoire nécessitent souvent des financements publics, ce qui implique que ces projets soient planifiés et exécutés dans le cadre de ces entités.</li>
+                <li><strong>Législation et conformité :</strong> Les lois et les règlements qui régissent l'aménagement du territoire varient d'une région à l'autre. Les territoires administratifs et politiques fournissent un cadre juridique dans lequel les projets d'aménagement doivent s'inscrire pour être conformes à la législation locale et nationale.</li>
+                <li><strong>Participation citoyenne :</strong> Les territoires administratifs et politiques sont souvent les niveaux où la participation citoyenne et les consultations publiques sont organisées. Cela permet aux habitants de s'impliquer dans le processus de décision concernant l'aménagement de leur cadre de vie.</li>
+            </ol>
+
+            <h2>Environnement : Définitions</h2>
+
+            <h3>Biocénose</h3>
+            <p><strong>Définition :</strong> La biocénose est l'ensemble des êtres vivants (plantes, animaux, micro-organismes) qui peuplent un milieu donné et interagissent entre eux et avec leur environnement.</p>
+            <p><strong>Explication :</strong> La biocénose inclut toutes les espèces d'organismes qui vivent dans une zone spécifique, formant une communauté biologique. Les interactions entre ces organismes peuvent inclure la prédation, la compétition, le mutualisme, etc. Par exemple, dans une forêt, les arbres, les insectes, les oiseaux et les champignons constituent la biocénose de ce milieu.</p>
+
+            <h3>Biotope</h3>
+            <p><strong>Définition :</strong> Le biotope est le milieu de vie, c'est-à-dire l'ensemble des conditions physiques et chimiques d'un environnement donné, dans lequel vit une biocénose.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Notion d'écosystème</strong><br><br>
+                L'<strong>écosystème</strong> est l'unité fonctionnelle de base en écologie, définie par l'interaction entre la biocénose (ensemble des êtres vivants) et le biotope (milieu physique). Le terme a été proposé par Arthur Tansley en 1935. Chaque écosystème est caractérisé par des flux d'énergie (chaîne alimentaire) et des cycles de matière (carbone, azote).<br><br>
+                (Source : « Écologie : approche scientifique et pratique », Claude Faurie, 2021)
+            </div>
+
+            <div class="page-break">Page 10</div>
+
+            <p><strong>Explication :</strong> Le biotope comprend les facteurs abiotiques comme le climat, le sol, l'eau, la lumière, et les conditions géographiques. Par exemple, un étang (biotope) offre des conditions spécifiques de pH, température, et lumière, permettant à certaines espèces de plantes, poissons et insectes (biocénose) de survivre et de prospérer.</p>
+
+            <h3>Compétition</h3>
+            <p>La <strong>compétition</strong> est une interaction entre organismes ou espèces qui se disputent les mêmes ressources limitées dans un écosystème, telles que la nourriture, l'eau, la lumière, l'espace, ou les partenaires reproducteurs. La compétition peut être <strong>intra-spécifique</strong> (entre individus de la même espèce) ou <strong>interspécifique</strong> (entre individus de différentes espèces). Elle influence la distribution, l'abondance et l'évolution des espèces.</p>
+
+            <h3>Biosphère</h3>
+            <p><strong>Définition :</strong> La biosphère est l'ensemble des écosystèmes de la Terre. Elle comprend toutes les zones où la vie existe, y compris les sols, les océans, l'atmosphère, et la surface terrestre.</p>
+            <p><strong>Explication :</strong> La biosphère englobe toutes les formes de vie et leurs interactions avec les différentes parties de la Terre. Elle est divisée en <strong>biomes</strong> (grandes zones écologiques comme les forêts tropicales, les déserts, les océans), chacun comprenant plusieurs écosystèmes. Par exemple, la biosphère comprend les forêts tropicales d'Amazonie, les déserts du Sahara, et les récifs coralliens des océans.</p>
+
+            <h3>Écosystème</h3>
+            <p><strong>Définition :</strong> Un écosystème est une unité fonctionnelle formée par une biocénose (communauté d'organismes vivants) et son biotope (environnement physique et chimique), interagissant ensemble.</p>
+            <p><strong>Explication :</strong> Dans un écosystème, les êtres vivants (biocénose) interagissent avec leur environnement (biotope) de manière à maintenir un équilibre dynamique. Les flux d'énergie (comme la photosynthèse et la respiration) et les cycles de matières (comme le cycle de l'eau et le cycle du carbone) sont des exemples de ces interactions. Par exemple, une forêt (écosystème) comprend des arbres, des animaux, des champignons (biocénose) et des éléments non vivants comme le sol, l'eau et l'air (biotope).</p>
+
+            <h3>Condition écologique</h3>
+            <p><strong>Définition :</strong> Une condition écologique est une caractéristique de l'environnement qui affecte les organismes de manière continue, mais qui n'est pas consommée par les organismes. Les conditions écologiques sont souvent des aspects de l'habitat qui influencent la survie et la reproduction des organismes.</p>
+            <p><strong>Explication :</strong> Les conditions écologiques incluent des éléments comme la température, l'humidité, la salinité, le pH, et la disponibilité de la lumière. Contrairement aux ressources (qui sont consommées), les conditions écologiques ne sont pas utilisées par les organismes, mais elles peuvent déterminer quelles espèces peuvent survivre et prospérer dans un environnement donné.</p>
+
+            <h3>Facteur écologique</h3>
+            <p><strong>Définition :</strong> Un facteur écologique est un élément de l'environnement qui influence les organismes vivants. Ces facteurs peuvent être <strong>biotiques</strong> (vivants) ou <strong>abiotiques</strong> (non vivants).</p>
+            <p><strong>Explication :</strong> Les facteurs écologiques déterminent la distribution, l'abondance et le comportement des organismes dans un écosystème. Ils peuvent être classés en plusieurs catégories :</p>
+            <ul>
+                <li><strong>Facteurs abiotiques :</strong> Incluent la lumière, la température, l'eau, le sol, l'air, le pH, les nutriments, etc. Par exemple, la quantité de lumière disponible dans une forêt affecte la croissance des plantes.</li>
+                <li><strong>Facteurs biotiques :</strong> Incluent les interactions avec d'autres organismes, comme la prédation, la compétition, le mutualisme, le parasitisme, etc. Par exemple, la présence de prédateurs peut réguler la population de proies.</li>
+            </ul>
+
+            <h3>Amplitude écologique</h3>
+            <p>L'<strong>amplitude écologique</strong> (ou valence écologique) désigne la gamme de conditions environnementales (comme la température, l'humidité, le pH, etc.) dans lesquelles une espèce peut survivre, se développer et se reproduire. Elle reflète la tolérance d'une espèce aux variations des facteurs abiotiques et biotiques de son environnement. Une amplitude écologique large indique une grande tolérance aux variations, tandis qu'une amplitude écologique étroite indique une spécialisation pour des conditions spécifiques.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Loi de tolérance de Shelford</strong><br><br>
+                L'amplitude écologique est souvent représentée par la <strong>courbe de tolérance de Shelford</strong> (1913) : une espèce a un <strong>optimum écologique</strong> (maximum d'abondance) et des <strong>limites de tolérance</strong> (minimum et maximum) au-delà desquelles elle ne peut survivre.<br><br>
+                Les <strong>espèces sténoèces</strong> (faible amplitude) sont très sensibles aux variations, comme la truite fario (température, oxygène), tandis que les <strong>espèces euryèces</strong> (large amplitude) supportent de grandes variations, comme le rat surmulot.<br><br>
+                (Source : « Principes d'écologie », Eugène Odum, 2020)
+            </div>
+
+            <div class="page-break">Page 11</div>
+
+            <h3>Humus</h3>
+            <p>L'<strong>humus</strong> est la fraction organique du sol résultant de la décomposition partielle de la matière organique morte (feuilles, branches, animaux, etc.) par des micro-organismes et des décomposeurs. L'humus est riche en nutriments et joue un rôle crucial dans la fertilité du sol, la rétention d'eau, et la structure du sol. Il améliore également la capacité du sol à supporter la vie végétale.</p>
+
+            <h3>Minéralisation</h3>
+            <p>La <strong>minéralisation</strong> est le processus par lequel la matière organique (provenant de plantes, animaux, et micro-organismes morts) est décomposée en substances inorganiques simples, telles que des minéraux et des nutriments (azote, phosphore, potassium, etc.). Ce processus est réalisé par des micro-organismes décomposeurs (bactéries et champignons) et est essentiel pour le recyclage des nutriments dans les écosystèmes, rendant les nutriments disponibles pour l'absorption par les plantes.</p>
+
+            <h2>Relations fonctionnelles entre biocénose et biotope</h2>
+
+            <p>Les composantes naturelles de l'environnement, biocénose et biotope, sont interconnectées de manière complexe :</p>
+
+            <h3>Interactions entre les êtres vivants (biocénose)</h3>
+            <ul>
+                <li><strong>Prédation :</strong> Les carnivores chassent les herbivores, influençant la population des deux groupes.</li>
+                <li><strong>Compétition :</strong> Les espèces peuvent se disputer les mêmes ressources (nourriture, habitat), influençant leur distribution et abondance.</li>
+                <li><strong>Symbiose et mutualisme :</strong> Certaines espèces coopèrent pour un bénéfice mutuel, comme les abeilles pollinisant les fleurs.</li>
+                <li><strong>Parasitisme :</strong> Un organisme tire profit d'un autre, souvent à son détriment.</li>
+            </ul>
+
+            <h3>Interactions entre la biocénose et le biotope</h3>
+            <ul>
+                <li><strong>Cycle des nutriments :</strong> Les décomposeurs (bactéries, champignons) recyclent la matière organique morte en nutriments essentiels pour les plantes.</li>
+                <li><strong>Modulation de l'environnement physique :</strong> Les végétaux stabilisent le sol avec leurs racines, réduisent l'érosion, et modifient le microclimat local (ombrage, humidité).</li>
+                <li><strong>Influence sur les cycles de l'eau et du carbone :</strong> Les plantes absorbent l'eau et le dioxyde de carbone, influençant les cycles hydrologiques et du carbone.</li>
+                <li><strong>Adaptation et sélection naturelle :</strong> Les espèces évoluent en réponse aux conditions abiotiques du biotope, développant des adaptations spécifiques.</li>
+            </ul>
+
+            <h2>La chaîne alimentaire</h2>
+
+            <h3>Définition</h3>
+            <p>La <strong>chaîne alimentaire</strong> est une série linéaire de relations trophiques (alimentaires) entre les organismes vivants d'un écosystème, où chaque organisme se nourrit de celui qui le précède dans cette série et est à son tour mangé par celui qui le suit.</p>
+
+            <h3>Description</h3>
+            <p>La chaîne alimentaire est souvent représentée sous forme de diagramme linéaire ou pyramidale, montrant les différents <strong>niveaux trophiques</strong>, des producteurs primaires aux consommateurs et décomposeurs. Voici une structure typique :</p>
+            <ol>
+                <li><strong>Producteurs (Autotrophes) :</strong> Les organismes, comme les plantes et les algues, qui produisent leur propre nourriture par photosynthèse.</li>
+                <li><strong>Consommateurs Primaires (Herbivores) :</strong> Les animaux qui se nourrissent directement des producteurs, comme les lapins et les insectes herbivores.</li>
+                <li><strong>Consommateurs Secondaires (Carnivores) :</strong> Les animaux qui se nourrissent des consommateurs primaires, comme les renards et les oiseaux prédateurs.</li>
+            </ol>
+
+            <div class="complement">
+                <strong>📚 Complément – Les réseaux trophiques</strong><br><br>
+                En réalité, les écosystèmes sont constitués de <strong>réseaux trophiques complexes</strong>, et non de simples chaînes linéaires. Un même animal peut se nourrir à plusieurs niveaux (omnivorie), et les décomposeurs interviennent à tous les étages.<br><br>
+                La <strong>pyramide écologique</strong> (biomasse, énergie, nombre) illustre la perte d'énergie à chaque niveau (environ 90% de perte selon le principe de Lindeman).<br><br>
+                (Source : « Écologie des communautés », Robert Barbault, 2019)
+            </div>
+
+            <div class="page-break">Page 12</div>
+
+            <ol start="4">
+                <li><strong>Consommateurs Tertiaires (Superprédateurs) :</strong> Les carnivores qui se nourrissent de consommateurs secondaires, comme les aigles et les requins.</li>
+                <li><strong>Décomposeurs (Saprotrophes) :</strong> Les organismes, comme les bactéries et les champignons, qui décomposent la matière organique morte, recyclant les nutriments dans l'écosystème.</li>
+            </ol>
+
+            <h3>Fonctionnement de la chaîne alimentaire</h3>
+            <p>La chaîne alimentaire fonctionne par <strong>transfert d'énergie et de nutriments</strong> d'un niveau trophique à l'autre. Ce processus peut être décrit en étapes :</p>
+            <ol>
+                <li><strong>Photosynthèse :</strong> Les producteurs primaires capturent l'énergie solaire et la convertissent en énergie chimique sous forme de glucose.</li>
+                <li><strong>Consommation :</strong> Les consommateurs primaires mangent les producteurs, transformant l'énergie chimique en énergie utilisable pour leur propre croissance et reproduction.</li>
+                <li><strong>Prédation :</strong> Les consommateurs secondaires et tertiaires mangent les herbivores et autres carnivores, continuant le transfert d'énergie.</li>
+                <li><strong>Décomposition :</strong> Les décomposeurs dégradent les organismes morts et les déchets, libérant des nutriments qui seront utilisés par les producteurs primaires, bouclant ainsi le cycle.</li>
+            </ol>
+
+            <h3>Rôles de la chaîne alimentaire dans l'écosystème</h3>
+            <ol>
+                <li><strong>Transfert d'Énergie :</strong> La chaîne alimentaire assure le transfert d'énergie solaire capturée par les producteurs à travers les différents niveaux trophiques, soutenant la vie dans l'écosystème.</li>
+                <li><strong>Cyclage des Nutriments :</strong> Elle permet le recyclage des nutriments essentiels (comme le carbone, l'azote et le phosphore) par l'activité des décomposeurs, maintenant la fertilité du sol et la productivité des producteurs.</li>
+                <li><strong>Régulation des Populations :</strong> Par les interactions de prédation et de compétition, la chaîne alimentaire aide à réguler les populations d'espèces, prévenant les surpopulations et les déséquilibres écologiques.</li>
+                <li><strong>Équilibre Écologique :</strong> Elle contribue à l'équilibre des écosystèmes en maintenant la diversité biologique et les interactions entre espèces, ce qui renforce la résilience et la stabilité des écosystèmes face aux perturbations.</li>
+                <li><strong>Adaptations et Évolution :</strong> Les pressions sélectives exercées par les interactions trophiques encourageant les adaptations et l'évolution des espèces, conduisant à une biodiversité riche et complexe.</li>
+            </ol>
+
+            <h3>Processus de production</h3>
+            <p><strong>Définition :</strong> Le processus de production dans la chaîne alimentaire est la création de matière organique par les producteurs primaires, principalement les plantes et les algues, à travers la photosynthèse.</p>
+            <p><strong>Explication :</strong> Les producteurs primaires capturent l'énergie solaire et la convertissent en énergie chimique sous forme de glucose, un processus essentiel qui alimente toute la chaîne alimentaire. Ils utilisent le dioxyde de carbone et l'eau pour produire des glucides, libérant de l'oxygène comme sous-produit.</p>
+
+            <h3>Processus de consommation</h3>
+            <p><strong>Définition :</strong> Le processus de consommation implique le transfert de matière et d'énergie d'un organisme à un autre dans la chaîne alimentaire, où les consommateurs se nourrissent des producteurs ou d'autres consommateurs.</p>
+
+            <div class="page-break">Page 13</div>
+
+            <p>Les consommateurs sont divisés en plusieurs niveaux trophiques :</p>
+            <ol>
+                <li><strong>Consommateurs Primaires (Herbivores) :</strong> Ces organismes mangent les producteurs primaires pour obtenir leur énergie. Exemple : Un lapin mange des plantes.</li>
+                <li><strong>Consommateurs Secondaires (Carnivores) :</strong> Ces organismes se nourrissent des herbivores. Exemple : Un renard mange un lapin.</li>
+                <li><strong>Consommateurs Tertiaires (Superprédateurs) :</strong> Ces organismes se nourrissent des carnivores secondaires. Exemple : Un aigle mange un renard.</li>
+            </ol>
+            <p>Chaque consommation transfère de l'énergie et des nutriments à travers les niveaux trophiques, mais une partie de l'énergie est perdue sous forme de chaleur à chaque transfert, ce qui limite le nombre de niveaux trophiques.</p>
+
+            <h3>Processus de décomposition</h3>
+            <p><strong>Définition :</strong> Le processus de décomposition est la dégradation de la matière organique morte et des déchets par les décomposeurs, comme les bactéries et les champignons, qui recycle les nutriments dans l'écosystème.</p>
+            <p><strong>Explication :</strong> Les décomposeurs jouent un rôle crucial en décomposant les cadavres, les excréments, et les restes de plantes, libérant des nutriments essentiels tels que le carbone, l'azote, et le phosphore dans le sol et l'eau. Ces nutriments sont ensuite disponibles pour les producteurs primaires, bouclant ainsi le cycle des nutriments.</p>
+
+            <h4>Étapes de la décomposition :</h4>
+            <ol>
+                <li><strong>Fragmentation :</strong> Les décomposeurs fragmentent la matière organique en plus petites particules.</li>
+                <li><strong>Décomposition Chimique :</strong> Les enzymes des décomposeurs décomposent les molécules complexes en composés plus simples.</li>
+                <li><strong>Minéralisation :</strong> Les éléments chimiques sont convertis en formes inorganiques utilisables par les plantes.</li>
+            </ol>
+
+            <h3>Résumé de la fonction de la chaîne alimentaire</h3>
+            <ol>
+                <li><strong>Production :</strong> Les producteurs primaires convertissent l'énergie solaire en matière organique, fournissant la base énergétique de la chaîne alimentaire.</li>
+                <li><strong>Consommation :</strong> Les consommateurs transfèrent l'énergie et les nutriments à travers les niveaux trophiques en se nourrissant des producteurs et d'autres consommateurs.</li>
+                <li><strong>Décomposition :</strong> Les décomposeurs recyclent la matière organique morte et les déchets, libérant des nutriments qui sont réutilisés par les producteurs, assurant la continuité du cycle des nutriments.</li>
+            </ol>
+
+            <p>Ces trois processus interconnectés maintiennent la structure et le fonctionnement des écosystèmes, facilitant le flux d'énergie et le recyclage des nutriments, et contribuant à la stabilité et à la résilience des environnements naturels.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Le rôle des décomposeurs</strong><br><br>
+                Sans les décomposeurs (bactéries, champignons, détritivores comme les vers de terre), la matière organique morte s'accumulerait et les nutriments resteraient bloqués. La décomposition libère du CO₂ (respiration) et des sels minéraux (azote, phosphore) qui fertilisent le sol. Ce processus est essentiel à la productivité primaire.<br><br>
+                (Source : « Biologie des sols », Jean-Michel Gobat, 2020)
+            </div>
+
+            <div class="page-break">Page 14</div>
+
+            <h2>Types de plantes selon leur besoin en lumière</h2>
+
+            <h3>1. Plantes héliophiles (ou héliophytes)</h3>
+            <ul>
+                <li><strong>Définition :</strong> Plantes qui nécessitent une grande quantité de lumière pour leur croissance optimale.</li>
+                <li><strong>Exemples :</strong> Tournesol, maïs, cactus.</li>
+                <li><strong>Caractéristiques :</strong> Souvent trouvées dans des environnements ouverts avec une exposition directe au soleil. Elles ont généralement des adaptations comme des feuilles plus épaisses et des pigments protecteurs contre l'excès de lumière.</li>
+            </ul>
+
+            <h3>2. Plantes sciaphiles (ou sciaphytes)</h3>
+            <ul>
+                <li><strong>Définition :</strong> Plantes qui préfèrent des conditions de faible luminosité et qui croissent mieux à l'ombre.</li>
+                <li><strong>Exemples :</strong> Fougères, hostas, plantes de sous-bois.</li>
+                <li><strong>Caractéristiques :</strong> Adaptées à des environnements ombragés, souvent avec des feuilles plus larges et fines pour maximiser la capture de la lumière disponible.</li>
+            </ul>
+
+            <h3>3. Plantes photopériodiques</h3>
+            <ul>
+                <li><strong>Définition :</strong> Plantes dont la floraison et d'autres activités physiologiques dépendent de la durée du jour et de la nuit (photopériode).</li>
+                <li><strong>Exemples :</strong> Haricots (plantes de jour court), épinards (plantes de jour long).</li>
+                <li><strong>Caractéristiques :</strong> Leur cycle de croissance est déclenché par des variations de la durée du jour, les rendant sensibles aux changements saisonniers de la lumière.</li>
+            </ul>
+
+            <h2>Cycle biogéochimique</h2>
+
+            <p><strong>Définition :</strong> Un <strong>cycle biogéochimique</strong> est un processus naturel qui décrit le mouvement et la transformation des éléments chimiques essentiels (comme le carbone, l'azote, le phosphore, le soufre, etc.) à travers les composants biotiques (organismes vivants) et abiotiques (atmosphère, eau, sol) d'un écosystème.</p>
+            <p><strong>Explication :</strong> Les cycles biogéochimiques décrivent comment les éléments chimiques circulent entre les composants vivants et non vivants de la biosphère. Ces cycles impliquent des processus tels que la fixation, l'assimilation, la décomposition, et la minéralisation des éléments, régulant ainsi la disponibilité des nutriments nécessaires à la croissance et à la survie des organismes.</p>
+
+            <h2>Cycle du carbone</h2>
+
+            <p>Le <strong>cycle du carbone</strong> est le processus naturel par lequel le carbone circule entre l'atmosphère terrestre, les océans, les organismes vivants, et les roches de la croûte terrestre. C'est un cycle biogéochimique crucial pour la régulation du climat et le maintien de la vie sur Terre.</p>
+
+            <h3>Étapes principales du cycle du carbone :</h3>
+            <ol>
+                <li><strong>Fixation du Carbone :</strong> Les plantes et les algues absorbent le dioxyde de carbone (CO₂) atmosphérique par la photosynthèse pour produire des glucides et d'autres composés organiques.</li>
+                <li><strong>Consommation et Assimilation :</strong> Les consommateurs (animaux) mangent les plantes, absorbant ainsi le carbone sous forme de composés organiques dans leurs tissus.</li>
+                <li><strong>Respiration :</strong> Les plantes, les animaux et les autres organismes respirent, libérant du CO₂ dans l'atmosphère lorsqu'ils décomposent les composés organiques pour produire de l'énergie.</li>
+                <li><strong>Décomposition :</strong> Les micro-organismes décomposent les matières organiques mortes, libérant du CO₂ dans le sol.</li>
+                <li><strong>Combustion :</strong> Les activités humaines telles que la combustion de combustibles fossiles et la déforestation libèrent du carbone stocké dans les combustibles fossiles et la biomasse, augmentant les niveaux de CO₂ dans l'atmosphère.</li>
+                <li><strong>Sédimentation et Fossilisation :</strong> Une partie du carbone organique peut être enfouie dans le sol et les sédiments marins, formant des combustibles fossiles comme le charbon et le pétrole au fil du temps géologique.</li>
+            </ol>
+
+            <div class="complement">
+                <strong>📚 Complément – L'effet de serre et le cycle du carbone</strong><br><br>
+                L'augmentation rapide du CO₂ atmosphérique due aux activités humaines (combustion de fossiles, déforestation) perturbe le cycle naturel du carbone. Les océans absorbent environ un quart du CO₂ émis, mais cela entraîne une <strong>acidification</strong> nuisible aux organismes calcifiants (coraux, mollusques).<br><br>
+                Le GIEC estime qu'il est urgent de réduire les émissions pour limiter le réchauffement à +1,5°C.<br><br>
+                (Source : GIEC, 6e rapport, 2021)
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Sommaire
+                </a>
+                <a href="part2.html" class="nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    Partie précédente
+                </a>
+                <a href="part4.html" class="nav-link">
+                    Partie suivante
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const PASSWORD = "Armadel";
+            const loginOverlay = document.getElementById('loginOverlay');
+            const mainContent = document.getElementById('mainContent');
+            const passwordInput = document.getElementById('passwordInput');
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMsg = document.getElementById('errorMsg');
+
+            // Check authentication status immediately
+            const isAuthenticated = sessionStorage.getItem('geo_auth') === 'true';
+
+            if (isAuthenticated) {
+                // Already authenticated - show content immediately, hide login
+                loginOverlay.style.display = 'none';
+                mainContent.style.display = 'block';
+                // Small delay to allow browser to render before animating
+                requestAnimationFrame(() => {
+                    mainContent.classList.add('visible');
+                });
+            } else {
+                // Not authenticated - ensure login is visible
+                loginOverlay.style.display = 'flex';
+                mainContent.style.display = 'none';
+                passwordInput.focus();
+            }
+
+            function authenticate() {
+                if (passwordInput.value === PASSWORD) {
+                    sessionStorage.setItem('geo_auth', 'true');
+
+                    // Fade out login
+                    loginOverlay.classList.add('hidden');
+
+                    // Show main content
+                    mainContent.style.display = 'block';
+                    setTimeout(() => {
+                        mainContent.classList.add('visible');
+                    }, 100);
+
+                    // Remove login from DOM after animation
+                    setTimeout(() => {
+                        loginOverlay.style.display = 'none';
+                    }, 800);
+                } else {
+                    errorMsg.style.display = 'block';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }
+
+            loginBtn.addEventListener('click', authenticate);
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') authenticate();
+            });
+            passwordInput.addEventListener('input', () => {
+                errorMsg.style.display = 'none';
+            });
+        })();
+    </script>
+</body>
+</html>
